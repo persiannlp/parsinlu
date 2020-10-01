@@ -13,6 +13,11 @@
     * [Machine Translation](#machine-translation) 
     * [Sentiment Analaysis](#sentiment-analysis) 
    
+If you're using a GPU, make sure that you set the appropriate enviromental variable. For example: 
+```bash
+export CUDA_VISIBLE_DEVICES=0
+```    
+   
 ### Textual Entailment 
 Textual Entailment is the task of deciding whether a  whether two given questions are paraphrases of each other or not. 
 
@@ -24,12 +29,11 @@ Here is an example:
  It runs in xxx mins on a single tesla V100 16GB. 
 
 ```bash 
-export DATA_DIR=/path/to/XNLI
-export DATA_DIR=/Users/danielk/ideaProjects/parsiglue-baselines/data/qqp
+export DATA_DIR=data/entailment
 
 python run_text_classification.py \
   --data_dir $DATA_DIR \
-  --task_name qqp \
+  --task_name entailment \
   --model_name_or_path bert-base-multilingual-cased \
   --do_train \
   --do_eval \
@@ -56,14 +60,13 @@ acc = ?
 |  not-paraphrase | <p dir='rtl' align='right'>さ あ ひ る به چه معنی است؟</p>  | <p dir='rtl' align='right'> &脑 洞 大 به چه معنی است؟</p> |
 |  paraphrase | <p dir='rtl' align='right'> قانون سوم حرکت نیوتن چیست؟ آیا می توانید یک عمل و یک عکس العمل را با مثال توضیح دهید؟ </p>| <p dir='rtl' align='right'> آیا کسی می تواند قانون سوم حرکت نیوتون را توضیح دهد؟ </p> |
 |  not-paraphrase | <p dir='rtl' align='right'> آیا لیزر موهای زائد باعث فرار دائمی از موهای ناخواسته می شود؟ </p>| <p dir='rtl' align='right'> آیا لیزر موهای زائد دائمی است؟ </p> |
-|  paraphrase | <p dir='rtl' align='right'> چه شانس هایی وجود دارد که اگر هیلاری در انتخابات رأی عمومی به پیروزی برسد ، دانشکده انتخاباتی بر ضد ترامپ تصمیم بگیرد؟ </p>|<p dir='rtl' align='right'> این احتمال وجود دارد که در ۱۹ دسامبر ، کالج انتخاباتی بتواند دونالد ترامپ را از دور خارج کند و به هیلاری کلینتون رأی دهد؟ </p> |
+|  paraphrase | <p dir='rtl' align='right'> چه شانس هایی وجود دارد که اگر هیلاری در انتخابات رأی عمومی به پیروزی برسد ، کالح انتخاباتی بر ضد ترامپ تصمیم بگیرد؟ </p>|<p dir='rtl' align='right'> این احتمال وجود دارد که در ۱۹ دسامبر ، کالج انتخاباتی بتواند دونالد ترامپ را از دور خارج کند و به هیلاری کلینتون رأی دهد؟ </p> |
 
  This example code fine-tunes mBERT (multi-lingual BERT) on the this task. 
  It runs in xxx mins on a single tesla V100 16GB. 
 
 ```bash 
-export DATA_DIR=/path/to/XNLI
-export DATA_DIR=/Users/danielk/ideaProjects/parsiglue-baselines/data/qqp
+export DATA_DIR=data/qqp
 
 python run_text_classification.py \
   --data_dir $DATA_DIR \
