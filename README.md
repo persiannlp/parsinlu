@@ -63,7 +63,7 @@ acc = ?
 |  paraphrase | <p dir='rtl' align='right'> چه شانس هایی وجود دارد که اگر هیلاری در انتخابات رأی عمومی به پیروزی برسد ، کالح انتخاباتی بر ضد ترامپ تصمیم بگیرد؟ </p>|<p dir='rtl' align='right'> این احتمال وجود دارد که در ۱۹ دسامبر ، کالج انتخاباتی بتواند دونالد ترامپ را از دور خارج کند و به هیلاری کلینتون رأی دهد؟ </p> |
 
  This example code fine-tunes mBERT (multi-lingual BERT) on the this task. 
- It runs in xxx mins on a single tesla V100 16GB. 
+ It should not take more than 30 mins on a single V100 12GB. 
 
 ```bash 
 export DATA_DIR=data/qqp

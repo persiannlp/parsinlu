@@ -297,12 +297,11 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     # Load data features from cache or dataset file
     cached_features_file = os.path.join(
         args.data_dir,
-        "cached_{}_{}_{}_{}_{}".format(
+        "cached_{}_{}_{}_{}".format(
             "test" if evaluate else "train",
             list(filter(None, args.model_name_or_path.split("/"))).pop(),
             str(args.max_seq_length),
             str(task),
-            str(args.train_language if (not evaluate and args.train_language is not None) else args.language),
         ),
     )
     if os.path.exists(cached_features_file) and not args.overwrite_cache:
@@ -366,16 +365,6 @@ def main():
         type=str,
         required=True,
         help="Path to pretrained model or model identifier from huggingface.co/models",
-    )
-    parser.add_argument(
-        "--language",
-        default=None,
-        type=str,
-        required=True,
-        help="Evaluation language. Also train language if `train_language` is set to None.",
-    )
-    parser.add_argument(
-        "--train_language", default=None, type=str, help="Train language if is different of the evaluation language."
     )
     parser.add_argument(
         "--output_dir",
