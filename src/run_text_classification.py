@@ -270,9 +270,10 @@ def evaluate(args, model, tokenizer, prefix=""):
             raise ValueError("No other `output_mode` for the dataset.")
         if args.task_name == "qqp":
             result = compute_metrics(eval_task, preds, out_label_ids)
-
-        if args.task_name == "entailment":
+        elif args.task_name == "entailment":
             result = compute_metrics(eval_task, preds, out_label_ids)
+        else:
+            raise Exception("Unrecognized task . . . ")
 
         results.update(result)
 
