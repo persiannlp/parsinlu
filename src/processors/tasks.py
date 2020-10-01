@@ -18,11 +18,14 @@ tasks_num_labels = {
 }
 
 
-def qqp_compute_metrics(task_name, preds, labels):
+def compute_metrics(task_name, preds, labels):
     assert len(preds) == len(
         labels
     ), f"Predictions and labels have mismatched lengths {len(preds)} and {len(labels)}"
     if task_name == "qqp":
         return {"acc": simple_accuracy(preds, labels)}
+    elif task_name == "entailment":
+        return {"acc": simple_accuracy(preds, labels)}
     else:
         raise KeyError(task_name)
+

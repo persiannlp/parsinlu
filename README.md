@@ -21,17 +21,22 @@ export CUDA_VISIBLE_DEVICES=0
 ### Textual Entailment 
 Textual Entailment is the task of deciding whether a  whether two given questions are paraphrases of each other or not. 
 
-Here is an example: 
+Here are several examples: 
 
+|   | Premise | Hypothesis |
+| --- | :---: | :---: |
+|  entailment | <p dir='rtl' align='right'> این مسابقات بین آوریل و دسامبر در هیپودروم ولیفندی در نزدیکی باکرکی ، ۱۵ کیلومتری (۹ مایل) غرب استانبول برگزار می شود. </p>  | <p dir='rtl' align='right'> در ولیفندی هیپودروم، مسابقاتی از آوریل تا دسامبر وجود دارد. </p> |
+|  contradiction | <p dir='rtl' align='right'> آیا کودکانی وجود دارند که نیاز به سرگرمی دارند؟ </p> | <p dir='rtl' align='right'> هیچ کودکی هرگز نمی خواهد سرگرم شود. </p> |
+|  neutral | <p dir='rtl' align='right'> ما به سفرهایی رفته ایم که در نهرهایی شنا کرده ایم </p> | <p dir='rtl' align='right'> علاوه بر استحمام در نهرها ، ما به اسپا ها و سونا ها نیز رفته ایم. </p> |
 
 
  This example code fine-tunes mBERT (multi-lingual BERT) on the this task. 
- It runs in xxx mins on a single GeForce RTX 2080. 
+ It runs in 10 mins on a single GeForce RTX 2080. 
 
 ```bash 
 export DATA_DIR=data/entailment
 
-python run_text_classification.py \
+python src/run_text_classification.py \
   --data_dir $DATA_DIR \
   --task_name entailment \
   --model_name_or_path bert-base-multilingual-cased \
@@ -40,20 +45,23 @@ python run_text_classification.py \
   --learning_rate 5e-5 \
   --num_train_epochs 2.0 \
   --max_seq_length 128 \
-  --output_dir /tmp/debug_qqp/ \
+  --output_dir ../models/ \
   --save_steps -1
 ```
-
---per_device_train_batch_size 8 \
 
 Training with the previously defined hyper-parameters yields the following results on the test set:
  
 ```
 acc = ?
 ```
+
+To reproduce our numbers with all our baselines, try [`train_and_evaluate_entailment_baselines.sh`](scripts/train_and_evaluate_entailment_baselines.sh) script.
+
  
  ### Query Paraphrasing 
- QQP is the task of detecting whether two given questions are paraphrases of each other or not. 
+ QQP is the task of detecting whether two given questions are paraphrases of each other or not.
+ 
+ Here are several examples:  
 
 |  Label | Question 1 | Question 2 |
 | :---: | :---: | :---: |
@@ -63,33 +71,33 @@ acc = ?
 |  paraphrase | <p dir='rtl' align='right'> چه شانس هایی وجود دارد که اگر هیلاری در انتخابات رأی عمومی به پیروزی برسد ، کالح انتخاباتی بر ضد ترامپ تصمیم بگیرد؟ </p>|<p dir='rtl' align='right'> این احتمال وجود دارد که در ۱۹ دسامبر ، کالج انتخاباتی بتواند دونالد ترامپ را از دور خارج کند و به هیلاری کلینتون رأی دهد؟ </p> |
 
  This example code fine-tunes mBERT (multi-lingual BERT) on the this task. 
- It should not take more than 5 mins on a single GeForce RTX 2080 GPU. 
+ It should not take more than 10 mins on a single GeForce RTX 2080 GPU. 
 
 ```bash 
-export DATA_DIR=data/qqp
+export DATA_DIR=../data/qqp
 
-python run_text_classification.py \
+python src/run_text_classification.py \
   --data_dir $DATA_DIR \
   --task_name qqp \
   --model_name_or_path bert-base-multilingual-cased \
   --do_train \
   --do_eval \
   --learning_rate 5e-5 \
-  --num_train_epochs 5.0 \
+  --num_train_epochs 2.0 \
   --max_seq_length 128 \
-  --output_dir /tmp/debug_qqp/ \
+  --output_dir ../models/ \
   --save_steps -1
 ```
 
---per_device_train_batch_size 8 \
-
 Training with the previously defined hyper-parameters yields the following results on the test set:
- 
 ```
-acc = ?
+acc = 0.7237936772046589
 ```
+
+To reproduce our numbers with all our baselines, try [`train_and_evaluate_qqp_baselines.sh`](scripts/train_and_evaluate_qqp_baselines.sh) script. 
+
  
- ### Reading Comprehension 
+### Reading Comprehension 
  TODO 
  
  ### Multiple-Choice QA 
