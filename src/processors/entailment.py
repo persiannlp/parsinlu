@@ -8,7 +8,7 @@ class TEProcessor(DataProcessor):
     Adapted from https://github.com/google-research/bert/blob/f39e881b169b9d53bea03d2d341b31707a6c052b/run_classifier.py#L207"""
 
     def __init__(self):
-        pass
+        self.labels = ["entailment", "contradiction", "neutral"]
 
     def get_train_examples(self, data_dir):
         """See base class."""
@@ -23,6 +23,9 @@ class TEProcessor(DataProcessor):
             if len(text_a) < 5 or len(text_b) < 5:
                 continue
             label = line[3]
+            if label not in self.labels:
+                continue
+
             assert isinstance(text_a, str), f"Training input {text_a} is not a string"
             assert isinstance(text_b, str), f"Training input {text_b} is not a string"
             assert isinstance(label, str), f"Training label {label} is not a string"
@@ -45,6 +48,8 @@ class TEProcessor(DataProcessor):
             if len(text_a) < 5 or len(text_b) < 5:
                 continue
             label = line[3]
+            if label not in self.labels:
+                continue
             assert isinstance(text_a, str), f"Training input {text_a} is not a string"
             assert isinstance(text_b, str), f"Training input {text_b} is not a string"
             assert isinstance(label, str), f"Training label {label} is not a string"
@@ -56,6 +61,6 @@ class TEProcessor(DataProcessor):
 
     def get_labels(self):
         """See base class."""
-        return ["entailment", "contradiction", "neutral"]
+        return self.labels
 
 
