@@ -1,6 +1,6 @@
-export DATA_DIR=data/qqp
+export DATA_DIR=../data/qqp
 
-python run_text_classification.py \
+python ../src/run_text_classification.py \
   --data_dir $DATA_DIR \
   --task_name qqp \
   --model_name_or_path bert-base-multilingual-cased \
