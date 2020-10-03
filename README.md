@@ -1,8 +1,17 @@
 # ParsiGLUE
- - intro and what it is 
- - where to download the data 
+ParsiGLUE a comprehensive suit of high-level NLP tasks, for Persian language. 
+This suit contains 6 different key NLP tasks --- *Reading Comprehension*, *Multiple-Choice Question-Answering*, 
+*Textual Entailment*, *Sentiment Analysis*, *Query Paraphrasing* and *Machine Translation*. 
 
+These challenges are collected by expert annotators native in Persian language and from various sources. 
+If you'd like to see additional details on the dataset and how we collected, please checkout [our publication](#citation).    
+  
+## Getting the data 
+You can find the data in the [`data/`](data) directory.  
 
+## Leaderboard
+On our [leaderboard page](parsiglue.com) we host the state-of-art scores for each challenge task.  
+ 
 ## Baselines  
  - Download the data and include it in the `data/` directory.  
  - See the relevant section on how to train models for each task:   
