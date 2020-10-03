@@ -170,8 +170,10 @@ python src/run_multiple_choice.py \
 ```
 
 Training with the previously defined hyper-parameters yields the following results on the test set:
-```
-????
+```bash 
+eval_loss = 1.3796460556624524
+eval_acc = 0.3685092127303183
+epoch = 2.0
 ```
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_multiple_choice_baselines.sh`](scripts/train_and_evaluate_multiple_choice_baselines.sh) script.
