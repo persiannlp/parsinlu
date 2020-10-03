@@ -105,7 +105,7 @@ To reproduce our numbers with all our baselines, try [`train_and_evaluate_qqp_ba
  Here the task is to pick a correct answer among 3-5 given candidate answers.
  Here are several examples: 
 
-|  Question | Correct Answer | Candidate 1 | Candidate 2 | Candidate 3 | Candidate 4 |
+|  Question | Correct Answer | Candidate1 | Candidate2 | Candidate3 | Candidate4 |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 |  پایتخت کشور استرالیا کدام است؟ | 3 | ملبورن | سیدنی | کنبرا |  |
 |  منظومه یا مجموعه عناصر و اجزائی که با هم کنش و واکنش و ارتباط متقابل دارند را چه می نامند؟ | 4 | نهاد | سازمان اجتماعی | گشتالت | سیستم |
