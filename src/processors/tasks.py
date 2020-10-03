@@ -1,10 +1,17 @@
 from processors.qqp import QQPProcessor
 from processors.entailment import TEProcessor
+# from processors.multiple_choice import MultipleChoiceProcessor
 from transformers.data.metrics import simple_accuracy
+
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 processors = {
     "qqp": QQPProcessor,
     "entailment": TEProcessor,
+    # "multiple_choice": MultipleChoiceProcessor,
 }
 
 output_modes = {
@@ -15,6 +22,7 @@ output_modes = {
 tasks_num_labels = {
     "qqp": 2,
     "entailment": 3,
+    "multiple_choice": 4
 }
 
 

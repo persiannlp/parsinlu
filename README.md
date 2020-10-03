@@ -13,7 +13,7 @@
     * [Machine Translation](#machine-translation) 
     * [Sentiment Analaysis](#sentiment-analysis) 
    
-If you're using a GPU, make sure that you set the appropriate enviromental variable. For example: 
+If you're using a GPU, make sure that you set the appropriate environmental variable. For example: 
 ```bash
 export CUDA_VISIBLE_DEVICES=0
 ```    
@@ -46,13 +46,14 @@ python src/run_text_classification.py \
   --num_train_epochs 2.0 \
   --max_seq_length 128 \
   --output_dir ../models/ \
-  --save_steps -1
+  --save_steps -1 \
+  --overwrite_output_dir
 ```
 
 Training with the previously defined hyper-parameters yields the following results on the test set:
  
 ```
-acc = ?
+acc = 0.3697560975609756
 ```
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_entailment_baselines.sh`](scripts/train_and_evaluate_entailment_baselines.sh) script.
@@ -101,7 +102,37 @@ To reproduce our numbers with all our baselines, try [`train_and_evaluate_qqp_ba
  TODO 
  
  ### Multiple-Choice QA 
- TODO 
+ Here the task is to pick a correct answer among 3-5 given candidate answers.
+ Here are several examples: 
+
+???? 
+
+To train a model, here is a sample script.  
+    
+ 
+```bash 
+export DATA_DIR=data/multiple-choice/
+python src/run_multiple_choice.py \
+    --model_name_or_path bert-base-multilingual-cased \
+    --do_train \
+    --do_eval \
+    --data_dir DATA_DIR \
+    --learning_rate 5e-5 \
+    --num_train_epochs 3 \
+    --max_seq_length 80 \
+    --output_dir models/ \
+    --per_gpu_eval_batch_size=16 \
+    --per_device_train_batch_size=16 \
+    --gradient_accumulation_steps 2 \
+    --overwrite_output
+```
+
+Training with the previously defined hyper-parameters yields the following results on the test set:
+```
+????
+```
+
+To reproduce our numbers with all our baselines, try [`train_and_evaluate_multiple_choice_baselines.sh`](scripts/train_and_evaluate_multiple_choice_baselines.sh) script.
  
  ### Machine Translation 
  TODO 
