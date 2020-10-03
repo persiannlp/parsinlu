@@ -5,14 +5,14 @@ declare -a models=("HooshvareLab/bert-fa-base-uncased-clf-persiannews" "Hooshvar
 for model in "${models[@]}"; do
 
 python3.7 ../src/run_multiple_choice.py \
-    --task_name multiple_choice_all \
-    --data_dir $DATA_DIR \
-    --model_name_or_path "${model}" \
-    --do_train \
-    --do_eval \
-    --learning_rate 5e-5 \
-    --num_train_epochs 2.0 \
-    --max_seq_length 64 \
-    --output_dir "multiple_choice_models/${model}" \
-    --save_steps -1
+  --task_name multiple_choice_all \
+  --data_dir $DATA_DIR \
+  --model_name_or_path "${model}" \
+  --do_train \
+  --do_eval \
+  --learning_rate 5e-5 \
+  --num_train_epochs 2.0 \
+  --max_seq_length 64 \
+  --output_dir "multiple_choice_models/${model}" \
+  --save_steps -1
 done

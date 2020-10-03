@@ -1,16 +1,16 @@
 # ParsiGLUE
-ParsiGLUE a comprehensive suit of high-level NLP tasks, for Persian language. 
+ParsiGLUE is a comprehensive suit of high-level NLP tasks for Persian language. 
 This suit contains 6 different key NLP tasks --- *Reading Comprehension*, *Multiple-Choice Question-Answering*, 
 *Textual Entailment*, *Sentiment Analysis*, *Query Paraphrasing* and *Machine Translation*. 
 
 These challenges are collected by expert annotators native in Persian language and from various sources. 
-If you'd like to see additional details on the dataset and how we collected, please checkout [our publication](#citation).    
+If you'd like to see additional details on the dataset and how we collected, please check out [our publication](#citation).    
   
 ## Getting the data 
-You can find the data in the [`data/`](data) directory.  
+You can find the data under the [`data/`](data) directory.  
 
 ## Leaderboard
-On our [leaderboard page](parsiglue.com) we host the state-of-art scores for each challenge task.  
+On our [leaderboard page](https://parsiglue.com) we host the state-of-art scores for each challenge task.  
  
 ## Baselines  
  - Download the data and include it in the `data/` directory.  
@@ -24,7 +24,7 @@ On our [leaderboard page](parsiglue.com) we host the state-of-art scores for eac
    
 If you're using a GPU, make sure that you set the appropriate environmental variable. For example: 
 ```bash
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=YOUR_GPU_ID # for example, YOUR_GPU_ID can be 0 for using your first GPU; or 0,1 if you're using two GPUs
 ```    
    
 ### Textual Entailment 
@@ -108,7 +108,34 @@ To reproduce our numbers with all our baselines, try [`train_and_evaluate_qqp_ba
 
  
 ### Reading Comprehension 
- TODO 
+In this task, the goal is to generate a response to question and its accompanying context paragraph. 
+Here are several examples: 
+
+|  question | paragraph | answer |
+| :---: | :---: | :---: |
+|  بند ناف انسان به کجا وصل است؟ | ناف جایی قرار گرفته که در واقع بندناف در داخل رحم در آنجا به شکم جنین وصل بوده‌است. بندناف که جفت را به جنین متصل کرده بعد از تولد از نوزاد جدا می‌شود. برای جدا کردن بند ناف از دو پنس استفاده می‌کنند و بین آن دو را میبرند. پنس دیگری نزدیک شکم نوزاد قرار داده می‌شود که بعد از دو روز برداشته خواهد شد. بندناف باقی‌مانده طی ۱۵ روز خشک شده و می‌افتد و به جای آن اسکاری طبیعی به جای میماند. البته بر خلاف تصور عامه مردم شکل ناف در اثر بریدن بند ناف به وجود نمی‌آید و پیش از این در شکم مادر حالت ناف شکل گرفته‌است. شکل ناف در میان مردم مختلف متفاوت است و اندازه آن بین ۱.۵ تا ۲ سانتی‌متر است. تمام پستانداران جفت‌زیست ناف دارند. ناف در انسان‌ها به سادگی قابل مشاهده‌است. | جفت |
+|  چرا خفاش در شب بیدار است؟ | بیشتر خفاش‌ها شب‌زی‌اند. آن‌ها در طول روز یا خوابند یا به پاکسازی بدن خود می‌پردازند و در هنگام شب به شکار می‌روند. ابزار مسیریابی و شکار خفاش‌ها در تاریکی تا دههٔ ۱۷۹۰ کاملاً ناشناخته بود تا اینکه کشیش و زیست شناس ایتالیایی لازارو اسپالانزانی به مجموعه آزمایش‌هایی بر روی خفاش‌های کور دست زد. این خفاش‌ها در یک اتاق کاملاً تاریک گذاشت و مسیر آن‌ها را با نخ‌های ابریشمی پُر پیچ و خم کرد. حتی در تاریکی مطلق هم شبکورها راه خود را در آن مسیر پر پیچ و خم پیدا کرده بودند به همین دلیل او نتیجه گرفت که ابزار راه‌یابی شبکورها چیزی غیر از چشمانشان است. | شکار |
+|  قاره آمریکا در چه سالی کشف شد؟ | بیش از ده هزار سال است که انسان‌ها در قارهٔ آمریکا زندگی می‌کنند. قاره آمریکا توسط کریستف کلمب و در سال ۱۴۹۲ کشف شد اما او به اشتباه فکر کرد که آنجا هندوستان است اما مدت‌ها بعد آمریگو وسپوچی اعلام کرد که این قاره جدیدی است. اما تاریخ آمریکا به عنوان یک کشور مستقل به سال ۱۷۸۳ میلادی بازمی‌گردد که در آن آمریکا بر طبق معاهدهٔ پاریس به رسمیت شناخته گردید. | ۱۴۹۲ |
+|  چه کسانی فدک را به پیامبر اعطا کردند؟ | یهودیان که از مسلمانان در جنگ‌های مختلفی شکست خورده بودند در جریان فتح فدک ناچار به صلح با محمد (پیامبر اسلام) شدند.<br/><br/>فدک در نزدیکی خیبر قرار داشت و با توجه به موقعیت استراتژیک خود نقطه اتکاء یهودیان حجاز به‌شمار می‌رفت. پس از آنکه سپاه اسلام، یهودیان را در «خیبر» و «وادی‌القری» و «تیما» شکست داد، برای پایان دادن به قدرت قوم یهود، سفیری به نام «محیط» به نزد سران فدک فرستادند. سران فدک صلح و تسلیم را بر جنگ ترجیح دادند و تعهد کردند که هر سال نیمی از محصولات فدک را در اختیار پیامبر قرار داده و از این به بعد زیر سلطه اسلام زندگی کنند. | یهودیان |
+|  کدام دانشگاه ها رشته مترجمی زبان دارند؟ | رشته مترجمی زبان انگلیسی یکی از رشته‌ها در دانشگاه‌های ایران است که در آن کار ترجمه از زبان فارسی به انگلیسی و بالعکس به دانشجویان آموخته می‌شود. این رشته در سطح کاردانی کارشناسی کارشناسی ارشد و دکترا در بیشتر دانشگاه‌ها و موسسات آموزش عالی ایران وجود دارد. یک رشته نظری و عمومی با عنوان مطالعات ترجمه (که به یک زبان خاص مربوط نمی‌شود) در مقاطع بالاتر هم وجود دارد. | بیشتر دانشگاه‌ها و موسسات آموزش عالی ایران |
+|  پنجاب مربوط کدام ولایت است؟ | پنجاب مرکز منطقۀ دایزنگی قدیم است، اما براساس تقسیمات اداری سال ۱۳۴۳ جزئی از ولایت بامیان شد. مرکز این ولسوالی هم پنجاب نام دارد. | بامیان |
+|  چرا زمان پخش عزیزه تغییر کرد؟ | این سریال که پخش آن از 19 آبان ماه سه شنبه شب ها آغاز شده بود به دلیل جایگاه بدی که در رتبه بندی ها به دست آورده بود به روز شنبه منتقل شد شاید تاثیری در بهتر شدن رتبه بندی ها داشته باشد، نویسنده سریال نیز به همین دلیل تغییر کرده است. | جایگاه بد در رتبه بندی ها |
+|  بیماری وبا از چه طریقی وارد بدن میشود؟ | وَبا، مرگامرگی یا کالِرا (به انگلیسی: Cholera) یک عفونت در روده باریک است که از طریق آب توسط باکتری ویبریو کلرا ایجاد می‌شود. این باکتری با نوشیدن آب آلوده یا خوردن ماهی نپخته یا خوردن صدف‌ها وارد بدن می‌شود. | نوشیدن آب آلوده یا خوردن ماهی نپخته یا خوردن صدف‌ها |
+|  چرا فیلم رستاخیز اکران نشد؟ | فیلم رستاخیز در روز ۲۴ تیر ۱۳۹۴ با مجوز قانونی وزارت فرهنگ و ارشاد اسلامی به اکران عمومی درآمد اما ساعاتی پس از آن در پی مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی از پرده سینماها به پایین کشیده شد. | مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی |
+|  چه چیزهایی در آزمایش خون مشخص می شود؟ | البته آزمایش خون هم می‌توان نشان دهد که شخص پیش از این به کرونا مبتلا بوده است یا نه. خوبی تست خون این است که مشخص می‌کند فرد در برابر این بیماری مصونیت پیدا کرده است یا نه. | شخص پیش از این به کرونا مبتلا بوده است یا نه |
+
+To train a model, here is a sample script:
+```bash
+???
+```
+
+Training with the previously defined hyper-parameters yields the following results on the test set:
+```
+????
+```
+
+To reproduce our numbers with all our baselines, try [`train_and_evaluate_reading_comprehension_baselines.sh`](scripts/train_and_evaluate_reading_comprehension_baselines.sh) script.
+
  
  ### Multiple-Choice QA 
  Here the task is to pick a correct answer among 3-5 given candidate answers.

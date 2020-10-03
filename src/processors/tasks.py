@@ -1,17 +1,14 @@
 from processors.qqp import QQPProcessor
 from processors.entailment import TEProcessor
-# from processors.multiple_choice import MultipleChoiceProcessor
 from transformers.data.metrics import simple_accuracy
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-
 processors = {
     "qqp": QQPProcessor,
     "entailment": TEProcessor,
-    # "multiple_choice": MultipleChoiceProcessor,
 }
 
 output_modes = {
@@ -36,4 +33,3 @@ def compute_metrics(task_name, preds, labels):
         return {"acc": simple_accuracy(preds, labels)}
     else:
         raise KeyError(task_name)
-

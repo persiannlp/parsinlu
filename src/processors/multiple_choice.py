@@ -250,9 +250,6 @@ def convert_examples_to_features(
 
         input_ids = [x["input_ids"] for x in choices_inputs]
 
-        # print(choices_inputs)
-        # print(example)
-
         attention_mask = (
             [x["attention_mask"] for x in choices_inputs] if "attention_mask" in choices_inputs[0] else None
         )
@@ -275,9 +272,4 @@ def convert_examples_to_features(
         logger.info("feature: %s" % f)
 
     return features
-#
-# processors = {
-#     # "qqp": QQPProcessor,
-#     # "entailment": TEProcessor,
-#     "multiple_choice": MultipleChoiceProcessor,
-# }
+
