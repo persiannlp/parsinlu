@@ -13,19 +13,27 @@ You can find the data under the [`data/`](data) directory.
 On our [leaderboard page](https://parsiglue.com) we host the state-of-art scores for each challenge task.  
  
 ## Baselines  
- - Download the data and include it in the `data/` directory.  
- - See the relevant section on how to train models for each task:   
+First, make sure you have the data your `data/` directory.
+
+Set up your environment. You can use `conda` or `virtualenv` to create a Python environment. 
+We have tested the code with Python3.7, but it should work on any version >= 3.5.
+Make sure to install all the necessary dependencies: 
+```bash 
+> python install -r requirements.txt
+```
+
+If you're using a GPU, make sure that you set the appropriate environmental variable. For example: 
+```bash
+export CUDA_VISIBLE_DEVICES=YOUR_GPU_ID # for example, YOUR_GPU_ID can be 0 for using your first GPU; or 0,1 if you're using two GPUs
+```    
+  
+See the relevant section on how to train models for each task:   
     * [Textual entailment](#textual-entailment) 
     * [Query Paraphrasing](#query-paraphrasing) 
     * [Reading Comprehension](#reading-comprehension)
     * [Multiple-choice QA](#multiple-choice-qa)
     * [Machine Translation](#machine-translation) 
     * [Sentiment Analaysis](#sentiment-analysis) 
-   
-If you're using a GPU, make sure that you set the appropriate environmental variable. For example: 
-```bash
-export CUDA_VISIBLE_DEVICES=YOUR_GPU_ID # for example, YOUR_GPU_ID can be 0 for using your first GPU; or 0,1 if you're using two GPUs
-```    
    
 ### Textual Entailment 
 Textual Entailment is the task of deciding whether a  whether two given questions are paraphrases of each other or not. 
