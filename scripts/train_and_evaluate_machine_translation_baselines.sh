@@ -1,11 +1,11 @@
-export DATA_DIR=${PWD}/data/translation/quran
+export DATA_DIR=../data/translation/quran
 export PYTHONPATH="../src/":"${PYTHONPATH}"
 
 #declare -a models=("HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-fa-base-uncased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-base-parsbert-uncased" "bert-base-multilingual-cased" "bert-base-multilingual-uncased" "xlm-roberta-base" "xlm-roberta-large" "xlm-mlm-tlm-xnli15-1024" "xlm-mlm-xnli15-1024" "xlm-mlm-17-1280" "xlm-mlm-100-1280" "m3hrdadfi/albert-fa-base-v2-clf-persiannews" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "asafaya/bert-large-arabic" "akhooli/gpt2-small-arabic" "asafaya/bert-mini-arabic" "akhooli/xlm-r-large-arabic-sent" "salti/xlm-roberta-large-arabic_qa" "asafaya/bert-medium-arabic" "kuisailab/albert-base-arabic" "kuisailab/albert-xlarge-arabic")
 
-cp ../data/translation/quran/en.ahmedali.txt ../data/translation/quran/train.train
-cp ../data/translation/quran/en.ahmedraza.txt ../data/translation/quran/val.train
-cp ../data/translation/quran/en.arberry.txt ../data/translation/quran/test.train
+cp ../data/translation/quran/en.ahmedali.txt ../data/translation/quran/train.source
+cp ../data/translation/quran/en.ahmedraza.txt ../data/translation/quran/val.source
+cp ../data/translation/quran/en.arberry.txt ../data/translation/quran/test.source
 
 cp ../data/translation/quran/fa.ansarian.norm.txt ../data/translation/quran/train.target
 cp ../data/translation/quran/fa.ayati.norm.txt ../data/translation/quran/val.target
