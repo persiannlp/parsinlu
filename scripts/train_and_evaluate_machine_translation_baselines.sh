@@ -20,9 +20,9 @@ python3.7 ../src/run_seq2seq.py \
     --data_dir $DATA_DIR \
     --train_batch_size=1 \
     --eval_batch_size=1 \
-    --output_dir='translation_${model}_results' \
+    --output_dir=translation_${model}_results \
     --num_train_epochs 1 \
-    --model_name_or_path '${model}' \
+    --model_name_or_path ${model} \
     --learning_rate=3e-5 \
     --gpus 1 \
     --do_train \
