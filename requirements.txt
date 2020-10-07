@@ -3,3 +3,6 @@ torch==1.6.0
 scikit-learn==0.23.2
 tensorboardX==2.1
 tqdm
+pytorch_lightning
+lightning_base
+GitPython
