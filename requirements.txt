@@ -5,3 +5,5 @@ tensorboardX==2.1
 tqdm
 pytorch_lightning
 GitPython
+rouge_score
+sacrebleu
