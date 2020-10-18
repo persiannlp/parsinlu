@@ -25,6 +25,5 @@ for model in "${models[@]}"; do
     --max_seq_length 64 \
     --output_dir "multiple_choice_models/${model}" \
     --save_steps -1 \
-    --overwrite_output_dir \
-    --logger_name wandb
+    --overwrite_output_dir
 done
