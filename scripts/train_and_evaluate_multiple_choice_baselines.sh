@@ -3,13 +3,13 @@ export DATA_DIR=../data/multiple-choice
 declare -a models=("xlm-roberta-base" "xlm-roberta-large" "TurkuNLP/wikibert-base-fa-cased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-fa-base-uncased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-base-parsbert-uncased" "bert-base-multilingual-cased" "bert-base-multilingual-uncased")
 
 declare -a learning_rates=(3e-5 4e-5 5e-5)
-declare -a num_train_epochs=(3 5 7 9 11)
+declare -a num_train_epochs=(3 5 7 9)
 
 for model in "${models[@]}"; do
 
-  declare -a batch_sizes=(8 16 32)
+  declare -a batch_sizes=(8 16)
   if [[ $model == *"large"* ]]; then
-    declare -a batch_sizes=(1 2 4)
+    declare -a batch_sizes=(1 2)
   fi
 
   for batch_size in "${batch_sizes[@]}"; do
