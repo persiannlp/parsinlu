@@ -1,29 +1,35 @@
 export DATA_DIR=../data/multiple-choice
 
-declare -a models=("xlm-roberta-base" "xlm-roberta-large" "akhooli/xlm-r-large-arabic-toxic" "akhooli/xlm-r-large-arabic-sent" "microsoft/MiniLM-L12-H384-uncased" "microsoft/Multilingual-MiniLM-L12-H384" "TurkuNLP/wikibert-base-fa-cased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-fa-base-uncased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-base-parsbert-uncased" "bert-base-multilingual-cased" "bert-base-multilingual-uncased" "m3hrdadfi/albert-fa-base-v2-clf-persiannews" "HooshvareLab/bert-fa-base-uncased-clf-persiannews")
+declare -a models=("xlm-roberta-base" "xlm-roberta-large" "TurkuNLP/wikibert-base-fa-cased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-fa-base-uncased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-base-parsbert-uncased" "bert-base-multilingual-cased" "bert-base-multilingual-uncased")
 
-# not used anymore
-#"asafaya/bert-large-arabic" "akhooli/gpt2-small-arabic" "asafaya/bert-mini-arabic" "akhooli/xlm-r-large-arabic-sent" "salti/xlm-roberta-large-arabic_qa" "asafaya/bert-medium-arabic" "kuisailab/albert-base-arabic" "kuisailab/albert-xlarge-arabic" "xlm-mlm-tlm-xnli15-1024" "xlm-mlm-xnli15-1024" "xlm-mlm-17-1280" "xlm-mlm-100-1280"
+declare -a learning_rates=(3e-5 4e-5 5e-5)
+declare -a num_train_epochs=(3 5 7 9 11)
 
 for model in "${models[@]}"; do
 
-  export TRAIN_BATCH_SIZE=16
-
+  declare -a batch_sizes=(8 16 32)
   if [[ $model == *"large"* ]]; then
-    export TRAIN_BATCH_SIZE=2
+    declare -a batch_sizes=(1 2 4)
   fi
 
-  python3.7 ../src/run_multiple_choice.py \
-    --task_name multiple_choice_all \
-    --data_dir $DATA_DIR \
-    --model_name_or_path "${model}" \
-    --do_train \
-    --do_eval \
-    --per_device_train_batch_size $TRAIN_BATCH_SIZE \
-    --learning_rate 5e-5 \
-    --num_train_epochs 2.0 \
-    --max_seq_length 64 \
-    --output_dir "multiple_choice_models/${model}" \
-    --save_steps -1 \
-    --overwrite_output_dir
+  for batch_size in "${batch_sizes[@]}"; do
+    for learning_rate in "${learning_rates[@]}"; do
+      for num_train_epoch in "${num_train_epochs[@]}"; do
+
+        python3.7 ../src/run_multiple_choice.py \
+          --task_name multiple_choice_all \
+          --data_dir $DATA_DIR \
+          --model_name_or_path "${model}" \
+          --do_train \
+          --do_eval \
+          --per_device_train_batch_size "${batch_size[@]}" \
+          --learning_rate "${learning_rate[@]}" \
+          --num_train_epochs "${num_train_epoch[@]}" \
+          --max_seq_length 64 \
+          --output_dir "multiple_choice_models/${model}" \
+          --save_steps -1 \
+          --overwrite_output_dir
+      done
+    done
+  done
 done
