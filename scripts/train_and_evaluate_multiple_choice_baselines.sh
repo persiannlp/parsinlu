@@ -24,5 +24,7 @@ for model in "${models[@]}"; do
     --num_train_epochs 2.0 \
     --max_seq_length 64 \
     --output_dir "multiple_choice_models/${model}" \
-    --save_steps -1
+    --save_steps -1 \
+    --overwrite_output_dir \
+    --logger_name wandb
 done
