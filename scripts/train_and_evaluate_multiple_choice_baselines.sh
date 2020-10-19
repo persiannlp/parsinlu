@@ -31,7 +31,7 @@ for model in "${models[@]}"; do
           --per_device_train_batch_size "${batch_size[@]}" \
           --learning_rate "${learning_rate[@]}" \
           --num_train_epochs "${num_train_epoch[@]}" \
-          --max_seq_length 64 \
+          --max_seq_length 128 \
           --output_dir "multiple_choice_models/${model}_batch_size=${batch_size}_learning_rate=${learning_rate}_learning_rate=${learning_rate}_num_train_epoch=${num_train_epoch}" \
           --save_steps -1 \
           --overwrite_output_dir
