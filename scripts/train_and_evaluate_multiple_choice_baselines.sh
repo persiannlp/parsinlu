@@ -1,6 +1,11 @@
+# first, clean tokenizer caches
+rm ../data/multiple-choice/cached_*
+
 export DATA_DIR=../data/multiple-choice
 
-declare -a models=("xlm-roberta-base" "xlm-roberta-large" "TurkuNLP/wikibert-base-fa-cased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-fa-base-uncased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-base-parsbert-uncased" "bert-base-multilingual-cased" "bert-base-multilingual-uncased")
+declare -a models=("TurkuNLP/wikibert-base-fa-cased" "HooshvareLab/bert-fa-base-uncased" "HooshvareLab/bert-fa-base-uncased-clf-persiannews" "HooshvareLab/bert-base-parsbert-uncased" "bert-base-multilingual-cased" "bert-base-multilingual-uncased")
+
+#"xlm-roberta-base" "xlm-roberta-large"
 
 declare -a learning_rates=(3e-5 4e-5 5e-5)
 declare -a num_train_epochs=(3 5 7 9)
@@ -20,6 +25,7 @@ for model in "${models[@]}"; do
           --task_name multiple_choice_all \
           --data_dir $DATA_DIR \
           --model_name_or_path "${model}" \
+          --tokenizer_name  "${model}" \
           --do_train \
           --do_eval \
           --per_device_train_batch_size "${batch_size[@]}" \
