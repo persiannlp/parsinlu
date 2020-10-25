@@ -9,17 +9,20 @@ logger = logging.getLogger(__name__)
 processors = {
     "qqp": QQPProcessor,
     "entailment": TEProcessor,
+    "sentiment": ABSAProcessor
 }
 
 output_modes = {
     "qqp": "classification",
     "entailment": "classification",
+    "sentiment": "classification"
 }
 
 tasks_num_labels = {
     "qqp": 2,
     "entailment": 3,
-    "multiple_choice": 4
+    "multiple_choice": 4,
+    "sentiment": 7
 }
 
 

@@ -1,0 +1,11 @@
+numpy
+
+torch
+torchvision
+
+tensorflow
+tensorboard
+matplotlib
+
+transformers
+datasets
