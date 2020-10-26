@@ -7,8 +7,8 @@ declare -a models=("TurkuNLP/wikibert-base-fa-cased" "HooshvareLab/bert-fa-base-
 
 #"xlm-roberta-base" "xlm-roberta-large"
 
-declare -a learning_rates=(3e-5 4e-5 5e-5)
-declare -a num_train_epochs=(3 5 7 9)
+declare -a learning_rates=(3e-5 5e-5)
+declare -a num_train_epochs=(3 7)
 
 for model in "${models[@]}"; do
 
