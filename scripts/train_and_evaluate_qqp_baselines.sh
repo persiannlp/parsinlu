@@ -33,7 +33,7 @@ for model in "${models[@]}"; do
           --learning_rate "${learning_rate[@]}" \
           --num_train_epochs "${num_train_epoch[@]}" \
           --max_seq_length 64 \
-          --output_dir "multiple_choice_models/${model}_batch_size=${batch_size}_learning_rate=${learning_rate}_learning_rate=${learning_rate}_num_train_epoch=${num_train_epoch}" \
+          --output_dir "qqp/${model}_batch_size=${batch_size}_learning_rate=${learning_rate}_learning_rate=${learning_rate}_num_train_epoch=${num_train_epoch}" \
           --save_steps -1 \
           --overwrite_output_dir
       done

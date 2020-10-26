@@ -41,6 +41,7 @@ class QQPProcessor(DataProcessor):
                 guid = "%s-%s" % (i, "test")
                 text_a = json_content['q1']
                 text_b = json_content['q2']
+                label = json_content['label']
                 assert label == '1' or label == '0'
                 label = "paraphrase" if line[5] == "0" else "not-paraphrase"
                 assert isinstance(text_a, str), f"Training input {text_a} is not a string"
@@ -55,12 +56,13 @@ class QQPProcessor(DataProcessor):
     def get_dev_examples(self, data_dir):
         """See base class."""
         examples = []
-        with open(os.path.join(data_dir, "deb.jsonl"), "r") as f:
+        with open(os.path.join(data_dir, "dev.jsonl"), "r") as f:
             for i, line in enumerate(f.readlines()):
                 json_content = json.loads(line.replace("\n", ""))
                 guid = "%s-%s" % (i, "dev")
                 text_a = json_content['q1']
                 text_b = json_content['q2']
+                label = json_content['label']
                 assert label == '1' or label == '0'
                 label = "paraphrase" if line[5] == "0" else "not-paraphrase"
                 assert isinstance(text_a, str), f"Training input {text_a} is not a string"
