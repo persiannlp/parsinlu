@@ -39,6 +39,7 @@ def compute_metrics(task_name, preds, labels):
         print("******** EVAlUATING SENTIMENT ANALYSIS ***********\n")
         print(f"tpye of preds: {type(preds)}, type of labels: {type(labels)}\n\n")
         print(f"value of preds: {preds},\n\n value of labels: {labels}\n\n")
+        return {"acc": 0.5}
     else:
         raise KeyError(task_name)
 
