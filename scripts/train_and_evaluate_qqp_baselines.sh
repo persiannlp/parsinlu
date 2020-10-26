@@ -28,7 +28,8 @@ for model in "${models[@]}"; do
           --tokenizer_name  "${model}" \
           --do_train \
           --do_eval \
-          --per_device_train_batch_size "${batch_size[@]}" \
+          --per_gpu_train_batch_size "${batch_size[@]}" \
+          --per_gpu_eval_batch_size "${batch_size[@]}" \
           --learning_rate "${learning_rate[@]}" \
           --num_train_epochs "${num_train_epoch[@]}" \
           --max_seq_length 64 \
