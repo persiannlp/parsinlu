@@ -20,8 +20,9 @@ class QQPProcessor(DataProcessor):
                 guid = "%s-%s" % (i, "train")
                 text_a = json_content['q1']
                 text_b = json_content['q2']
+                label = json_content['label']
                 assert label == '1' or label == '0'
-                label = "paraphrase" if line[5] == "0" else "not-paraphrase"
+                label = "paraphrase" if label == "0" else "not-paraphrase"
                 assert isinstance(text_a, str), f"Training input {text_a} is not a string"
                 assert isinstance(text_b, str), f"Training input {text_b} is not a string"
                 assert isinstance(label, str), f"Training label {label} is not a string"
