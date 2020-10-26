@@ -1,5 +1,6 @@
 from processors.qqp import QQPProcessor
 from processors.entailment import TEProcessor
+from processors.ABSAProcessor import ABSAProcessor
 from transformers.data.metrics import simple_accuracy
 
 import logging
@@ -34,6 +35,10 @@ def compute_metrics(task_name, preds, labels):
         return {"acc": simple_accuracy(preds, labels)}
     elif task_name == "entailment":
         return {"acc": simple_accuracy(preds, labels)}
+    elif task_name == "sentiment":
+        print("******** EVAlUATING SENTIMENT ANALYSIS ***********\n")
+        print(f"tpye of preds: {type(preds)}, type of labels: {type(labels)}\n\n")
+        print(f"value of preds: {preds},\n\n value of labels: {labels}\n\n")
     else:
         raise KeyError(task_name)
 

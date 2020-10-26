@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[33]:
+# In[38]:
 
 
 import os
@@ -9,7 +9,7 @@ import json
 from transformers import InputExample, DataProcessor
 
 
-# In[34]:
+# In[39]:
 
 
 class ABSAProcessor(DataProcessor):
@@ -123,16 +123,16 @@ class ABSAProcessor(DataProcessor):
         return self.labels
 
 
-# In[36]:
+# In[43]:
 
 
-train = ABSAProcessor().get_train_examples('../../data/sentiment-analysis/')
+# train = ABSAProcessor().get_dev_examples('../../data/sentiment-analysis/')
 
 
-# In[37]:
+# In[44]:
 
 
-train[0:5]
+# train[0:5]
 
 
 # In[ ]:
