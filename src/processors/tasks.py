@@ -1,6 +1,6 @@
 from processors.qqp import QQPProcessor
 from processors.entailment import TEProcessor
-from processors.ABSAProcessor import ABSAProcessor
+from processors.ABSAProcessor import ABSAProcessor, absa_evaluation
 from transformers.data.metrics import simple_accuracy
 
 import logging
@@ -27,7 +27,7 @@ tasks_num_labels = {
 }
 
 
-def compute_metrics(task_name, preds, labels):
+def compute_metrics(task_name, preds, labels, sample_ids=None, data_dir=None):
     assert len(preds) == len(
         labels
     ), f"Predictions and labels have mismatched lengths {len(preds)} and {len(labels)}"
@@ -37,9 +37,11 @@ def compute_metrics(task_name, preds, labels):
         return {"acc": simple_accuracy(preds, labels)}
     elif task_name == "sentiment":
         print("******** EVAlUATING SENTIMENT ANALYSIS ***********\n")
-        print(f"tpye of preds: {type(preds)}, type of labels: {type(labels)}\n\n")
+        print(f"type of preds: {type(preds)}, type of labels: {type(labels)}\n\n")
         print(f"value of preds: {preds},\n\n value of labels: {labels}\n\n")
-        return {"acc": 0.5}
+        sentiment_acc, sentiment_macro_f1, aspect_macro_f1, aspect_strict_acc = absa_evaluation(data_dir, sample_ids, preds)
+        return {"SA_acc": sentiment_acc, "SA_macro_f1": sentiment_macro_f1, "absa_macro_f1": aspect_macro_f1,
+                "absa_strict_acc": aspect_strict_acc}
     else:
         raise KeyError(task_name)
 

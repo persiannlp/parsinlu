@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[38]:
+from __future__ import division
 
 
 import os
 import json
-from transformers import InputExample, DataProcessor
-
-
-# In[39]:
+# from transformers import InputExample, DataProcessor
+from sklearn.metrics import f1_score, accuracy_score
 
 
 class ABSAProcessor(DataProcessor):
@@ -18,7 +15,7 @@ class ABSAProcessor(DataProcessor):
 
     def __init__(self):
         self.labels = ['-3','-2','-1','0','1','2','3']
-        
+
     def load_data_jsonl(self, data_path):
         with open(data_path, 'r') as file:
             lines = file.readlines()
@@ -27,95 +24,95 @@ class ABSAProcessor(DataProcessor):
 
         for line in lines:
             data = json.loads(line.replace('\'', '\"'))
-            dataset.append(data)  
-            
+            dataset.append(data)
+
         return dataset
 
     def get_train_examples(self, data_dir):
         """See base class."""
-        
+
         dataset = self.load_data_jsonl(os.path.join(data_dir,"food_train.jsonl"))
         examples = []
-        
+
         for i,entry in enumerate(dataset):
-            
+
             guid = f'train-r{entry["review_id"]}-e{entry["example_id"]}'
             text_a = entry["review"]
             text_b = entry["question"]
             label = str(entry["label"])
-            
+
             if label not in self.labels:
                 continue
-            
+
             assert isinstance(text_a, str), f"Training input {text_a} is not a string"
             assert isinstance(text_b, str), f"Training input {text_b} is not a string"
             assert isinstance(label, str), f"Training label {label} is not a string"
             example = InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label)
-            
+
 #             if i < 10:
 #                 print(example)
-            
+
             examples.append(example)
-        
+
         return examples
- 
+
 
     def get_dev_examples(self, data_dir):
         """See base class."""
-        
+
         dataset = self.load_data_jsonl(os.path.join(data_dir,"food_dev.jsonl"))
-        
+
         examples = []
-        
+
         for i,entry in enumerate(dataset):
-            
+
             guid = f'dev-r{entry["review_id"]}-e{entry["example_id"]}'
             text_a = entry["review"]
             text_b = entry["question"]
             label = str(entry["label"])
-            
+
             if label not in self.labels:
                 continue
-            
+
             assert isinstance(text_a, str), f"Training input {text_a} is not a string"
             assert isinstance(text_b, str), f"Training input {text_b} is not a string"
             assert isinstance(label, str), f"Training label {label} is not a string"
             example = InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label)
-            
+
 #             if i < 10:
 #                 print(example)
-            
+
             examples.append(example)
-        
+
         return examples
-    
+
     def get_test_examples(self, data_dir):
         """See base class."""
-        
+
         dataset = self.load_data_jsonl(os.path.join(data_dir,"food_test.jsonl"))
-        
+
         examples = []
-        
+
         for i,entry in enumerate(dataset):
-            
+
             guid = f'test-r{entry["review_id"]}-e{entry["example_id"]}'
             text_a = entry["review"]
             text_b = entry["question"]
             label = str(entry["label"])
-            
+
             if label not in self.labels:
                 continue
-            
+
             assert isinstance(text_a, str), f"Training input {text_a} is not a string"
             assert isinstance(text_b, str), f"Training input {text_b} is not a string"
             assert isinstance(label, str), f"Training label {label} is not a string"
             example = InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label)
-            
+
 #             if i < 10:
 #                 print(example)
-            
+
             examples.append(example)
-        
+
         return examples
 
     def get_labels(self):
@@ -123,19 +120,157 @@ class ABSAProcessor(DataProcessor):
         return self.labels
 
 
-# In[43]:
+def separate_sentiment_aspect(data):
+    num_review = len(data) // 7
+    overall_y, y = [], []
+    for i in range(num_review):
+        aspects = []
+        for j in range(7):
+            idx = 'test-r{}-e{}'.format(i+1, j+1)
+            if j+1 == 7:
+                overall_y.append(data[idx][1])
+            else:
+                aspects.append(data[idx])
+        y.append(aspects)
+
+    assert len(overall_y) == len(y), "error in separating overall sentiment from aspects"
+
+    return overall_y, y
+
+def eval_sentiment(y_true, y_pred):
+    """
+    Prediction accuracy (percentage) and F1 score for sentiment analysis task
+    y_true: a list of pairs (aspect, polarity)
+    y_pred: a list of pairs (aspect, polarity)
+    """
+    acc = accuracy_score(y_true, y_pred) * 100
+    f1 = f1_score(y_true, y_pred, average='macro')
+    return acc, f1
+
+def eval_aspect_macro_f1(y_true, y_pred):
+    """
+    Calculate "Macro-F1" for aspect detection task
+    y_true: actual labels
+    y_pred: predictions
+    """
+    p_all = 0
+    r_all = 0
+    count = 0
+    for i in range(len(y_pred)):
+        a = set()
+        b = set()
+        for j in range(len(y_pred[i])):
+            if y_pred[i][j][1] != -3:
+                a.add(j)
+            if y_true[i][j][1] != -3:
+                b.add(j)
+        if len(b) == 0: continue
+        a_b = a.intersection(b)
+        if len(a_b) > 0:
+            p = len(a_b) / len(a)
+            r = len(a_b) / len(b)
+        else:
+            p = 0
+            r = 0
+        count += 1
+        p_all += p
+        r_all += r
+    Ma_p = p_all / count
+    Ma_r = r_all / count
+    aspect_Macro_F1 = 2 * Ma_p * Ma_r / (Ma_p + Ma_r)
+
+    return aspect_Macro_F1
 
 
-# train = ABSAProcessor().get_dev_examples('../../data/sentiment-analysis/')
+def eval_aspect_polarity_accuracy(y_true, y_pred):
+
+    total_cases = len(y_true)
+    true_cases = 0
+    for i in range(total_cases):
+        if y_true[i][0] != y_pred[i][0]: continue
+        if y_true[i][1] != y_pred[i][1]: continue
+        if y_true[i][2] != y_pred[i][2]: continue
+        if y_true[i][3] != y_pred[i][3]: continue
+        if y_true[i][4] != y_pred[i][4]: continue
+        if y_true[i][5] != y_pred[i][5]: continue
+        true_cases += 1
+    aspect_strict_Acc = true_cases / total_cases
+
+    return aspect_strict_Acc
+
+def absa_evaluation(data_dir, output_ids, preds):
+
+    y_true_samples = {}
+    y_pred_samples = {}
+
+    with open(os.path.join(data_dir,"food_test.jsonl"), 'r') as file:
+        lines = file.readlines()
+    dataset = []
+    for line in lines:
+        data = json.loads(line.replace('\'', '\"'))
+        dataset.append(data)
+
+    for i, entry in enumerate(dataset):
+        guid = 'test-r{}-e{}'.format(entry["review_id"],entry["example_id"])
+        aspect = str(entry["acpect"])
+        label = str(entry["label"])
+        y_true_samples[guid] = [aspect, label]
+
+    for i in range(len(output_ids)):
+        guid = output_ids[i]
+        aspect = y_true_samples[guid][0]
+        label = preds[i]
+        y_pred_samples[guid] = [aspect, label]
+
+    assert len(y_true_samples) == len(y_pred_samples), "pred size doesn't match with actual size"
+
+    # Overall sentiment scores should be separated from the aspects
+    overall_y_true, y_true = separate_sentiment_aspect(y_true_samples)
+    overall_y_pred, y_pred = separate_sentiment_aspect(y_pred_samples)
+
+    sentiment_acc, sentiment_macro_f1 = eval_sentiment(overall_y_true, overall_y_pred)
+    aspect_macro_f1 = eval_aspect_macro_f1(y_true, y_pred)
+    aspect_strict_acc = eval_aspect_polarity_accuracy(y_true, y_pred)
+
+    return sentiment_acc, sentiment_macro_f1, aspect_macro_f1, aspect_strict_acc
 
 
-# In[44]:
+# if __name__ == "__main__":
+    # y_true = [[['طعم', -3], ['ارزش خرید', 2], ['کیفیت', 0]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
+    #           [['طعم', -3], ['ارزش خرید', -3], ['کیفیت', 0]]]
+    # 
+    # y_pred = [[['طعم', -3], ['ارزش خرید', 1], ['کیفیت', -3]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
+    #           [['طعم', -3], ['ارزش خرید', -3], ['کیفیت', 0]]]
+    # 
+    # 
+    # print(eval_aspect_polarity_accuracy(y_true, y_pred))
+    # print(eval_aspect_macro_f1(y_true, y_pred))
+    
+    # y_true = [-2, 1, 0, 1, 2, 1, 1]
+    # y_pred = [-2, 1, 0, 3, 2, 1, 1]
+    #
+    # print(eval_sentiment(y_true, y_pred))
+
+    # y_true_samples = {}
+    # y_pred_samples = {}
+    #
+    # with open(os.path.join("/Users/niloofar/PycharmProjects/parsiglue/data/sentiment-analysis", "food_test.jsonl"), 'r') as file:
+    #     lines = file.readlines()
+    # dataset = []
+    # for line in lines:
+    #     data = json.loads(line.replace('\'', '\"'))
+    #     dataset.append(data)
+    #
+    # for i, entry in enumerate(dataset):
+    #     guid = 'test-r{}-e{}'.format(entry["review_id"], entry["example_id"])
+    #     # aspect = str(entry["acpect"])
+    #     aspect = "طعم"
+    #     label = str(entry["label"])
+    #     y_true_samples[guid] = [aspect, label]
+    #
+    # print(y_true_samples)
 
 
-# train[0:5]
-
-
-# In[ ]:
 
 
 
