@@ -5,7 +5,7 @@ from __future__ import division
 
 import os
 import json
-# from transformers import InputExample, DataProcessor
+from transformers import InputExample, DataProcessor
 from sklearn.metrics import f1_score, accuracy_score
 
 
