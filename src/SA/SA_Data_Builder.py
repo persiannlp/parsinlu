@@ -7,7 +7,7 @@
 get_ipython().system('pip install -U scikit-learn')
 
 
-# In[23]:
+# In[40]:
 
 
 import json
@@ -17,7 +17,7 @@ import random
 
 # #### Loading Data
 
-# In[24]:
+# In[41]:
 
 
 with open('food.jsonl', 'r') as file:
@@ -30,7 +30,7 @@ for line in lines:
     raw_dataset.append(data)
 
 
-# In[25]:
+# In[42]:
 
 
 raw_dataset_size = len(raw_dataset)
@@ -39,13 +39,13 @@ print(f'dataset size is {raw_dataset_size}')
 
 # #### Giving reviews/ extracting aspects
 
-# In[26]:
+# In[43]:
 
 
 aspects_set = set()
 
 
-# In[27]:
+# In[44]:
 
 
 for i, example in enumerate(raw_dataset):
@@ -54,13 +54,13 @@ for i, example in enumerate(raw_dataset):
     aspects_set.update(aspects)
 
 
-# In[28]:
+# In[45]:
 
 
 aspects_set
 
 
-# In[29]:
+# In[46]:
 
 
 raw_dataset[0]
@@ -68,35 +68,35 @@ raw_dataset[0]
 
 # #### Defining Questions for aspects
 
-# In[30]:
+# In[47]:
 
 
 aspects_questions = {}
 
 
-# In[31]:
+# In[48]:
 
 
 for aspect in list(aspects_set):
     aspects_questions[aspect] = f'نظر شما در مورد {aspect} محصول چیست؟'
 
 
-# In[32]:
+# In[49]:
 
 
 general_aspect_label = 'کلی'
 aspects_questions[general_aspect_label] = 'نظر شما به صورت کلی در مورد محصول چیست؟'
 
 
-# In[33]:
+# In[50]:
 
 
 aspects_questions
 
 
-# #### Creating new QA-ABSA dataset
+# #### Spliting Data
 
-# In[34]:
+# In[51]:
 
 
 # CONSTANTS:
@@ -105,7 +105,7 @@ assert(sum(split_portions.values())==1)
 NONE_LABEL = -3
 
 
-# In[35]:
+# In[52]:
 
 
 raw_dataset_size = len(raw_dataset)
@@ -123,7 +123,7 @@ split_indices['test'] = (
 )
 
 
-# In[37]:
+# In[53]:
 
 
 raw_dataset_dic = {
@@ -133,21 +133,18 @@ raw_dataset_dic = {
 }
 
 
-# In[38]:
+# In[54]:
 
 
 assert sum([len(dataset) for dataset in raw_dataset_dic.values()]) == raw_dataset_size
 
 
-# In[39]:
+# #### Creating new QA-ABSA dataset
+
+# In[58]:
 
 
 dataset_ABSA = {'train':list(),'dev':list(),'test':list()}
-
-
-# In[40]:
-
-
 for dataset_name, dataset in raw_dataset_dic.items():
 
     for example in dataset:
@@ -159,6 +156,7 @@ for dataset_name, dataset in raw_dataset_dic.items():
             entry = {'review': example['review'],
                      'review_id': str(example['review_id']),
                      'question': aspects_questions[aspect],
+                     'aspect': aspect,
                      'label': str(example['aspects'][aspect] if aspect in product_aspects else NONE_LABEL)
                     }
             
@@ -168,6 +166,7 @@ for dataset_name, dataset in raw_dataset_dic.items():
         entry = {'review': example['review'],
                  'review_id': str(example['review_id']),
                  'question': aspects_questions[general_aspect_label],
+                 'aspect': general_aspect_label,
                  'label': str(example['sentiment'])
                 }
         
@@ -176,17 +175,18 @@ for dataset_name, dataset in raw_dataset_dic.items():
 
 # #### Adding ID labeles
 
-# In[41]:
+# In[59]:
 
 
 for dataset_name, dataset in dataset_ABSA.items():
     for i, example in enumerate(dataset):
         example['example_id'] = str(int(i+1))
+        example['guid'] = f'{dataset_name}-r{example["review_id"]}-e{example["example_id"]}'
 
 
 # #### Saving Data
 
-# In[42]:
+# In[60]:
 
 
 for dataset_name, dataset in dataset_ABSA.items():
