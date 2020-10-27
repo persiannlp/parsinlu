@@ -11,7 +11,6 @@ declare -a learning_rates=(3e-5 5e-5)
 declare -a num_train_epochs=(3 7)
 
 for model in "${models[@]}"; do
-
   declare -a batch_sizes=(8 16)
   if [[ $model == *"large"* ]]; then
     declare -a batch_sizes=(1 2)
@@ -40,4 +39,22 @@ for model in "${models[@]}"; do
     done
   done
 done
+
+exit 0  # stop here; evaluation (following scrpts) requires manual intervention
+
+## After selecting your best checkpoints based on the dev sets, run the following script
+# Update this following line with the path to your best checkpoints
+eval_dir="qqp/TurkuNLP/wikibert-base-fa-cased_batch_size=16_learning_rate=5e-5_learning_rate=5e-5_num_train_epoch=3"
+
+# notice --eval_on_test which would force the code to use the test set for evaluation
+python ../src/run_text_classification.py \
+  --task_name qqp \
+  --data_dir $DATA_DIR \
+  --model_name_or_path ${eval_dir} \
+  --tokenizer_name  ${eval_dir} \
+  --do_eval \
+  --eval_on_test \
+  --per_gpu_eval_batch_size 32 \
+  --max_seq_length 64 \
+  --output_dir "${eval_dir}"
 
