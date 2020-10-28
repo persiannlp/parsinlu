@@ -120,10 +120,10 @@ class ABSAProcessor(DataProcessor):
         return self.labels
 
 
-def separate_sentiment_aspect(data):
+def separate_sentiment_aspect(data, first_id):
     num_review = len(data) // 7
     overall_y, y = [], []
-    for i in range(num_review):
+    for i in range(first_id, first_id+num_review):
         aspects = []
         for j in range(7):
             idx = 'test-r{}-e{}'.format(i+1, j+1)
@@ -210,23 +210,28 @@ def absa_evaluation(data_dir, output_ids, preds):
         data = json.loads(line.replace('\'', '\"'))
         dataset.append(data)
 
+    first_id = dataset[0]['review_id']
+
     for i, entry in enumerate(dataset):
         guid = 'test-r{}-e{}'.format(entry["review_id"],entry["example_id"])
-        aspect = str(entry["acpect"])
+        aspect = str(entry["aspect"])
         label = str(entry["label"])
         y_true_samples[guid] = [aspect, label]
+        pred_label = preds[i * 7 + int(entry["example_id"])]
+        y_pred_samples[guid] = [aspect, pred_label]
 
-    for i in range(len(output_ids)):
-        guid = output_ids[i]
-        aspect = y_true_samples[guid][0]
-        label = preds[i]
-        y_pred_samples[guid] = [aspect, label]
+    # for i in range(len(dataset)):
+    #     for j in range(1,8):
+    #         guid = 'test-r{}-e{}'.format(i+1, j)
+    #         aspect = y_true_samples[guid][0]
+    #         label = preds[i*7+j]
+    #         y_pred_samples[guid] = [aspect, label]
 
     assert len(y_true_samples) == len(y_pred_samples), "pred size doesn't match with actual size"
 
     # Overall sentiment scores should be separated from the aspects
-    overall_y_true, y_true = separate_sentiment_aspect(y_true_samples)
-    overall_y_pred, y_pred = separate_sentiment_aspect(y_pred_samples)
+    overall_y_true, y_true = separate_sentiment_aspect(y_true_samples, first_id)
+    overall_y_pred, y_pred = separate_sentiment_aspect(y_pred_samples, first_id)
 
     sentiment_acc, sentiment_macro_f1 = eval_sentiment(overall_y_true, overall_y_pred)
     aspect_macro_f1 = eval_aspect_macro_f1(y_true, y_pred)
