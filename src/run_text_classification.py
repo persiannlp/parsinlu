@@ -10,6 +10,9 @@ from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, Tenso
 from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm, trange
 
+import sys
+sys.path.append('../')
+
 from transformers import (
     WEIGHTS_NAME,
     AdamW,

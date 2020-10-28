@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 from __future__ import division
-
+import sys
+sys.path.append('../')
 
 import os
 import json
@@ -30,7 +31,6 @@ class ABSAProcessor(DataProcessor):
 
     def get_train_examples(self, data_dir):
         """See base class."""
-
         dataset = self.load_data_jsonl(os.path.join(data_dir,"food_train.jsonl"))
         examples = []
 
@@ -120,7 +120,7 @@ class ABSAProcessor(DataProcessor):
 def separate_sentiment_aspect(data, first_id):
     num_review = len(data) // 7
     overall_y, y = [], []
-    for i in range(first_id, first_id+num_review):
+    for i in range(int(first_id), int(first_id)+num_review-1):
         aspects = []
         for j in range(7):
             idx = 'test-r{}-e{}'.format(i+1, j+1)
@@ -140,6 +140,7 @@ def eval_sentiment(y_true, y_pred):
     y_true: a list of pairs (aspect, polarity)
     y_pred: a list of pairs (aspect, polarity)
     """
+
     acc = accuracy_score(y_true, y_pred) * 100
     f1 = f1_score(y_true, y_pred, average='macro')
     return acc, f1
@@ -197,10 +198,13 @@ def eval_aspect_polarity_accuracy(y_true, y_pred):
 
 def absa_evaluation(data_dir, output_ids, preds):
 
+    label_map = {'-3': 0, '-2': 1, '-1': 2, '0': 3, '1': 4, '2': 5, '3': 6}
+
     y_true_samples = {}
     y_pred_samples = {}
 
-    with open(os.path.join(data_dir,"food_dev.jsonl"), 'r') as file:
+
+    with open(os.path.join(data_dir,"food_test.jsonl"), 'r') as file:
         lines = file.readlines()
     dataset = []
     for line in lines:
@@ -208,13 +212,12 @@ def absa_evaluation(data_dir, output_ids, preds):
         dataset.append(data)
 
     first_id = dataset[0]['review_id']
-
     for i, entry in enumerate(dataset):
         guid = 'test-r{}-e{}'.format(entry["review_id"],entry["example_id"])
         aspect = str(entry["aspect"])
         label = str(entry["label"])
-        y_true_samples[guid] = [aspect, label]
-        pred_label = preds[i * 7 + int(entry["example_id"])]
+        y_true_samples[guid] = [aspect, label_map[label]]
+        pred_label = preds[(i//7) * 7 + int(entry["example_id"]) - 1]
         y_pred_samples[guid] = [aspect, pred_label]
 
     # for i in range(len(dataset)):
