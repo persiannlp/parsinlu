@@ -4,7 +4,7 @@
 # In[1]:
 
 
-get_ipython().system('pip install -U scikit-learn')
+#get_ipython().system('pip install -U scikit-learn')
 
 
 # In[40]:
@@ -152,9 +152,11 @@ for dataset_name, dataset in raw_dataset_dic.items():
         product_aspects = example['aspects'].keys()
 
         #aspect sentiments
-        for aspect in aspects_set:
+        for i,aspect in enumerate(aspects_set):
+
             entry = {'review': example['review'],
                      'review_id': str(example['review_id']),
+                     'example_id': str(int(i+1)),
                      'question': aspects_questions[aspect],
                      'aspect': aspect,
                      'label': str(example['aspects'][aspect] if aspect in product_aspects else NONE_LABEL)
@@ -163,8 +165,10 @@ for dataset_name, dataset in raw_dataset_dic.items():
             dataset_ABSA[dataset_name].append(entry)
 
         # overal sentiment
+
         entry = {'review': example['review'],
                  'review_id': str(example['review_id']),
+                 'example_id': str(int(i+2)),
                  'question': aspects_questions[general_aspect_label],
                  'aspect': general_aspect_label,
                  'label': str(example['sentiment'])
@@ -177,11 +181,13 @@ for dataset_name, dataset in raw_dataset_dic.items():
 
 # In[59]:
 
-
+univ_id = 1
 for dataset_name, dataset in dataset_ABSA.items():
     for i, example in enumerate(dataset):
-        example['example_id'] = str(int(i+1))
+#        example['example_id'] = str(int(i+1))
         example['guid'] = f'{dataset_name}-r{example["review_id"]}-e{example["example_id"]}'
+        example['univ_id'] = str(univ_id)
+        univ_id += 1
 
 
 # #### Saving Data

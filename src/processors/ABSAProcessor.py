@@ -79,9 +79,6 @@ class ABSAProcessor(DataProcessor):
             assert isinstance(label, str), f"Training label {label} is not a string"
             example = InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label)
 
-#             if i < 10:
-#                 print(example)
-
             examples.append(example)
 
         return examples
@@ -203,7 +200,7 @@ def absa_evaluation(data_dir, output_ids, preds):
     y_true_samples = {}
     y_pred_samples = {}
 
-    with open(os.path.join(data_dir,"food_test.jsonl"), 'r') as file:
+    with open(os.path.join(data_dir,"food_dev.jsonl"), 'r') as file:
         lines = file.readlines()
     dataset = []
     for line in lines:
