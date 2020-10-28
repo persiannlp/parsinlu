@@ -79,9 +79,6 @@ class ABSAProcessor(DataProcessor):
             assert isinstance(label, str), f"Training label {label} is not a string"
             example = InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label)
 
-#             if i < 10:
-#                 print(example)
-
             examples.append(example)
 
         return examples
@@ -203,7 +200,7 @@ def absa_evaluation(data_dir, output_ids, preds):
     y_true_samples = {}
     y_pred_samples = {}
 
-    with open(os.path.join(data_dir,"food_test.jsonl"), 'r') as file:
+    with open(os.path.join(data_dir,"food_dev.jsonl"), 'r') as file:
         lines = file.readlines()
     dataset = []
     for line in lines:
@@ -212,15 +209,11 @@ def absa_evaluation(data_dir, output_ids, preds):
 
     for i, entry in enumerate(dataset):
         guid = 'test-r{}-e{}'.format(entry["review_id"],entry["example_id"])
-        aspect = str(entry["acpect"])
+        aspect = str(entry["aspect"])
         label = str(entry["label"])
         y_true_samples[guid] = [aspect, label]
-
-    for i in range(len(output_ids)):
-        guid = output_ids[i]
-        aspect = y_true_samples[guid][0]
-        label = preds[i]
-        y_pred_samples[guid] = [aspect, label]
+        pred_label = preds[i * 7 + int(entry["example_id"])-1]
+        y_pred_samples[guid] = [aspect, pred_label]
 
     assert len(y_true_samples) == len(y_pred_samples), "pred size doesn't match with actual size"
 
