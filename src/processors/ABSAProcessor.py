@@ -158,9 +158,9 @@ def eval_aspect_macro_f1(y_true, y_pred):
         a = set()
         b = set()
         for j in range(len(y_pred[i])):
-            if y_pred[i][j][1] != -3:
+            if y_pred[i][j][1] != 0:
                 a.add(j)
-            if y_true[i][j][1] != -3:
+            if y_true[i][j][1] != 0:
                 b.add(j)
         if len(b) == 0: continue
         a_b = a.intersection(b)
@@ -241,16 +241,16 @@ def absa_evaluation(data_dir, output_ids, preds):
 
 
 # if __name__ == "__main__":
-    # y_true = [[['طعم', -3], ['ارزش خرید', 2], ['کیفیت', 0]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
-    #           [['طعم', -3], ['ارزش خرید', -3], ['کیفیت', 0]]]
-    # 
-    # y_pred = [[['طعم', -3], ['ارزش خرید', 1], ['کیفیت', -3]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
-    #           [['طعم', -3], ['ارزش خرید', -3], ['کیفیت', 0]]]
-    # 
-    # 
-    # print(eval_aspect_polarity_accuracy(y_true, y_pred))
-    # print(eval_aspect_macro_f1(y_true, y_pred))
-    
+#     y_true = [[['طعم', -3], ['ارزش خرید', 2], ['کیفیت', 0]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
+#               [['طعم', -3], ['ارزش خرید', -3], ['کیفیت', 0]]]
+#
+#     y_pred = [[['طعم', -3], ['ارزش خرید', 1], ['کیفیت', -3]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
+#               [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', -3]]]
+#     #
+#     #
+#     # print(eval_aspect_polarity_accuracy(y_true, y_pred))
+#     print(eval_aspect_macro_f1(y_true, y_pred))
+#     
     # y_true = [-2, 1, 0, 1, 2, 1, 1]
     # y_pred = [-2, 1, 0, 3, 2, 1, 1]
     #
