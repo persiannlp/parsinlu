@@ -250,7 +250,7 @@ def absa_evaluation(data_dir, output_ids, preds):
 #     #
 #     # print(eval_aspect_polarity_accuracy(y_true, y_pred))
 #     print(eval_aspect_macro_f1(y_true, y_pred))
-#     
+#
     # y_true = [-2, 1, 0, 1, 2, 1, 1]
     # y_pred = [-2, 1, 0, 3, 2, 1, 1]
     #
