@@ -1,0 +1,325 @@
+export PROJECT=ai2-tpu
+export ZONE=europe-west4-a
+export TPU_NAME=danielk-tpu-europe-west4-a-v3-8-1-new
+export BUCKET=gs://danielk-files/mt5-models
+
+
+########################## anlg #################################
+declare -a sizes=("11B" )
+
+TASK=anlg
+PRETRAINED_STEPS=1000000
+FINETUNE_STEPS=20000
+export BUCKET=gs://danielk-files/t5-models
+export TPU_NAME=danielk-tpu-europe-west4-a-v3-128-1-new
+for SIZE in "${sizes[@]}"; do
+  PRETRAINED_DIR="gs://t5-data/pretrained_models/${SIZE}"
+  MODEL_DIR="${BUCKET}/${TASK}/${SIZE}"
+
+  # Run fine-tuning
+#  python -m t5.models.mesh_transformer_main \
+#    --module_import="genie" \
+#    --tpu="${TPU_NAME}" \
+#    --gcp_project="${PROJECT}" \
+#    --tpu_zone="${ZONE}" \
+#    --model_dir="${MODEL_DIR}" \
+#    --gin_file="dataset.gin" \
+#    --gin_file="${PRETRAINED_DIR}/operative_config.gin" \
+#    --gin_param="utils.run.save_checkpoints_steps=1000" \
+#    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-128'" \
+#    --gin_param="MIXTURE_NAME = '${TASK}'" \
+#    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+#    --gin_param="utils.run.train_steps=$((PRETRAINED_STEPS + FINETUNE_STEPS))" \
+#    --gin_param="utils.run.init_checkpoint='${PRETRAINED_DIR}/model.ckpt-${PRETRAINED_STEPS}'" \
+#    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+
+  # Run eval
+  python -m t5.models.mesh_transformer_main \
+    --module_import="genie" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-128'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'dev'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+
+  python -m t5.models.mesh_transformer_main \
+    --module_import="genie" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-128'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'test'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+done
+
+########################## QQP #################################
+#"small" "base" "large" "xxl"
+declare -a sizes=("xl")
+
+TASK=qqp
+PRETRAINED_STEPS=1000000
+FINETUNE_STEPS=20000
+
+for SIZE in "${sizes[@]}"; do
+  PRETRAINED_DIR="gs://t5-data/pretrained_models/mt5/${SIZE}"
+  MODEL_DIR="${BUCKET}/${TASK}/${SIZE}"
+
+  # Run fine-tuning
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${PRETRAINED_DIR}/operative_config.gin" \
+    --gin_param="utils.run.save_checkpoints_steps=1000" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.train_steps=$((PRETRAINED_STEPS + FINETUNE_STEPS))" \
+    --gin_param="utils.run.init_checkpoint='${PRETRAINED_DIR}/model.ckpt-${PRETRAINED_STEPS}'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds" \
+    --gin_location_prefix="multilingual_t5/gin/"
+
+  # Run eval
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'dev'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'test'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+done
+
+########################## QQP-English #################################
+#    "xxl"
+declare -a sizes=("small" "base" "large" "xl")
+
+PRETRAINED_STEPS=1000000
+FINETUNE_STEPS=20000
+
+for SIZE in "${sizes[@]}"; do
+  TASK=qqp_english
+  PRETRAINED_DIR="gs://t5-data/pretrained_models/mt5/${SIZE}"
+  MODEL_DIR="${BUCKET}/${TASK}/${SIZE}"
+
+  # Run fine-tuning
+#  python -m t5.models.mesh_transformer_main \
+#    --module_import="parsiglue_tasks" \
+#    --tpu="${TPU_NAME}" \
+#    --gcp_project="${PROJECT}" \
+#    --tpu_zone="${ZONE}" \
+#    --model_dir="${MODEL_DIR}" \
+#    --gin_file="dataset.gin" \
+#    --gin_file="${PRETRAINED_DIR}/operative_config.gin" \
+#    --gin_param="utils.run.save_checkpoints_steps=1000" \
+#    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+#    --gin_param="MIXTURE_NAME = '${TASK}'" \
+#    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+#    --gin_param="utils.run.train_steps=$((PRETRAINED_STEPS + FINETUNE_STEPS))" \
+#    --gin_param="utils.run.init_checkpoint='${PRETRAINED_DIR}/model.ckpt-${PRETRAINED_STEPS}'" \
+#    --t5_tfds_data_dir="${BUCKET}/t5-tfds" \
+#    --gin_location_prefix="multilingual_t5/gin/"
+#
+#  # Run eval
+#  python -m t5.models.mesh_transformer_main \
+#    --module_import="parsiglue_tasks" \
+#    --tpu="${TPU_NAME}" \
+#    --gcp_project="${PROJECT}" \
+#    --tpu_zone="${ZONE}" \
+#    --model_dir="${MODEL_DIR}" \
+#    --gin_file="dataset.gin" \
+#    --gin_file="${MODEL_DIR}/operative_config.gin" \
+#    --gin_file="eval.gin" \
+#    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+#    --gin_param="MIXTURE_NAME = '${TASK}'" \
+#    --gin_param="utils.run.dataset_split = 'qqp_english_validation'" \
+#    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+#    --gin_param="utils.run.eval_checkpoint_step='all'" \
+#    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+#
+#  python -m t5.models.mesh_transformer_main \
+#    --module_import="parsiglue_tasks" \
+#    --tpu="${TPU_NAME}" \
+#    --gcp_project="${PROJECT}" \
+#    --tpu_zone="${ZONE}" \
+#    --model_dir="${MODEL_DIR}" \
+#    --gin_file="dataset.gin" \
+#    --gin_file="${MODEL_DIR}/operative_config.gin" \
+#    --gin_file="eval.gin" \
+#    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+#    --gin_param="MIXTURE_NAME = '${TASK}'" \
+#    --gin_param="utils.run.dataset_split = 'qqp_english_test'" \
+#    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+#    --gin_param="utils.run.eval_checkpoint_step='all'" \
+#    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+
+  ## test on Persian
+  TASK=qqp
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'test'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+done
+
+########################## Multiple-Choice #################################
+
+# "small" "base" "large"  "xxl"
+#declare -a sizes=("xl")
+
+declare -a sizes=("small" "base" "large" "xl")
+
+TASK=multiple_choice
+PRETRAINED_STEPS=1000000
+FINETUNE_STEPS=20000
+
+for SIZE in "${sizes[@]}"; do
+  PRETRAINED_DIR="gs://t5-data/pretrained_models/mt5/${SIZE}"
+  MODEL_DIR="${BUCKET}/${TASK}/${SIZE}"
+
+  # Run fine-tuning
+  #  python -m t5.models.mesh_transformer_main \
+  #    --module_import="parsiglue_tasks" \
+  #    --tpu="${TPU_NAME}" \
+  #    --gcp_project="${PROJECT}" \
+  #    --tpu_zone="${ZONE}" \
+  #    --model_dir="${MODEL_DIR}" \
+  #    --gin_file="dataset.gin" \
+  #    --gin_file="${PRETRAINED_DIR}/operative_config.gin" \
+  #    --gin_param="utils.run.save_checkpoints_steps=1000" \
+  #    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+  #    --gin_param="MIXTURE_NAME = '${TASK}'" \
+  #    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+  #    --gin_param="utils.run.train_steps=$((PRETRAINED_STEPS + FINETUNE_STEPS))" \
+  #    --gin_param="utils.run.init_checkpoint='${PRETRAINED_DIR}/model.ckpt-${PRETRAINED_STEPS}'" \
+  #    --t5_tfds_data_dir="${BUCKET}/t5-tfds" \
+  #    --gin_location_prefix="multilingual_t5/gin/"
+
+  # Run eval
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'valid'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'test_ml'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'test_lit'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'test_ck'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+done
+
+########################## Multiple-Choice: English #################################
+
+########################## machine translation: en->fa #################################
+
+########################## machine translation: fa->en #################################
+
+########################## machine translation: ar->en #################################
+
+########################## entailment #################################
+
+########################## entailment: snli english #################################
