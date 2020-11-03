@@ -6234,16 +6234,3 @@ Say: "I seek refuge with (Allah) the Lord of mankind,
 "From the evil of the whisperer (devil who whispers evil in the hearts of men) who withdraws (from his whispering in one's heart after one remembers Allah),
 "Who whispers in the breasts of mankind,
 "Of jinns and men."
-
-
-#=====================================================================
-#
-#  Quran Translation
-#  Name: Hilali & Khan
-#  Translator: Muhammad Taqi-ud-Din al-Hilali and Muhammad Muhsin Khan
-#  Language: English
-#  ID: en.hilali
-#  Last Update: December 13, 2010
-#  Source: Tanzil.net
-#
-#=====================================================================
