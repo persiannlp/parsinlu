@@ -117,14 +117,14 @@ class ABSAProcessor(DataProcessor):
         return self.labels
 
 
-def separate_sentiment_aspect(data, first_id):
-    num_review = len(data) // 7
+def separate_sentiment_aspect(data, first_id, num_aspects):
+    num_review = len(data) // num_aspects
     overall_y, y = [], []
     for i in range(int(first_id), int(first_id)+num_review-1):
         aspects = []
-        for j in range(7):
+        for j in range(num_aspects):
             idx = 'test-r{}-e{}'.format(i+1, j+1)
-            if j+1 == 7:
+            if j+1 == num_aspects:
                 overall_y.append(data[idx][1])
             else:
                 aspects.append(data[idx])
@@ -180,18 +180,23 @@ def eval_aspect_macro_f1(y_true, y_pred):
     return aspect_Macro_F1
 
 
-def eval_aspect_polarity_accuracy(y_true, y_pred):
+def eval_aspect_polarity_accuracy(y_true, y_pred, num_aspects):
 
+    num_aspects = num_aspects-1
     total_cases = len(y_true)
+    flag = False
     true_cases = 0
     for i in range(total_cases):
-        if y_true[i][0] != y_pred[i][0]: continue
-        if y_true[i][1] != y_pred[i][1]: continue
-        if y_true[i][2] != y_pred[i][2]: continue
-        if y_true[i][3] != y_pred[i][3]: continue
-        if y_true[i][4] != y_pred[i][4]: continue
-        if y_true[i][5] != y_pred[i][5]: continue
-        true_cases += 1
+        for j in range(num_aspects):
+            if y_true[i][j] != y_pred[i][j]: flag = True
+        # if y_true[i][1] != y_pred[i][1]: continue
+        # if y_true[i][2] != y_pred[i][2]: continue
+        # if y_true[i][3] != y_pred[i][3]: continue
+        # if y_true[i][4] != y_pred[i][4]: continue
+        # if y_true[i][5] != y_pred[i][5]: continue
+        if not flag:
+            true_cases += 1
+        flag = False
     aspect_strict_Acc = true_cases / total_cases
 
     return aspect_strict_Acc
@@ -203,13 +208,18 @@ def absa_evaluation(data_dir, output_ids, preds):
     y_true_samples = {}
     y_pred_samples = {}
 
-
+    available_aspects = set()
     with open(os.path.join(data_dir,"food_test.jsonl"), 'r') as file:
         lines = file.readlines()
+
     dataset = []
     for line in lines:
         data = json.loads(line.replace('\'', '\"'))
         dataset.append(data)
+        available_aspects.add(data['example_id'])
+
+    num_aspects = len(available_aspects)
+    print("Number of aspects: {}".format(num_aspects))
 
     first_id = dataset[0]['review_id']
     for i, entry in enumerate(dataset):
@@ -217,7 +227,7 @@ def absa_evaluation(data_dir, output_ids, preds):
         aspect = str(entry["aspect"])
         label = str(entry["label"])
         y_true_samples[guid] = [aspect, label_map[label]]
-        pred_label = preds[(i//7) * 7 + int(entry["example_id"]) - 1]
+        pred_label = preds[(i//num_aspects) * num_aspects + int(entry["example_id"]) - 1]
         y_pred_samples[guid] = [aspect, pred_label]
 
     # for i in range(len(dataset)):
@@ -230,8 +240,11 @@ def absa_evaluation(data_dir, output_ids, preds):
     assert len(y_true_samples) == len(y_pred_samples), "pred size doesn't match with actual size"
 
     # Overall sentiment scores should be separated from the aspects
-    overall_y_true, y_true = separate_sentiment_aspect(y_true_samples, first_id)
-    overall_y_pred, y_pred = separate_sentiment_aspect(y_pred_samples, first_id)
+    overall_y_true, y_true = separate_sentiment_aspect(y_true_samples, first_id, num_aspects)
+    overall_y_pred, y_pred = separate_sentiment_aspect(y_pred_samples, first_id, num_aspects)
+
+    print(y_true, y_pred)
+    print(overall_y_true, overall_y_pred)
 
     sentiment_acc, sentiment_macro_f1 = eval_sentiment(overall_y_true, overall_y_pred)
     aspect_macro_f1 = eval_aspect_macro_f1(y_true, y_pred)
@@ -246,9 +259,9 @@ def absa_evaluation(data_dir, output_ids, preds):
 #
 #     y_pred = [[['طعم', -3], ['ارزش خرید', 1], ['کیفیت', -3]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
 #               [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', -3]]]
-#     #
-#     #
-#     # print(eval_aspect_polarity_accuracy(y_true, y_pred))
+#
+#
+#     print(eval_aspect_polarity_accuracy(y_true, y_pred, 3))
 #     print(eval_aspect_macro_f1(y_true, y_pred))
 #
     # y_true = [-2, 1, 0, 1, 2, 1, 1]
