@@ -98,3 +98,57 @@ t5.data.TaskRegistry.add(
     output_features=DEFAULT_OUTPUT_FEATURES,
     metric_fns=[metrics.squad],
 )
+
+
+t5.data.TaskRegistry.add(
+    f"english_multiple_choice_arc_comqa_obqa",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="english_multiple_choice_arc_comqa_obqa"),
+    splits=["train", "test", 'dev'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
+
+
+t5.data.TaskRegistry.add(
+    f"translation_combined_fa_en",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="translation_combined_fa_en"),
+    splits=["train", "test", 'dev'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
+
+t5.data.TaskRegistry.add(
+    f"translation_combined_en_fa",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="translation_combined_en_fa"),
+    splits=["train", "test", 'dev'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
+
+t5.data.TaskRegistry.add(
+    f"arabic_english_opus100",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="arabic_english_opus100"),
+    splits=["train", "test", 'dev'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)

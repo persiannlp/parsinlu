@@ -36,21 +36,15 @@ def convert_qqp_english_file():
 
 # multiple-choice
 def convert_multiple_choice_questions(file):
-    import csv
-    outf = open(file.replace(".csv", ".tsv"), "+w")
-    with open(file, 'r') as csvfile:
-        reader = csv.reader(csvfile)
-        for i, row in enumerate(reader):
-            print("----")
-            print(i)
-            if i == 0:
-                continue
-            print(row)
-            question = row[1]
-            answer = int(row[2])
-            print(answer)
-            candidates = row[3:]
+    outf = open(file.replace(".jsonl", ".tsv"), "+w")
+    with open(file, 'r') as infile:
+        for i, line in enumerate(infile.readlines()):
+            json_line = json.loads(line)
+            question = json_line['question']
+            answer = int(json_line['answer'])
+            candidates = json_line['candidates']
             candidates = [c for c in candidates if len(c.strip()) > 0]
+            print(answer)
             print(candidates)
             answer_str = candidates[answer-1].replace("\n", "\\n").replace("\r", " ")
             candidates = [f"<sep> {c}" for (i, c) in enumerate(candidates)]
@@ -60,11 +54,38 @@ def convert_multiple_choice_questions(file):
             outf.write(f"{question} {candidates}\t{answer_str}\n")
 
 
-# convert_multiple_choice_questions("../../data/multiple-choice/train.csv")
-# convert_multiple_choice_questions("../../data/multiple-choice/test_ck.csv")
-# convert_multiple_choice_questions("../../data/multiple-choice/test_lit.csv")
-# convert_multiple_choice_questions("../../data/multiple-choice/test_ml.csv")
-# convert_multiple_choice_questions("../../data/multiple-choice/valid.csv")
+# convert_multiple_choice_questions("../../data/multiple-choice/train.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/test_ck.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/test_lit.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/test_ml.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/valid.jsonl")
+
+separators = ['(A)', '(B)', '(C)', '(D)', '(E)']
+
+def create_multiple_chice_english_data(dir):
+
+    def read_file(file):
+        outfile = open("../../data/multiple-choice/english/english_multiple_choice_arc_comqa_obqa/" + file, "a")
+        with open(dir  + file) as f:
+            for line in f:
+                line = line.replace("\n", "")
+                line_split = line.split("\t")
+                question = line_split[0]
+                question = question.replace("\\n", " ")
+                for s in separators:
+                    question = question.replace(s, "<sep>")
+                answer = line_split[1]
+                outfile.write(question + "\t" + answer + "\n")
+
+    read_file("train.tsv")
+    read_file("dev.tsv")
+    if dir != "commonsenseqa":
+        read_file("test.tsv")
+
+create_multiple_chice_english_data("../../data/multiple-choice/english/arc_easy/")
+create_multiple_chice_english_data("../../data/multiple-choice/english/arc_hard/")
+create_multiple_chice_english_data("../../data/multiple-choice/english/commonsenseqa/")
+create_multiple_chice_english_data("../../data/multiple-choice/english/openbookqa/")
 
 # machine translation
 def convert_quaran_data():
@@ -120,6 +141,7 @@ def convert_quaran_data():
 
     outf_enfa = open("../../data/translation/quran/quran_en_fa.tsv", "+w")
     outf_faen = open("../../data/translation/quran/quran_fa_en.tsv", "+w")
+
     for (en1, fa1, en_all, fa_all) in zip(en_lines_per_file[en_ref], fa_lines_per_file[fa_ref],
                                           en_lines_per_file['combined'], fa_lines_per_file['combined']):
         fa1 = fa1.replace('\n', '')
@@ -210,12 +232,125 @@ def convert_global_voices():
 
 
 def convert_queries_data():
-    pass
+    outfile_fa_en_train = open("../../data/qqp/qqp_train_fa_en.tsv", "w")
+    outfile_fa_en_dev = open("../../data/qqp/qqp_dev_fa_en.tsv", "w")
+    outfile_fa_en_test = open("../../data/qqp/qqp_test_fa_en.tsv", "w")
+
+    outfile_en_fa_train = open("../../data/qqp/qqp_train_en_fa.tsv", "w")
+    outfile_en_fa_dev = open("../../data/qqp/qqp_dev_en_fa.tsv", "w")
+    outfile_en_fa_test = open("../../data/qqp/qqp_test_en_fa.tsv", "w")
+
+    with open("../../data/qqp/QQP-all-final.tsv") as f:
+        for line in f.readlines():
+            line_split = line.split("\t")
+            q1_en = line_split[3]
+            q2_en = line_split[4]
+            q1_fa = line_split[8]
+            q2_fa = line_split[9]
+            split = line_split[11]
+            if len(q1_en) > 5 and len(q1_fa) > 5:
+                if split == "train":
+                    outfile_fa_en_train.write(f"{q1_fa}\t{q1_en}\n")
+                elif split == "test":
+                    outfile_fa_en_test.write(f"{q1_fa}\t{q1_en}\n")
+                else:
+                    outfile_fa_en_dev.write(f"{q1_fa}\t{q1_en}\n")
+
+                if split == "train":
+                    outfile_en_fa_train.write(f"{q1_en}\t{q1_fa}\n")
+                elif split == "test":
+                    outfile_en_fa_test.write(f"{q1_en}\t{q1_fa}\n")
+                else:
+                    outfile_en_fa_dev.write(f"{q1_en}\t{q1_fa}\n")
+
+# convert_queries_data()
+
+def combine_tsv_files(outfile_name, files):
+    combined_file = open(outfile_name, "w")
+    for file in files:
+        short_name = file.split("/")[-1].replace(".tsv", "")
+        with open(file, "r") as f:
+            for line in f.readlines():
+                combined_file.write(line.replace("\n", "") + f"\t{short_name}\n")
 
 
-def convert_entailment_data():
-    pass
+def combine_translation_datasets():
+    test_sets = [
+        "../../data/translation/bible/bible_fa_en.tsv",
+        "../../data/translation/mizan/mizan_test_fa_en.tsv",
+        "../../data/translation/quran/quran_fa_en.tsv",
+        "../../data/translation/queries/qqp_test_fa_en.tsv",
+    ]
 
+    combine_tsv_files("../../data/translation/translation_combined_fa_en/test.tsv", test_sets)
+
+    dev_sets = [
+        "../../data/translation/mizan/mizan_dev_fa_en.tsv",
+        "../../data/translation/queries/qqp_dev_fa_en.tsv"
+    ]
+
+    combine_tsv_files("../../data/translation/translation_combined_fa_en/dev.tsv", dev_sets)
+
+    train_sets = [
+        "../../data/translation/global_voices/global_voices_fa_en.tsv",
+        "../../data/translation/mizan/mizan_train_fa_en.tsv",
+        "../../data/translation/tep/tep_fa_en.tsv",
+        "../../data/translation/queries/qqp_train_fa_en.tsv"
+    ]
+    combine_tsv_files("../../data/translation/translation_combined_fa_en/train.tsv", train_sets)
+
+    test_sets = [
+        "../../data/translation/bible/bible_en_fa.tsv",
+        "../../data/translation/mizan/mizan_test_en_fa.tsv",
+        "../../data/translation/quran/quran_en_fa.tsv",
+        "../../data/translation/queries/qqp_train_en_fa.tsv"
+    ]
+    combine_tsv_files("../../data/translation/translation_combined_en_fa/test.tsv", test_sets)
+
+    dev_sets = [
+        "../../data/translation/mizan/mizan_dev_en_fa.tsv",
+        "../../data/translation/queries/qqp_dev_en_fa.tsv"
+    ]
+    combine_tsv_files("../../data/translation/translation_combined_en_fa/dev.tsv", dev_sets)
+
+    train_sets = [
+        "../../data/translation/global_voices/global_voices_en_fa.tsv",
+        "../../data/translation/mizan/mizan_train_en_fa.tsv",
+        "../../data/translation/tep/tep_en_fa.tsv",
+        "../../data/translation/queries/qqp_test_en_fa.tsv"
+    ]
+    combine_tsv_files("../../data/translation/translation_combined_en_fa/train.tsv", train_sets)
+
+combine_translation_datasets()
+
+def convert_opus_data():
+    def combine_file_pair(arabic_file, english_file):
+        with open(arabic_file, 'r') as f:
+            arabic_lines = list(f.readlines())
+        with open(english_file, 'r') as f:
+            english_lines = list(f.readlines())
+
+        outfile = open(english_file.replace(".en", ".txt"), 'w')
+
+        assert len(english_lines) == len(arabic_lines)
+
+        for aline, eline in zip(arabic_lines, english_lines):
+            outfile.write(aline.replace("\n", "").replace("\t", "") + "\t" + eline.replace("\n", "").replace("\t", "") + "\n")
+
+    combine_file_pair(
+        "../../data/translation/arabic_english_opus100/opus.ar-en-dev.ar",
+        "../../data/translation/arabic_english_opus100/opus.ar-en-dev.en",
+    )
+    combine_file_pair(
+        "../../data/translation/arabic_english_opus100/opus.ar-en-test.ar",
+        "../../data/translation/arabic_english_opus100/opus.ar-en-test.en",
+    )
+    combine_file_pair(
+        "../../data/translation/arabic_english_opus100/opus.ar-en-train.ar",
+        "../../data/translation/arabic_english_opus100/opus.ar-en-train.en",
+    )
+
+# convert_opus_data()
 
 # convert_tep_data()
 # convert_bible_data()
