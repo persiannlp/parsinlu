@@ -248,7 +248,7 @@ def absa_evaluation(data_dir, output_ids, preds):
 
     sentiment_acc, sentiment_macro_f1 = eval_sentiment(overall_y_true, overall_y_pred)
     aspect_macro_f1 = eval_aspect_macro_f1(y_true, y_pred)
-    aspect_strict_acc = eval_aspect_polarity_accuracy(y_true, y_pred)
+    aspect_strict_acc = eval_aspect_polarity_accuracy(y_true, y_pred, num_aspects)
 
     return sentiment_acc, sentiment_macro_f1, aspect_macro_f1, aspect_strict_acc
 
