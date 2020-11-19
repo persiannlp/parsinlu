@@ -33,7 +33,7 @@ class ABSAProcessor(DataProcessor):
 
     def get_train_examples(self, data_dir):
         """See base class."""
-        dataset = self.load_data_jsonl(os.path.join(data_dir,"food_train.jsonl"))
+        dataset = self.load_data_jsonl(os.path.join(data_dir,"ABSA_Dataset_train.jsonl"))
         examples = []
 
         for i,entry in enumerate(dataset):
