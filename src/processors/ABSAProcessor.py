@@ -9,6 +9,8 @@ import json
 from transformers import InputExample, DataProcessor
 from sklearn.metrics import f1_score, accuracy_score
 
+test_file_name = 'movie_test.jsonl'
+dev_file_name = 'movie_dev.jsonl'
 
 class ABSAProcessor(DataProcessor):
     """Processor for the XNLI dataset.
@@ -16,8 +18,8 @@ class ABSAProcessor(DataProcessor):
 
     def __init__(self):
         self.labels = ['-3','-2','-1','0','1','2','3']
-        self.test_file_name = 'food_test.jsonl'
-        self.dev_file_name = 'food_dev.jsonl'
+        self.test_file_name = test_file_name
+        self.dev_file_name = dev_file_name
 
     def load_data_jsonl(self, data_path):
         with open(data_path, 'r') as file:
@@ -211,7 +213,7 @@ def absa_evaluation(data_dir, output_ids, preds):
     y_pred_samples = {}
 
     available_aspects = set()
-    with open(os.path.join(data_dir,self.test_file_name), 'r') as file:
+    with open(os.path.join(data_dir,test_file_name), 'r') as file:
         lines = file.readlines()
 
     dataset = []
