@@ -16,6 +16,8 @@ class ABSAProcessor(DataProcessor):
 
     def __init__(self):
         self.labels = ['-3','-2','-1','0','1','2','3']
+        self.test_file_name = 'food_test.jsonl'
+        self.dev_file_name = 'food_dev.jsonl'
 
     def load_data_jsonl(self, data_path):
         with open(data_path, 'r') as file:
@@ -31,7 +33,7 @@ class ABSAProcessor(DataProcessor):
 
     def get_train_examples(self, data_dir):
         """See base class."""
-        dataset = self.load_data_jsonl(os.path.join(data_dir,"food_train.jsonl"))
+        dataset = self.load_data_jsonl(os.path.join(data_dir,"ABSA_Dataset_train.jsonl"))
         examples = []
 
         for i,entry in enumerate(dataset):
@@ -60,7 +62,7 @@ class ABSAProcessor(DataProcessor):
     def get_dev_examples(self, data_dir):
         """See base class."""
 
-        dataset = self.load_data_jsonl(os.path.join(data_dir,"food_dev.jsonl"))
+        dataset = self.load_data_jsonl(os.path.join(data_dir,self.dev_file_name))
 
         examples = []
 
@@ -86,7 +88,7 @@ class ABSAProcessor(DataProcessor):
     def get_test_examples(self, data_dir):
         """See base class."""
 
-        dataset = self.load_data_jsonl(os.path.join(data_dir,"food_test.jsonl"))
+        dataset = self.load_data_jsonl(os.path.join(data_dir,self.test_file_name))
 
         examples = []
 
@@ -209,7 +211,7 @@ def absa_evaluation(data_dir, output_ids, preds):
     y_pred_samples = {}
 
     available_aspects = set()
-    with open(os.path.join(data_dir,"food_test.jsonl"), 'r') as file:
+    with open(os.path.join(data_dir,self.test_file_name), 'r') as file:
         lines = file.readlines()
 
     dataset = []
