@@ -14,7 +14,7 @@ args = parser.parse_args()
 
 # #### Loading Data
 domain_name = args.domain
-with open(os.path.join(args.input_dir, args.domain) + 'jsonl', 'r') as file:
+with open(os.path.join(args.input_dir, args.domain) + '.jsonl', 'r') as file:
     lines = file.readlines()
 
 raw_dataset = []
