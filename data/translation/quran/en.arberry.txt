@@ -6234,16 +6234,3 @@ the God of men,
 from the evil of the slinking whisperer
 who whispers in the breasts of men
 of jinn and men.'
-
-
-#=====================================================================
-#
-#  Quran Translation
-#  Name: Arberry
-#  Translator: A. J. Arberry
-#  Language: English
-#  ID: en.arberry
-#  Last Update: July 31, 2011
-#  Source: Tanzil.net
-#
-#=====================================================================

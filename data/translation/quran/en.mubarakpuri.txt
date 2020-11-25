@@ -6234,16 +6234,3 @@ Say: "I seek refuge with the Lord of An-Nas,"
 "From the evil of the whisperer who withdraws."
 "Who whispers in the breasts of An-Nas."
 "Of Jinn and An-Nas."
-
-
-#=====================================================================
-#
-#  Quran Translation
-#  Name: Mubarakpuri
-#  Translator: Safi-ur-Rahman al-Mubarakpuri
-#  Language: English
-#  ID: en.mubarakpuri
-#  Last Update: June 20, 2015
-#  Source: Tanzil.net
-#
-#=====================================================================

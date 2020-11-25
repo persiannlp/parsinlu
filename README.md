@@ -146,6 +146,17 @@ To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselin
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
 
 
+## Using the finetuned models
+
+Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
+You can our list of models in [this page](https://huggingface.co/persiannlp).  
+
+This is an example of how you can call these models: 
+```python 
+TODO 
+```
+
+
 ## FAQ 
 **I have GPU on my machine by `n_gpu` is shown as `0`. Where is the problem?** Check out [this thread](https://github.com/pytorch/pytorch/issues/15612).  
 

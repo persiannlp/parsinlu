@@ -6234,16 +6234,3 @@ the True God of mankind,
 from the mischief of the whispering, elusive prompter who returns again and again,
 who whispers in the hearts of people;
 whether he be from the jinn or humans.”
-
-
-#=====================================================================
-#
-#  Quran Translation
-#  Name: Maududi
-#  Translator: Abul Ala Maududi
-#  Language: English
-#  ID: en.maududi
-#  Last Update: May 10, 2011
-#  Source: Tanzil.net
-#
-#=====================================================================

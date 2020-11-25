@@ -6234,16 +6234,3 @@ The God of mankind,
 From the evil of the sneaking whisperer
 Who whispereth Unto the breasts of mankind,
 Whether of Jinn or of mankind.
-
-
-#=====================================================================
-#
-#  Quran Translation
-#  Name: Daryabadi
-#  Translator: Abdul Majid Daryabadi
-#  Language: English
-#  ID: en.daryabadi
-#  Last Update: August 16, 2010
-#  Source: Tanzil.net
-#
-#=====================================================================
