@@ -9,3 +9,5 @@ pytorch_lightning
 GitPython
 rouge_score
 sacrebleu
+datasets
+nltk

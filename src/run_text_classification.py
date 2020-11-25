@@ -10,6 +10,9 @@ from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, Tenso
 from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm, trange
 
+import sys
+sys.path.append('../')
+
 from transformers import (
     WEIGHTS_NAME,
     AdamW,
@@ -241,6 +244,7 @@ def evaluate(args, model, tokenizer, prefix=""):
         nb_eval_steps = 0
         preds = None
         out_label_ids = None
+        sample_ids = None
         for batch in tqdm(eval_dataloader, desc="Evaluating"):
             model.eval()
             batch = tuple(t.to(args.device) for t in batch)
@@ -259,9 +263,11 @@ def evaluate(args, model, tokenizer, prefix=""):
             if preds is None:
                 preds = logits.detach().cpu().numpy()
                 out_label_ids = inputs["labels"].detach().cpu().numpy()
+                sample_ids = inputs["input_ids"].detach().cpu().numpy()
             else:
                 preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
                 out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
+                sample_ids = np.append(sample_ids, inputs["input_ids"].detach().cpu().numpy(), axis=0)
 
         eval_loss = eval_loss / nb_eval_steps
         if args.output_mode == "classification":
@@ -272,6 +278,8 @@ def evaluate(args, model, tokenizer, prefix=""):
             result = compute_metrics(eval_task, preds, out_label_ids)
         elif args.task_name == "entailment":
             result = compute_metrics(eval_task, preds, out_label_ids)
+        elif args.task_name == "sentiment":
+            result = compute_metrics(eval_task, preds, out_label_ids, sample_ids, args.data_dir)
         else:
             raise Exception("Unrecognized task . . . ")
 
