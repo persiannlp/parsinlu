@@ -9,10 +9,12 @@ If you'd like to see additional details on the dataset and how we collected, ple
 ## Getting the data 
 You can find the data under the [`data/`](data) directory.  
 
+<!---
 ## Leaderboard
 On our [leaderboard page](https://parsiglue.com) we host the state-of-art scores for each challenge task.  
+ -->
  
-## Baselines  
+## Examples and Baselines  
 First, make sure you have the data your `data/` directory.
 
 Set up your environment. You can use `conda` or `virtualenv` to create a Python environment. 
@@ -154,7 +156,7 @@ To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselin
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
 
-
+<!---
 ## Using the finetuned models
 
 Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
@@ -164,7 +166,7 @@ This is an example of how you can call these models:
 ```python 
 TODO 
 ```
-
+-->
 
 ## FAQ 
 **I have GPU on my machine by `n_gpu` is shown as `0`. Where is the problem?** Check out [this thread](https://github.com/pytorch/pytorch/issues/15612).  
@@ -173,7 +175,7 @@ TODO
 If you find this work useful please cite the following work: 
 ```bibtex 
 @article{2020parsiglue,
-    title={},
+    title={{ParsiGLUE:} A Suite of Language Understanding Challenges for Persian},
     author={},
     journal={arXiv},
     year={2020}
