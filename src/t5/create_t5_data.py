@@ -321,7 +321,7 @@ def combine_translation_datasets():
     ]
     combine_tsv_files("../../data/translation/translation_combined_en_fa/train.tsv", train_sets)
 
-combine_translation_datasets()
+# combine_translation_datasets()
 
 def convert_opus_data():
     def combine_file_pair(arabic_file, english_file):
@@ -351,11 +351,99 @@ def convert_opus_data():
     )
 
 # convert_opus_data()
-
 # convert_tep_data()
 # convert_bible_data()
 # convert_mizan_data()
 # convert_global_voices()
 # convert_quaran_data()
 
+import csv, sys
 # textual entailment
+def convert_entailment_data():
+    def convert_parsiglue_file(file, outfilename, category=None):
+        outfile = open(outfilename, "w")
+        with open(file) as f:
+            reader = csv.reader(f)
+            for i, row in enumerate(reader):
+                if i == 0:
+                    continue
+
+                sent1 = row[1].replace("\t", "").replace("\n", "")
+                sent2 = row[2].replace("\t", "").replace("\n", "")
+                label = row[3].replace("\t", "").replace("\n", "")
+                cat = row[4].replace("\t", "").replace("\n", "")
+                if category:
+                    if category in cat:
+                        outfile.write(f"{sent1}<sep>{sent2}\t{label}\n")
+                else:
+                    outfile.write(f"{sent1}<sep>{sent2}\t{label}\n")
+
+    convert_parsiglue_file(
+        '../../data/entailment/dev.csv',
+        '../../data/entailment/t5/dev.tsv')
+
+    convert_parsiglue_file(
+        '../../data/entailment/train.csv',
+        '../../data/entailment/t5/train.tsv')
+
+    convert_parsiglue_file(
+        '../../data/entailment/test.csv',
+        '../../data/entailment/t5/test_natural.tsv', 'natural')
+
+    convert_parsiglue_file(
+        '../../data/entailment/test.csv',
+        '../../data/entailment/t5/test_translation.tsv', 'translation')
+
+    def convert_farstail_file(file, outfilename):
+        outfile = open(outfilename, "w")
+        with open(file) as f:
+            reader = csv.reader(f, delimiter='\t')
+            for i, row in enumerate(reader):
+                if i == 0:
+                    continue
+                print(row)
+                print(file)
+                sent1 = row[0].replace("\t", "").replace("\n", "")
+                sent2 = row[1].replace("\t", "").replace("\n", "")
+                label = row[2].replace("\t", "").replace("\n", "")
+                outfile.write(f"{sent1}<sep>{sent2}\t{label}\n")
+
+    convert_farstail_file(
+        '../../data/entailment/farstail/dev.csv',
+        '../../data/entailment/t5/dev_farstail.tsv')
+
+    convert_farstail_file(
+        '../../data/entailment/farstail/train.csv',
+        '../../data/entailment/t5/train_farstail.tsv')
+
+    convert_farstail_file(
+        '../../data/entailment/farstail/test.csv',
+        '../../data/entailment/t5/test_farstail.tsv')
+
+# convert_entailment_data()
+
+
+def convert_snli_file(file):
+    outfile = open(file.replace('.jsonl', '.tsv'), 'w')
+    with open(file) as f:
+        for line in f.readlines():
+            json_line = json.loads(line)
+            sent1 = json_line['sentence1'].replace("\t", "").replace("\n", "")
+            sent2 = json_line['sentence2'].replace("\t", "").replace("\n", "")
+            label = json_line['gold_label']
+            if label == 'neutral':
+                label = 'n'
+            elif label == 'entailment':
+                label = 'e'
+            elif label == 'contradiction':
+                label = 'c'
+            else:
+                continue
+                print(f'WARNING: invalid label: {label}')
+            outfile.write(f'{sent1}<sep>{sent2}\t{label}\n')
+
+convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_dev.jsonl')
+convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_train.jsonl')
+convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_test.jsonl')
+
+

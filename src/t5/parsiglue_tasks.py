@@ -152,3 +152,31 @@ t5.data.TaskRegistry.add(
     output_features=DEFAULT_OUTPUT_FEATURES,
     metric_fns=[metrics.squad],
 )
+
+
+t5.data.TaskRegistry.add(
+    f"parsiglue_entailment",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="parsiglue_entailment"),
+    splits=["train", "test_farstail", 'test_natural', 'test_translation', 'dev'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
+
+t5.data.TaskRegistry.add(
+    f"snli_entailment",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="snli_entailment"),
+    splits=["train", "dev", 'test'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
+
