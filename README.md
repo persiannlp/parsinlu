@@ -129,8 +129,22 @@ Here are several examples:
 To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselines.sh`](scripts/train_and_evaluate_machine_translation_baselines.sh) script.
 
  
- ### Sentiment Analysis 
-TODO 
+ ### Sentiment Analysis
+ Our aspect-based sentiment analysis task includes three sub-tasks including: 1) detecting the overall sentiment of a review/document, 2) extracting aspects toward which an opinion is expressed, and 3) detecting the sentiment polarity of extracted aspects. Our annotation scheme is mainly inspired by the [`Sem-Eval 2014 Task 4`](https://www.aclweb.org/anthology/S14-2004/), ABSA scheme, with minor adjustments. Sentiment scores are chosen from `(very negative, negative, neutral, positive, very positive, mixed/borderline)`. 
+ 
+ So far, we have annotated documents from `food & beverages` ([`Digikala`](https://www.digikala.com/main/food-beverage/)) and `movie review` ([`Tiwall`](https://www.tiwall.com/)) domains. We have predefined list of aspects for each domain. In the following, we have listed some examples from our dataset:
+
+| Domain  | Review | Sentiment  | (Aspect, Sentiment) |
+| :---: | ------------- | :---: | :---: |
+| Food & beverages  | <p dir='rtl' align='right'>خیلی خیلی کادوی جذابیه هم بسته بندی شیک هم شکلات خوشمزه و قلبی شکل خصوصا که پاکت هم داره</p> | Very positive <img width=400/> | (بسته بندی، خیلی مثبت) <br>(طعم، مثبت) <img width=500/>|
+| Food & beverages  | <p dir='rtl' align='right'>در شگفت انگیز به قیمت خیلی پایین خریدم ولی به نظرم ارزش نداره و طعم خاصی جز شکر نداره</p> | Negative | (ارزش خرید، منفی)<br> (طعم، منفی) |
+| Movie review  |<p dir='rtl' align='right'>در جشنواره متاسفانه نتونستم ببینم ولی دیشب در اکران فیلم های جشنواره فجر در پردیس چارسو موفق به دیدن فیلم شدم. چه فیلم خوبی از فضای بصری زیبا و چشم نواز، تا بازی فوق العاده حامد بهداد.....</p> | Positive | (صحنه، مثبت)<br> (بازی، خیلی مثبت) |
+| Movie review  |<p dir='rtl' align='right'>فیلمی بسیار ضعیف، علی الخصوص در زمینه ی تدوین و فیلم نامه پر از شعار زدگی، کلیشه و اغراق آمیز!!! واقعا خانم درخشنده توی این فیلم تنزل فاحشی پیدا کردن. بعد اصلا معلوم نیست اون زن دوم اون وسط چی میگه، از بس که شخصیت پردازی ضعیفه!</p> | Very negative | (بازی، خیلی منفی) <br>(داستان، خیلی منفی) <br>(کارگردانی، خیلی منفی) |
+| Movie review | <p dir='rtl' align='right'>فیلم از فضای نقد اجتماعی و سیاسی تهی است...یه قصه غیر قابل باور که هیجان خاصی نداشت...ریتم فیلم قابل قبول بود...الناز شاکردوست هم خیلی فراتر از انتظار بود...نمره 5 از 10</p> | Mixed/borderline | (داستان، منفی)<br> (بازی، خیلی مثبت) |
+
+
+To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
+
 
 ## FAQ 
 **I have GPU on my machine by `n_gpu` is shown as `0`. Where is the problem?** Check out [this thread](https://github.com/pytorch/pytorch/issues/15612).  
