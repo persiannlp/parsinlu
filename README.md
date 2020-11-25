@@ -28,12 +28,12 @@ export CUDA_VISIBLE_DEVICES=YOUR_GPU_ID # for example, YOUR_GPU_ID can be 0 for 
 ```    
   
 See the relevant section on how to train models for each task:   
-    * [Textual entailment](#textual-entailment) 
-    * [Query Paraphrasing](#query-paraphrasing) 
-    * [Reading Comprehension](#reading-comprehension)
-    * [Multiple-choice QA](#multiple-choice-qa)
-    * [Machine Translation](#machine-translation) 
-    * [Sentiment Analaysis](#sentiment-analysis) 
+* [Textual entailment](#textual-entailment) 
+* [Query Paraphrasing](#query-paraphrasing) 
+* [Reading Comprehension](#reading-comprehension)
+* [Multiple-choice QA](#multiple-choice-qa)
+* [Machine Translation](#machine-translation) 
+* [Sentiment Analaysis](#sentiment-analysis) 
    
 ### Textual Entailment 
 Textual Entailment is the task of deciding whether a  whether two given questions are paraphrases of each other or not. 
@@ -82,15 +82,6 @@ Here are several examples:
 |  چرا فیلم رستاخیز اکران نشد؟ | فیلم رستاخیز در روز ۲۴ تیر ۱۳۹۴ با مجوز قانونی وزارت فرهنگ و ارشاد اسلامی به اکران عمومی درآمد اما ساعاتی پس از آن در پی مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی از پرده سینماها به پایین کشیده شد. | مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی |
 |  چه چیزهایی در آزمایش خون مشخص می شود؟ | البته آزمایش خون هم می‌توان نشان دهد که شخص پیش از این به کرونا مبتلا بوده است یا نه. خوبی تست خون این است که مشخص می‌کند فرد در برابر این بیماری مصونیت پیدا کرده است یا نه. | شخص پیش از این به کرونا مبتلا بوده است یا نه |
 
-To train a model, here is a sample script:
-```bash
-???
-```
-
-Training with the previously defined hyper-parameters yields the following results on the test set:
-```
-????
-```
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_reading_comprehension_baselines.sh`](scripts/train_and_evaluate_reading_comprehension_baselines.sh) script.
 
@@ -123,7 +114,25 @@ Specifically, here is our collection of evaluation sets:
  - **TE sentences:** the translation instances extracted from our [entailment task](#textual-entailment).    
 
 Here are several examples: 
-??
+
+|  Split | en | fa |
+| :---: | :---: | :---: |
+|  Quran | Praise be to Allah, the Cherisher and Sustainer of the worlds; |<p dir='rtl' align='right'> ستایش خدای را که پروردگار جهانیان است. </p>|
+|  Quran | This is the Book; in it is guidance sure, without doubt, to those who fear Allah; |<p dir='rtl' align='right'> این کتاب که هیچ شک در آن نیست، راهنمای پرهیزگاران است. </p>|
+|  Quran | When they meet those who believe, they say: "We believe;" but when they are alone with their evil ones, they say: "We are really with you: We (were) only jesting." |  <p dir='rtl' align='right'>و چون به اهل ایمان برسند گویند: ما ایمان آوردیم؛ و وقتی با شیاطین خود خلوت کنند گویند: ما با شماییم، جز این نیست که (مؤمنان را) مسخره می‌کنیم.</p>|
+|  Quran | Who believe in the Unseen, are steadfast in prayer, and spend out of what We have provided for them; |  <p dir='rtl' align='right'>آن کسانی که به جهان غیب ایمان آرند و نماز به پا دارند و از هر چه روزیشان کردیم به فقیران انفاق کنند.</p>|
+|  Bible | And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good. |<p dir='rtl' align='right'>  و خدا خشکی را زمین نامید و اجتماع آبها رادریا نامید. و خدا دید که نیکوست. </p>|
+|  Bible | And God said, Let the earth bring forth grass, the herb yielding seed, and the fruit tree yielding fruit after his kind, whose seed is in itself, upon the earth: and it was so. | <p dir='rtl' align='right'> و خداگفت: «زمین نباتات برویاند، علفی که تخم بیاوردو درخت میوه‌ای که موافق جنس خود میوه آوردکه تخمش در آن باشد، بر روی زمین.» و چنین شد. </p>|
+|  Bible | And the earth brought forth grass, and herb yielding seed after his kind, and the tree yielding fruit, whose seed was in itself, after his kind: and God saw that it was good. | <p dir='rtl' align='right'> و زمین نباتات را رویانید، علفی که موافق جنس خود تخم آورد و درخت میوه داری که تخمش در آن، موافق جنس خود باشد. و خدادید که نیکوست.</p>|
+|  Mizan | But Proportion has a sister, less smiling, more formidable, a Goddess even now engaged | <p dir='rtl' align='right'>اما تناسب امور خواهری دارد، نه این چنین متبسم، رعب آور‌تر، ایزد بانویی که حتی در این لحظه مشغول است. </p>|
+|  Mizan | At Hyde Park Corner on a tub she stands preaching; |<p dir='rtl' align='right'> در هاید پارک کرنر بر گلدانی ایستاده موعظه می‌کند؛ </p>|
+|  Mizan | shrouds herself in white and walks penitentially disguised as brotherly love through factories and parliaments; offers help, but desires power; | <p dir='rtl' align='right'> پیچیده در دایی سفید به نشان توبه با لباس مبدل عشق برادرانه در کارخانه‌ها و مجالس قانونگذاری راه می‌رود؛ پیشنهاد کمک می‌کند، اما طالب قدرت است.</p>|
+|  QQP | What turns people off about Quora? | <p dir='rtl' align='right'> چه چیزی مردم را از Quora دور می کند؟</p>|
+|  QQP | Is there a way to turn off the "Invite People to Join Quora' option on Quora? |  <p dir='rtl' align='right'>آیا راهی برای خاموش کردن گزینه "دعوت از مردم برای پیوستن به Quora" در Quora وجود دارد؟</p>|
+|  QQP | What were the books studied by aiims topper 2016? |  <p dir='rtl' align='right'>کتابهایی که توسط aiims topper ۲۰۱۶ مورد مطالعه قرار گرفته چه بود؟</p>|
+|  QQP | What books should I study for my PG entrance in AIIMS? |  <p dir='rtl' align='right'>برای ورود PG من در AIIMS چه کتابهایی باید مطالعه کنم؟</p>|
+|  QQP | Which website is good for downloading Android (.apk) files? |<p dir='rtl' align='right'>  کدام وب سایت برای دانلود پرونده های Android (.apk) مناسب است؟ </p>|
+|  QQP | Android Application Development: Which software is used to develop APK files? |  <p dir='rtl' align='right'>توسعه برنامه Android: از کدام نرم افزار برای توسعه فایل های APK استفاده می شود؟</p>|
 
 
 To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselines.sh`](scripts/train_and_evaluate_machine_translation_baselines.sh) script.
