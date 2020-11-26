@@ -12,6 +12,7 @@ class TEProcessor(DataProcessor):
 
     def read_examples(self, data_dir, file_name):
         """See base class."""
+        print(f" >>> loading examples from: {file_name}")
         lines = self._read_tsv(os.path.join(data_dir, file_name))
         examples = []
         for (i, line) in enumerate(lines):

@@ -41,7 +41,7 @@ exit 0  # stop here; evaluation (following scrpts) requires manual intervention
 
 ## After selecting your best checkpoints based on the dev sets, run the following script
 # Update this following line with the path to your best checkpoints
-eval_dir="entailment_model/TurkuNLP/wikibert-base-fa-cased_batch_size=16_learning_rate=5e-5_learning_rate=5e-5_num_train_epoch=3"
+eval_dir="entailment_model/TurkuNLP/wikibert-base-fa-cased_batch_size=8_learning_rate=5e-5_learning_rate=5e-5_num_train_epoch=3"
 
 # notice --eval_on_test which would force the code to use the test set for evaluation
 python ../src/run_text_classification.py \

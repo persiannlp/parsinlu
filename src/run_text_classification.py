@@ -304,7 +304,7 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     # Load data features from cache or dataset file
     cached_features_file = os.path.join(
         args.data_dir,
-        "cached_{}_{}_{}_{}".format(
+        "cached_{}_{}_{}_{}entailment".format(
             "dev" if evaluate else "train",
             list(filter(None, args.model_name_or_path.split("/"))).pop(),
             str(args.max_seq_length),
@@ -366,7 +366,7 @@ def main():
         default=None,
         type=str,
         required=True,
-        help="Name of the task; one of the followings: `qqp` or `entailment`. ",
+        help="Name of the task; one of the followings: `qqp`, `entailment`, etc. ",
     )
 
     parser.add_argument(

@@ -357,8 +357,10 @@ def convert_opus_data():
 # convert_global_voices()
 # convert_quaran_data()
 
-import csv, sys
 # textual entailment
+import csv
+
+
 def convert_entailment_data():
     def convert_parsiglue_file(file, outfilename, category=None):
         outfile = open(outfilename, "w")
@@ -380,19 +382,19 @@ def convert_entailment_data():
 
     convert_parsiglue_file(
         '../../data/entailment/dev.csv',
-        '../../data/entailment/t5/dev.tsv')
+        '../../data/entailment/merged_with_farstail/dev.tsv')
 
     convert_parsiglue_file(
         '../../data/entailment/train.csv',
-        '../../data/entailment/t5/train.tsv')
+        '../../data/entailment/merged_with_farstail/train.tsv')
 
     convert_parsiglue_file(
         '../../data/entailment/test.csv',
-        '../../data/entailment/t5/test_natural.tsv', 'natural')
+        '../../data/entailment/merged_with_farstail/test_natural.tsv', 'natural')
 
     convert_parsiglue_file(
         '../../data/entailment/test.csv',
-        '../../data/entailment/t5/test_translation.tsv', 'translation')
+        '../../data/entailment/merged_with_farstail/test_translation.tsv', 'translation')
 
     def convert_farstail_file(file, outfilename):
         outfile = open(outfilename, "w")
@@ -410,18 +412,17 @@ def convert_entailment_data():
 
     convert_farstail_file(
         '../../data/entailment/farstail/dev.csv',
-        '../../data/entailment/t5/dev_farstail.tsv')
+        '../../data/entailment/merged_with_farstail/dev_farstail.tsv')
 
     convert_farstail_file(
         '../../data/entailment/farstail/train.csv',
-        '../../data/entailment/t5/train_farstail.tsv')
+        '../../data/entailment/merged_with_farstail/train_farstail.tsv')
 
     convert_farstail_file(
         '../../data/entailment/farstail/test.csv',
-        '../../data/entailment/t5/test_farstail.tsv')
+        '../../data/entailment/merged_with_farstail/test_farstail.tsv')
 
 # convert_entailment_data()
-
 
 def convert_snli_file(file):
     outfile = open(file.replace('.jsonl', '.tsv'), 'w')
