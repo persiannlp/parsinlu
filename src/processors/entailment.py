@@ -8,7 +8,7 @@ class TEProcessor(DataProcessor):
     Adapted from https://github.com/google-research/bert/blob/f39e881b169b9d53bea03d2d341b31707a6c052b/run_classifier.py#L207"""
 
     def __init__(self):
-        self.labels = ["entailment", "contradiction", "neutral"]
+        self.labels = ["n", "c", "n"]
 
     def get_train_examples(self, data_dir):
         """See base class."""
@@ -17,12 +17,13 @@ class TEProcessor(DataProcessor):
         for (i, line) in enumerate(lines):
             if i == 0:
                 continue
-            guid = "%s-%s" % (line[0], "train")
-            text_a = line[4]
-            text_b = line[5]
+            input = line[0]
+            guid = "%s-%s" % (input, "train")
+            text_a = input.split("<sep>")[0]
+            text_b = input.split("<sep>")[1]
             if len(text_a) < 5 or len(text_b) < 5:
                 continue
-            label = line[3]
+            label = line[1]
             if label not in self.labels:
                 continue
 
@@ -42,12 +43,13 @@ class TEProcessor(DataProcessor):
         for (i, line) in enumerate(lines):
             if i == 0:
                 continue
-            guid = "%s-%s" % (line[0], "test")
-            text_a = line[4]
-            text_b = line[5]
+            input = line[0]
+            guid = "%s-%s" % (input, "train")
+            text_a = input.split("<sep>")[0]
+            text_b = input.split("<sep>")[1]
             if len(text_a) < 5 or len(text_b) < 5:
                 continue
-            label = line[3]
+            label = line[1]
             if label not in self.labels:
                 continue
             assert isinstance(text_a, str), f"Training input {text_a} is not a string"
