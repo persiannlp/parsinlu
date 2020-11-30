@@ -82,10 +82,10 @@ def create_multiple_chice_english_data(dir):
     if dir != "commonsenseqa":
         read_file("test.tsv")
 
-create_multiple_chice_english_data("../../data/multiple-choice/english/arc_easy/")
-create_multiple_chice_english_data("../../data/multiple-choice/english/arc_hard/")
-create_multiple_chice_english_data("../../data/multiple-choice/english/commonsenseqa/")
-create_multiple_chice_english_data("../../data/multiple-choice/english/openbookqa/")
+# create_multiple_chice_english_data("../../data/multiple-choice/english/arc_easy/")
+# create_multiple_chice_english_data("../../data/multiple-choice/english/arc_hard/")
+# create_multiple_chice_english_data("../../data/multiple-choice/english/commonsenseqa/")
+# create_multiple_chice_english_data("../../data/multiple-choice/english/openbookqa/")
 
 # machine translation
 def convert_quaran_data():
@@ -443,8 +443,31 @@ def convert_snli_file(file):
                 print(f'WARNING: invalid label: {label}')
             outfile.write(f'{sent1}<sep>{sent2}\t{label}\n')
 
-convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_dev.jsonl')
-convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_train.jsonl')
-convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_test.jsonl')
+# convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_dev.jsonl')
+# convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_train.jsonl')
+# convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_test.jsonl')
 
+sentiment_labels= {
+    '-3': 'no sentiment expressed',
+    '-2': 'very negative',
+    '-1': 'negative',
+    '0': 'neutral',
+    '1': 'positive',
+    '2': 'very positive',
+    '3': 'mixed',
+}
+def convert_sentiment_data(file):
+    io_outfile = open(file.replace(".jsonl", ".tsv"), "+w")
+    with open(file) as f:
+        for line in f.readlines():
+            json_line = json.loads(line.replace("\n", "").replace("'", '"'))
+            review = json_line['review']
+            question = json_line['question']
+            label = json_line['label']
+            label = sentiment_labels[label]
+            io_outfile.write(f"{review} <sep> {question}\t{label}\n")
 
+convert_sentiment_data('../../data/sentiment-analysis/ABSA_Dataset_train.jsonl')
+convert_sentiment_data('../../data/sentiment-analysis/food_test.jsonl')
+convert_sentiment_data('../../data/sentiment-analysis/movie_test.jsonl')
+convert_sentiment_data('../../data/sentiment-analysis/merged_dev.jsonl')
