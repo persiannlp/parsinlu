@@ -304,8 +304,8 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     # Load data features from cache or dataset file
     cached_features_file = os.path.join(
         args.data_dir,
-        "cached_{}_{}_{}_{}".format(
-            "test" if evaluate else "train",
+        "cached_{}_{}_{}_{}entailment".format(
+            "dev" if evaluate else "train",
             list(filter(None, args.model_name_or_path.split("/"))).pop(),
             str(args.max_seq_length),
             str(task),
@@ -317,9 +317,19 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     else:
         logger.info("Creating features from dataset file at %s", args.data_dir)
         label_list = processor.get_labels()
-        examples = (
-            processor.get_test_examples(args.data_dir) if evaluate else processor.get_train_examples(args.data_dir)
-        )
+        if evaluate and args.eval_on_test:
+            examples = (
+                processor.get_test_examples(args.data_dir)
+            )
+        elif evaluate:
+            examples = (
+                processor.get_dev_examples(args.data_dir)
+            )
+        else:
+            examples = (
+                processor.get_train_examples(args.data_dir)
+            )
+
         features = convert_examples_to_features(
             examples,
             tokenizer,
@@ -356,7 +366,7 @@ def main():
         default=None,
         type=str,
         required=True,
-        help="Name of the task; one of the followings: `qqp` or `entailment`. ",
+        help="Name of the task; one of the followings: `qqp`, `entailment`, etc. ",
     )
 
     parser.add_argument(
@@ -405,7 +415,9 @@ def main():
              "than this will be truncated, sequences shorter will be padded.",
     )
     parser.add_argument("--do_train", action="store_true", help="Whether to run training.")
-    parser.add_argument("--do_eval", action="store_true", help="Whether to run eval on the test set.")
+    parser.add_argument("--do_eval", action="store_true", help="Whether to run evaluation or not.")
+    parser.add_argument("--eval_on_test", action="store_true", help="Whether to run eval on the test set; if not, "
+                                                                    "it would evaluate on the dev set.")
     parser.add_argument(
         "--evaluate_during_training", action="store_true", help="Rul evaluation during training at each logging step."
     )

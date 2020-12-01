@@ -6234,16 +6234,3 @@ The God of mankind.
 From the evil of the sneaky whisperer.
 Who whispers into the hearts of people.
 From among jinn and among people.”
-
-
-#=====================================================================
-#
-#  Quran Translation
-#  Name: Itani
-#  Translator: Talal Itani
-#  Language: English
-#  ID: en.itani
-#  Last Update: July 19, 2013
-#  Source: Tanzil.net
-#
-#=====================================================================

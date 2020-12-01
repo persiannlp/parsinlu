@@ -3,8 +3,11 @@ tokenizers==0.9.2
 torch==1.6.0
 scikit-learn==0.23.2
 tensorboardX==2.1
+t5==0.7.0
 tqdm
 pytorch_lightning
 GitPython
 rouge_score
 sacrebleu
+datasets
+nltk
