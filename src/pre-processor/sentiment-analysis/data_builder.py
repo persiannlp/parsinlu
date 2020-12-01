@@ -34,19 +34,20 @@ for i,line in enumerate(lines):
 
 raw_dataset_size = len(raw_dataset)
 
-aspects_set = set()
-for i, example in enumerate(raw_dataset):
-    aspects = list(example['aspects'].keys())
-    aspects_set.update(aspects)
-
 for entry in raw_dataset:
     if 'category' not in entry:
         print(entry['review_id'])
         raise Exception(entry['review'] + " does not have any category associated")
 
 
-# #### Defining Questions for aspects
+#### Defining aspects
+aspects_set = []
+if domain_name == 'food':
+    aspects_set = ['طعم','ارزش خرید','ارسال','بسته بندی','ارزش غذایی','کیفیت']
+elif domain_name == 'movie':
+    aspects_set = ['صدا','داستان','موسیقی','فیلمبرداری','کارگردانی','بازی','صحنه']
 
+# #### Defining Questions for aspects
 aspects_candidate_words = {
     # For Foods"
     "ارزش خرید" : "قیمت و ارزش خرید",
