@@ -1,9 +1,9 @@
 export DATA_DIR=../data/sentiment-analysis
 
 # Preparing data
-python3.7 -u ../src/pre-processor/Sentiment-analysis/SA_Data_Builder.py --domain food --input_dir $DATA_DIR --output_dir $DATA_DIR
-python3.7 -u ../src/pre-processor/Sentiment-analysis/SA_Data_Builder.py --domain movie --input_dir $DATA_DIR --output_dir $DATA_DIR
-python3.7 -u ../src/pre-processor/Sentiment-analysis/TrainSetMerger.py --domains food movie --input_dir $DATA_DIR --output_dir $DATA_DIR
+python3.7 -u ../src/pre-processor/Sentiment-analysis/sa_data_generator.py --domain food --input_dir $DATA_DIR --output_dir $DATA_DIR
+python3.7 -u ../src/pre-processor/Sentiment-analysis/sa_data_generator.py --domain movie --input_dir $DATA_DIR --output_dir $DATA_DIR
+python3.7 -u ../src/pre-processor/Sentiment-analysis/trainset_merger.py --domains food movie --input_dir $DATA_DIR --output_dir $DATA_DIR
 
 # Training and evaluating models
 declare -a models=("TurkuNLP/wikibert-base-fa-cased" "HooshvareLab/bert-fa-base-uncased" "HooshvareLab/bert-base-parsbert-uncased" "bert-base-multilingual-cased" "bert-base-multilingual-uncased")
