@@ -118,6 +118,7 @@ class ABSAProcessor(DataProcessor):
 
 
 def separate_sentiment_aspect(data, first_id, num_aspects):
+
     num_review = len(data) // num_aspects
     overall_y, y = [], []
     for i in range(int(first_id), int(first_id)+num_review-1):
