@@ -163,8 +163,6 @@ for dataset_name, dataset in raw_dataset_dic.items():
         
         dataset_ABSA[dataset_name].append(entry)
 
-dataset_ABSA['train'][0:3]
-
 # #### Adding ID labeles
 for dataset_name, dataset in dataset_ABSA.items():
     for i, example in enumerate(dataset):

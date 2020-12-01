@@ -6234,16 +6234,3 @@ Proclaim (O dear Prophet Mohammed – peace and blessings be upon him), “I tak
 “From the evil of the one who instils evil thoughts in the hearts – and stays hidden.”
 “Those who instil evil thoughts into the hearts of men.”
 “Among the jinns and men.”
-
-
-#=====================================================================
-#
-#  Quran Translation
-#  Name: Ahmed Raza Khan
-#  Translator: Ahmed Raza Khan
-#  Language: English
-#  ID: en.ahmedraza
-#  Last Update: July 17, 2011
-#  Source: Tanzil.net
-#
-#=====================================================================

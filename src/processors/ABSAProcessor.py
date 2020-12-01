@@ -121,76 +121,84 @@ class ABSAProcessor(DataProcessor):
         return self.labels
 
 
-def separate_sentiment_aspect(data, first_id, num_aspects):
+def sentiment_aspect_separator(data, first_id, num_aspects):
+    """
+    Separates overall sentiment scores from aspect sentiment scores
+    first_id: smallest example id in the data
+    num_aspects: number of aspects we have for a specific domain
+    """
+
     num_review = len(data) // num_aspects
-    overall_y, y = [], []
+    SA_y, ABSA_y = [], []
     for i in range(int(first_id), int(first_id)+num_review-1):
         aspects = []
         for j in range(num_aspects):
             idx = 'test-r{}-e{}'.format(i+1, j+1)
             if j+1 == num_aspects:
-                overall_y.append(data[idx][1])
+                SA_y.append(data[idx][1])
             else:
                 aspects.append(data[idx])
-        y.append(aspects)
+        ABSA_y.append(aspects)
 
-    assert len(overall_y) == len(y), "error in separating overall sentiment from aspects"
+    assert len(SA_y) == len(ABSA_y), "Error in separating overall sentiment from aspects"
 
-    return overall_y, y
+    return SA_y, ABSA_y
 
-def eval_sentiment(y_true, y_pred):
+def overall_sentiment_eval(y_true, y_pred):
     """
     Prediction accuracy (percentage) and F1 score for sentiment analysis task
     y_true: a list of pairs (aspect, polarity)
     y_pred: a list of pairs (aspect, polarity)
     """
+    accuracy = accuracy_score(y_true, y_pred) * 100
+    macro_f1 = f1_score(y_true, y_pred, average='macro')
+    return accuracy, macro_f1
 
-    acc = accuracy_score(y_true, y_pred) * 100
-    f1 = f1_score(y_true, y_pred, average='macro')
-    return acc, f1
-
-def eval_aspect_macro_f1(y_true, y_pred):
+def aspect_extraction_eval(y_true, y_pred):
     """
     Calculate "Macro-F1" for aspect detection task
     y_true: actual labels
     y_pred: predictions
     """
-    p_all = 0
-    r_all = 0
+    precision_all = 0
+    recall_all = 0
     count = 0
     for i in range(len(y_pred)):
-        a = set()
-        b = set()
+        predicted_aspects = set()
+        actual_aspects = set()
         for j in range(len(y_pred[i])):
             if y_pred[i][j][1] != 0:
-                a.add(j)
+                predicted_aspects.add(j)
             if y_true[i][j][1] != 0:
-                b.add(j)
-        if len(b) == 0: continue
-        a_b = a.intersection(b)
-        if len(a_b) > 0:
-            p = len(a_b) / len(a)
-            r = len(a_b) / len(b)
+                actual_aspects.add(j)
+        if len(actual_aspects) == 0: continue
+        common_aspects = predicted_aspects.intersection(actual_aspects)
+        if len(common_aspects) > 0:
+            precision = len(common_aspects) / len(predicted_aspects)
+            recall = len(common_aspects) / len(actual_aspects)
         else:
-            p = 0
-            r = 0
+            precision = 0
+            recall = 0
         count += 1
-        p_all += p
-        r_all += r
-    Ma_p = p_all / count
-    Ma_r = r_all / count
-    aspect_Macro_F1 = 2 * Ma_p * Ma_r / (Ma_p + Ma_r)
+        precision_all += precision
+        recall_all += recall
+    macro_precision = precision_all / count
+    macro_recall = recall_all / count
+    aspect_macro_f1 = 2 * macro_precision * macro_recall / (macro_precision + macro_recall)
 
-    return aspect_Macro_F1
+    return aspect_macro_f1
 
 
-def eval_aspect_polarity_accuracy(y_true, y_pred, num_aspects):
+def aspect_polarity_accuracy_eval(y_true, y_pred, num_aspects):
+    """
+    For how many reviews both extracted aspects and their polarities are predicted correctly
+    """
 
     num_aspects = num_aspects-1
-    total_cases = len(y_true)
+    num_reviews = len(y_true)
     flag = False
-    true_cases = 0
-    for i in range(total_cases):
+    correct_preds = 0
+    for i in range(num_reviews):
         for j in range(num_aspects):
             if y_true[i][j] != y_pred[i][j]: flag = True
         # if y_true[i][1] != y_pred[i][1]: continue
@@ -199,11 +207,11 @@ def eval_aspect_polarity_accuracy(y_true, y_pred, num_aspects):
         # if y_true[i][4] != y_pred[i][4]: continue
         # if y_true[i][5] != y_pred[i][5]: continue
         if not flag:
-            true_cases += 1
+            correct_preds += 1
         flag = False
-    aspect_strict_Acc = true_cases / total_cases
+    aspect_strict_accuracy = correct_preds / num_reviews
 
-    return aspect_strict_Acc
+    return aspect_strict_accuracy
 
 def absa_evaluation(data_dir, output_ids, preds):
 
@@ -244,56 +252,14 @@ def absa_evaluation(data_dir, output_ids, preds):
     assert len(y_true_samples) == len(y_pred_samples), "pred size doesn't match with actual size"
 
     # Overall sentiment scores should be separated from the aspects
-    overall_y_true, y_true = separate_sentiment_aspect(y_true_samples, first_id, num_aspects)
-    overall_y_pred, y_pred = separate_sentiment_aspect(y_pred_samples, first_id, num_aspects)
+    actual_sentiment, actual_aspect_sentiment = sentiment_aspect_separator(y_true_samples, first_id, num_aspects)
+    predicted_sentiment, predicted_aspect_sentiment = sentiment_aspect_separator(y_pred_samples, first_id, num_aspects)
 
-    print(y_true, y_pred)
-    print(overall_y_true, overall_y_pred)
+    # print(actual_aspect_sentiment, predicted_aspect_sentiment)
+    # print(actual_sentiment, predicted_sentiment)
 
-    sentiment_acc, sentiment_macro_f1 = eval_sentiment(overall_y_true, overall_y_pred)
-    aspect_macro_f1 = eval_aspect_macro_f1(y_true, y_pred)
-    aspect_strict_acc = eval_aspect_polarity_accuracy(y_true, y_pred, num_aspects)
+    sentiment_acc, sentiment_macro_f1 = overall_sentiment_eval(actual_sentiment, predicted_sentiment)
+    aspect_macro_f1 = aspect_extraction_eval(actual_aspect_sentiment, predicted_aspect_sentiment)
+    aspect_strict_acc = aspect_polarity_accuracy_eval(actual_aspect_sentiment, predicted_aspect_sentiment, num_aspects)
 
     return sentiment_acc, sentiment_macro_f1, aspect_macro_f1, aspect_strict_acc
-
-
-# if __name__ == "__main__":
-#     y_true = [[['طعم', -3], ['ارزش خرید', 2], ['کیفیت', 0]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
-#               [['طعم', -3], ['ارزش خرید', -3], ['کیفیت', 0]]]
-#
-#     y_pred = [[['طعم', -3], ['ارزش خرید', 1], ['کیفیت', -3]], [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', 2]],
-#               [['طعم', 2], ['ارزش خرید', 1], ['کیفیت', -3]]]
-#
-#
-#     print(eval_aspect_polarity_accuracy(y_true, y_pred, 3))
-#     print(eval_aspect_macro_f1(y_true, y_pred))
-#
-    # y_true = [-2, 1, 0, 1, 2, 1, 1]
-    # y_pred = [-2, 1, 0, 3, 2, 1, 1]
-    #
-    # print(eval_sentiment(y_true, y_pred))
-
-    # y_true_samples = {}
-    # y_pred_samples = {}
-    #
-    # with open(os.path.join("/Users/niloofar/PycharmProjects/parsiglue/data/sentiment-analysis", "food_test.jsonl"), 'r') as file:
-    #     lines = file.readlines()
-    # dataset = []
-    # for line in lines:
-    #     data = json.loads(line.replace('\'', '\"'))
-    #     dataset.append(data)
-    #
-    # for i, entry in enumerate(dataset):
-    #     guid = 'test-r{}-e{}'.format(entry["review_id"], entry["example_id"])
-    #     # aspect = str(entry["acpect"])
-    #     aspect = "طعم"
-    #     label = str(entry["label"])
-    #     y_true_samples[guid] = [aspect, label]
-    #
-    # print(y_true_samples)
-
-
-
-
-
-
