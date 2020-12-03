@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
 import argparse
 import os
 
@@ -18,4 +22,4 @@ for dataset_split_name in ['train']:
                 for line in in_file.readlines():
                     out_file.write(line.strip()+'\n')
 
-print("TrainSets are merged successfully.")
+print("Train-sets are merged successfully.")

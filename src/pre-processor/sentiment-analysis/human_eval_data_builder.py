@@ -9,15 +9,21 @@ import random
 import os
 import argparse
 
-parser = argparse.ArgumentParser(description='SA Dataset Generator')
+parser = argparse.ArgumentParser(description='Human evaluation SA dataset generator')
 parser.add_argument('--domain', type=str, help='Specify the domain you want to generate data for : {food,movie}')
-parser.add_argument('--input_dir', type=str, help='Specify the location of the jsonl file.')
-parser.add_argument('--output_dir', type=str, help='Specify the location of the jsonl file.')
+parser.add_argument('--data_dir', type=str, help='Specify the location of the jsonl file.')
 args = parser.parse_args()
+
+# class Args:
+#     def __init__(self):
+#         self.domain = 'movie'
+#         self.data_dir = '../../../data/sentiment-analysis/'
+        
+# args = Args()
 
 # #### Loading Data
 domain_name = args.domain
-with open(os.path.join(args.input_dir, args.domain) + '.jsonl', 'r') as file:
+with open(os.path.join(args.data_dir, 'human_evaluation_' + args.domain) + '.jsonl', 'r') as file:
     lines = file.readlines()
 
 raw_dataset = []
@@ -28,7 +34,6 @@ for i,line in enumerate(lines):
         raw_dataset.append(data)
         data['review'] = data['review'].replace('\"','')
         data['review'] = data['review'].replace("\'",'')
-        data['excel_id'] = domain_name+'_'+str(int(i+1))
     except:
         print("could not read line: " + str(i))
 
@@ -47,7 +52,7 @@ if domain_name == 'food':
 elif domain_name == 'movie':
     aspects_set = ['صدا','داستان','موسیقی','فیلمبرداری','کارگردانی','بازی','صحنه']
 
-# #### Defining Questions for aspects
+##### Defining Questions for aspects
 aspects_candidate_words = {
     # For Foods"
     "ارزش خرید" : "قیمت و ارزش خرید",
@@ -73,48 +78,8 @@ for aspect in list(aspects_set):
 general_aspect_label = 'کلی'
 aspects_questions[general_aspect_label] = 'نظر شما به صورت کلی در مورد این محصول چیست؟'
 
-# ### Spliting Data
-NONE_LABEL = -3
-X = []
-y = []
 
-for rec in raw_dataset:
-    X.append ({k:rec[k] for k in ('review','review_id','aspects','category','excel_id') if k in rec})
-    y.append(rec['sentiment'])
-
-test_dev_size_dic = {'movie':(0.2,0.11),'food':(0.1,0.11)}
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_dev_size_dic[domain_name][0], random_state=12, stratify=y)
-X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size=test_dev_size_dic[domain_name][1], random_state=12, stratify=y_train)
-
-assert len(X_train)+len(X_test)+len(X_valid)==raw_dataset_size
-
-# ### Setting Review_ID
-review_id_counter=1
-for x in X_train + X_valid + X_test:
-    x['review_id'] = review_id_counter
-    review_id_counter+=1
-
-# #### Putting X and y together:
-raw_dataset_dic = dict()
-for entry in zip(X_train,y_train):
-    entry[0].update({'sentiment':entry[1]})
-    
-for entry in zip(X_test,y_test):
-    entry[0].update({'sentiment':entry[1]})
-    
-for entry in zip(X_valid,y_valid):
-    entry[0].update({'sentiment':entry[1]})
-
-raw_dataset_dic = {
-    'train': X_train,
-    'test': X_test,
-    'dev': X_valid
-}
-
-assert sum([len(dataset) for dataset in raw_dataset_dic.values()]) == raw_dataset_size
-
-# #### Creating new QA-ABSA dataset
+##### Creating new QA-ABSA dataset
 def gen_question(aspect,aspects_questions,example,domain_name:str):
     
     if domain_name.lower()=='food':
@@ -128,7 +93,15 @@ def gen_question(aspect,aspects_questions,example,domain_name:str):
         
     return question
 
-dataset_ABSA = {'train':list(),'dev':list(),'test':list()}
+
+raw_dataset_dic = {
+    'test': raw_dataset
+}
+
+NONE_LABEL = -3
+
+dataset_ABSA = {'test':list()}
+
 for dataset_name, dataset in raw_dataset_dic.items():
 
     for example in dataset:
@@ -138,31 +111,34 @@ for dataset_name, dataset in raw_dataset_dic.items():
         #aspect sentiments
         i=1
         for aspect in aspects_set:
-            entry = {'review': example['review'],
-                     'review_id': str(example['review_id']),
-                     'example_id': str(i),
-                     'excel_id':example['excel_id'],
-                     'question': gen_question(aspect,aspects_questions,example,domain_name),
-                     'category': example['category'],
-                     'aspect': aspect,
-                     'label': str(example['aspects'][aspect] if aspect in product_aspects else NONE_LABEL)
+            entry = {"review": example['review'],
+                     "review_id": str(example['review_id']),
+                     "example_id": str(i),
+                     "excel_id":example['excel_id'],
+                     "guid": example['guid'],
+                     "question": gen_question(aspect,aspects_questions,example,domain_name),
+                     "category": example['category'],
+                     "aspect": aspect,
+                     "label": str(example['aspects'][aspect] if aspect in product_aspects else NONE_LABEL)
                     }
             
             dataset_ABSA[dataset_name].append(entry)
             i+=1
 
         # overal sentiment
-        entry = {'review': example['review'],
-                 'review_id': str(example['review_id']),
-                 'example_id': str(i),
-                 'excel_id':example['excel_id'],
-                 'question': gen_question(general_aspect_label,aspects_questions,example,domain_name),
-                 'category': example['category'],
-                 'aspect': general_aspect_label,
-                 'label': str(example['sentiment'])
+        entry = {"review": example['review'],
+                 "review_id": str(example['review_id']),
+                 "example_id": str(i),
+                 "excel_id": example['excel_id'],
+                 "guid": example['guid'],
+                 "question": gen_question(general_aspect_label,aspects_questions,example,domain_name),
+                 "category": example['category'],
+                 "aspect": general_aspect_label,
+                 "label": str(example['sentiment'])
                 }
         
         dataset_ABSA[dataset_name].append(entry)
+
 
 # #### Adding ID labeles
 for dataset_name, dataset in dataset_ABSA.items():
@@ -173,7 +149,7 @@ for dataset_name, dataset in dataset_ABSA.items():
 # #### Saving Data
 for dataset_name, dataset in dataset_ABSA.items():
     
-    with open(os.path.join(args.output_dir,f'{domain_name}_{dataset_name}.jsonl'), 'w') as f:
+    with open(os.path.join(args.data_dir,f'human_evaluation_{domain_name}_{dataset_name}.jsonl'), 'w') as f:
         for example in dataset:
             f.write(f'{example}\n')
 
