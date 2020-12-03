@@ -27,7 +27,7 @@ tasks_num_labels = {
 }
 
 
-def compute_metrics(task_name, preds, labels, sample_ids=None, data_dir=None):
+def compute_metrics(task_name, preds, labels, sample_ids=None, data_dir=None, test_eval=None):
     assert len(preds) == len(
         labels
     ), f"Predictions and labels have mismatched lengths {len(preds)} and {len(labels)}"
@@ -36,7 +36,7 @@ def compute_metrics(task_name, preds, labels, sample_ids=None, data_dir=None):
     elif task_name == "entailment":
         return {"acc": simple_accuracy(preds, labels)}
     elif task_name == "sentiment":
-        sentiment_acc, sentiment_macro_f1, aspect_macro_f1, aspect_strict_acc = absa_evaluation(data_dir, sample_ids, preds)
+        sentiment_acc, sentiment_macro_f1, aspect_macro_f1, aspect_strict_acc = absa_evaluation(data_dir, sample_ids, preds, test_eval)
         return {"SA_acc": sentiment_acc, "SA_macro_f1": sentiment_macro_f1, "absa_macro_f1": aspect_macro_f1,
                 "absa_strict_acc": aspect_strict_acc}
     else:

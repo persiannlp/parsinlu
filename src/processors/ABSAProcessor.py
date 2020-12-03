@@ -213,15 +213,20 @@ def aspect_polarity_accuracy_eval(y_true, y_pred, num_aspects):
 
     return aspect_strict_accuracy
 
-def absa_evaluation(data_dir, output_ids, preds):
+def absa_evaluation(data_dir, output_ids, preds, test_eval):
 
     label_map = {'-3': 0, '-2': 1, '-1': 2, '0': 3, '1': 4, '2': 5, '3': 6}
 
     y_true_samples = {}
     y_pred_samples = {}
 
+    if test_eval:
+        eval_file_name = test_file_name
+    else:
+        eval_file_name = dev_file_name
+
     available_aspects = set()
-    with open(os.path.join(data_dir,test_file_name), 'r') as file:
+    with open(os.path.join(data_dir,eval_file_name), 'r') as file:
         lines = file.readlines()
 
     dataset = []
