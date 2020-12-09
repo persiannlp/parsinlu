@@ -1,5 +1,5 @@
-# ParsiGLUE
-ParsiGLUE is a comprehensive suit of high-level NLP tasks for Persian language. 
+# ParsiNLU
+ParsiNLU is a comprehensive suit of high-level NLP tasks for Persian language. 
 This suit contains 6 different key NLP tasks --- *Reading Comprehension*, *Multiple-Choice Question-Answering*, 
 *Textual Entailment*, *Sentiment Analysis*, *Query Paraphrasing* and *Machine Translation*. 
 
@@ -175,7 +175,7 @@ TODO
 If you find this work useful please cite the following work: 
 ```bibtex 
 @article{2020parsiglue,
-    title={{ParsiGLUE:} A Suite of Language Understanding Challenges for Persian},
+    title={{ParsiNLU:} A Suite of Language Understanding Challenges for Persian},
     author={},
     journal={arXiv},
     year={2020}
