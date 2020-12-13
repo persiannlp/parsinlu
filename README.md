@@ -141,7 +141,7 @@ To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselin
 
  
  ### Sentiment Analysis
- Our aspect-based sentiment analysis task includes three sub-tasks including: 1) detecting the overall sentiment of a review/document, 2) extracting aspects toward which an opinion is expressed, and 3) detecting the sentiment polarity of extracted aspects. Our annotation scheme is mainly inspired by the [`Sem-Eval 2014 Task 4`](https://www.aclweb.org/anthology/S14-2004/), ABSA scheme, with minor adjustments. Sentiment scores are chosen from `(very negative, negative, neutral, positive, very positive, mixed/borderline)`. 
+ Our aspect-based sentiment analysis task includes three sub-tasks: 1) detecting the overall sentiment of a review/document, 2) extracting aspects toward which a sentiment is expressed, and 3) detecting the sentiment polarity of extracted aspects. Our annotation scheme is mainly inspired by the [`Sem-Eval 2014 Task 4`](https://www.aclweb.org/anthology/S14-2004/), ABSA scheme, with minor adjustments. Sentiment scores are chosen from `(very negative, negative, neutral, positive, very positive, mixed/borderline)`. 
  
  So far, we have annotated documents from `food & beverages` ([`Digikala`](https://www.digikala.com/main/food-beverage/)) and `movie review` ([`Tiwall`](https://www.tiwall.com/)) domains. We have predefined list of aspects for each domain. In the following, we have listed some examples from our dataset:
 
