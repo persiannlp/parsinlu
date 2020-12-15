@@ -15,22 +15,6 @@ declare -a models=("TurkuNLP/wikibert-base-fa-cased" "HooshvareLab/bert-fa-base-
 declare -a learning_rates=(3e-5 5e-5)
 declare -a num_train_epochs=(3 7)
 
-
-# for model in "${models[@]}"; do
-# python3.7 -u ../src/run_text_classification.py \
-#   --data_dir $DATA_DIR \
-#   --task_name sentiment \
-#   --model_name_or_path "${model}" \
-#   --do_train \
-#   --do_eval \
-#   --learning_rate 5e-5 \
-#   --num_train_epochs 3 \
-#   --max_seq_length 64 \
-#   --output_dir "sentiment_model/${model}" \
-#   --save_steps -1
-# done
-
-
 for model in "${models[@]}"; do
   declare -a batch_sizes=(8 16)
   if [[ $model == *"large"* ]]; then
