@@ -279,7 +279,7 @@ def evaluate(args, model, tokenizer, prefix=""):
         elif args.task_name == "entailment":
             result = compute_metrics(eval_task, preds, out_label_ids)
         elif args.task_name == "sentiment":
-            result = compute_metrics(eval_task, preds, out_label_ids, sample_ids, args.data_dir)
+            result = compute_metrics(eval_task, preds, out_label_ids, sample_ids, args.data_dir, args.eval_on_test)
         else:
             raise Exception("Unrecognized task . . . ")
 

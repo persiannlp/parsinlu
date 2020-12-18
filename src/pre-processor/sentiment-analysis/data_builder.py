@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import numpy as np
 import json
 from sklearn.model_selection import train_test_split
@@ -5,6 +8,7 @@ import nltk
 import random
 import os
 import argparse
+import json
 
 parser = argparse.ArgumentParser(description='SA Dataset Generator')
 parser.add_argument('--domain', type=str, help='Specify the domain you want to generate data for : {food,movie}')
@@ -31,19 +35,20 @@ for i,line in enumerate(lines):
 
 raw_dataset_size = len(raw_dataset)
 
-aspects_set = set()
-for i, example in enumerate(raw_dataset):
-    aspects = list(example['aspects'].keys())
-    aspects_set.update(aspects)
-
 for entry in raw_dataset:
     if 'category' not in entry:
         print(entry['review_id'])
         raise Exception(entry['review'] + " does not have any category associated")
 
 
-# #### Defining Questions for aspects
+#### Defining aspects
+aspects_set = []
+if domain_name == 'food':
+    aspects_set = ['طعم','ارزش خرید','ارسال','بسته بندی','ارزش غذایی','کیفیت']
+elif domain_name == 'movie':
+    aspects_set = ['صدا','داستان','موسیقی','فیلمبرداری','کارگردانی','بازی','صحنه']
 
+# #### Defining Questions for aspects
 aspects_candidate_words = {
     # For Foods"
     "ارزش خرید" : "قیمت و ارزش خرید",
@@ -64,10 +69,10 @@ aspects_candidate_words = {
 
 aspects_questions = {}
 for aspect in list(aspects_set):
-    aspects_questions[aspect] = f'نظر شما در مورد {aspects_candidate_words[aspect]} این محصول چیست؟'
+    aspects_questions[aspect] = f"نظر شما در مورد {aspects_candidate_words[aspect]} این محصول چیست؟"
 
-general_aspect_label = 'کلی'
-aspects_questions[general_aspect_label] = 'نظر شما به صورت کلی در مورد این محصول چیست؟'
+general_aspect_label = "کلی"
+aspects_questions[general_aspect_label] = "نظر شما به صورت کلی در مورد این محصول چیست؟"
 
 # ### Spliting Data
 NONE_LABEL = -3
@@ -134,45 +139,44 @@ for dataset_name, dataset in raw_dataset_dic.items():
         #aspect sentiments
         i=1
         for aspect in aspects_set:
-            entry = {'review': example['review'],
-                     'review_id': str(example['review_id']),
-                     'example_id': str(i),
-                     'excel_id':example['excel_id'],
-                     'question': gen_question(aspect,aspects_questions,example,domain_name),
-                     'category': example['category'],
-                     'aspect': aspect,
-                     'label': str(example['aspects'][aspect] if aspect in product_aspects else NONE_LABEL)
+            entry = {"review": example['review'],
+                     "review_id": str(example['review_id']),
+                     "example_id": str(i),
+                     "excel_id":example['excel_id'],
+                     "question": gen_question(aspect,aspects_questions,example,domain_name),
+                     "category": example['category'],
+                     "aspect": aspect,
+                     "label": str(example['aspects'][aspect] if aspect in product_aspects else NONE_LABEL)
                     }
             
             dataset_ABSA[dataset_name].append(entry)
             i+=1
 
         # overal sentiment
-        entry = {'review': example['review'],
-                 'review_id': str(example['review_id']),
-                 'example_id': str(i),
-                 'excel_id':example['excel_id'],
-                 'question': gen_question(general_aspect_label,aspects_questions,example,domain_name),
-                 'category': example['category'],
-                 'aspect': general_aspect_label,
-                 'label': str(example['sentiment'])
+        entry = {"review": example['review'],
+                 "review_id": str(example['review_id']),
+                 "example_id": str(i),
+                 "excel_id":example['excel_id'],
+                 "question": gen_question(general_aspect_label,aspects_questions,example,domain_name),
+                 "category": example['category'],
+                 "aspect": general_aspect_label,
+                 "label": str(example['sentiment'])
                 }
         
         dataset_ABSA[dataset_name].append(entry)
 
-dataset_ABSA['train'][0:3]
-
-# #### Adding ID labeles
+###### Adding ID labeles
 for dataset_name, dataset in dataset_ABSA.items():
     for i, example in enumerate(dataset):
-        example['guid'] = f'{domain_name}-{dataset_name}-r{example["review_id"]}-e{example["example_id"]}'
+        example['guid'] = f"{domain_name}-{dataset_name}-r{example['review_id']}-e{example['example_id']}"
 
 
-# #### Saving Data
+###### Saving Data
 for dataset_name, dataset in dataset_ABSA.items():
     
-    with open(os.path.join(args.output_dir,f'{domain_name}_{dataset_name}.jsonl'), 'w') as f:
+    with open(os.path.join(args.output_dir, f"{domain_name}_{dataset_name}.jsonl"), "w") as f:
         for example in dataset:
-            f.write(f'{example}\n')
+            example = json.dumps(example,ensure_ascii=False)
+            f.write(f"{example}\n")
 
 print(f"Dataset is generated for the domain: {domain_name}")
