@@ -213,7 +213,7 @@ def aspect_polarity_accuracy_eval(y_true, y_pred, num_aspects):
 
     return aspect_strict_accuracy
 
-def absa_evaluation(data_dir, output_ids, preds, test_eval):
+def absa_evaluation(data_dir, preds, test_eval):
 
     label_map = {'-3': 0, '-2': 1, '-1': 2, '0': 3, '1': 4, '2': 5, '3': 6}
 
@@ -259,9 +259,6 @@ def absa_evaluation(data_dir, output_ids, preds, test_eval):
     # Overall sentiment scores should be separated from the aspects
     actual_sentiment, actual_aspect_sentiment = sentiment_aspect_separator(y_true_samples, first_id, num_aspects)
     predicted_sentiment, predicted_aspect_sentiment = sentiment_aspect_separator(y_pred_samples, first_id, num_aspects)
-
-    # print(actual_aspect_sentiment, predicted_aspect_sentiment)
-    # print(actual_sentiment, predicted_sentiment)
 
     sentiment_acc, sentiment_macro_f1 = overall_sentiment_eval(actual_sentiment, predicted_sentiment)
     aspect_macro_f1 = aspect_extraction_eval(actual_aspect_sentiment, predicted_aspect_sentiment)

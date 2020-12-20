@@ -70,7 +70,7 @@ t5.data.TaskRegistry.add(
     # Lowercase targets before computing metrics.
     postprocess_fn=postprocessor,
     output_features=DEFAULT_OUTPUT_FEATURES,
-    metric_fns=[metrics.accuracy]
+    metric_fns=[metrics.squad]
 )
 
 t5.data.TaskRegistry.add(
@@ -180,3 +180,42 @@ t5.data.TaskRegistry.add(
     metric_fns=[metrics.squad],
 )
 
+
+t5.data.TaskRegistry.add(
+    f"squad1_1",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="squad1_1"),
+    splits=["train", "dev", 'test'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
+
+t5.data.TaskRegistry.add(
+    f"parsiglue_sentiment",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="parsiglue_sentiment"),
+    splits=["train", "merged_dev", 'movie_test', 'food_test'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
+
+t5.data.TaskRegistry.add(
+    f"parsiglue_readingcomprehension",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="parsiglue_readingcomprehension"),
+    splits=["eval"],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
