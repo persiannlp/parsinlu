@@ -467,7 +467,22 @@ def convert_sentiment_data(file):
             label = sentiment_labels[label]
             io_outfile.write(f"{review} <sep> {question}\t{label}\n")
 
-convert_sentiment_data('../../data/sentiment-analysis/ABSA_Dataset_train.jsonl')
-convert_sentiment_data('../../data/sentiment-analysis/food_test.jsonl')
-convert_sentiment_data('../../data/sentiment-analysis/movie_test.jsonl')
-convert_sentiment_data('../../data/sentiment-analysis/merged_dev.jsonl')
+# convert_sentiment_data('../../data/sentiment-analysis/ABSA_Dataset_train.jsonl')
+# convert_sentiment_data('../../data/sentiment-analysis/food_test.jsonl')
+# convert_sentiment_data('../../data/sentiment-analysis/movie_test.jsonl')
+# convert_sentiment_data('../../data/sentiment-analysis/merged_dev.jsonl')
+
+
+def convert_reading_comprehension():
+    infile = "../../data/reading_comprehension/eval.jsonl"
+    outfile = open(infile.replace(".jsonl", ".tsv"), "+w")
+    with open(infile) as f:
+        for line in f.readlines():
+            json_line = json.loads(line)
+            question = json_line['question'].replace("\n", " ").replace("\t", " ")
+            url = json_line['url']
+            passage = json_line['passage'].replace("\n", " ").replace("\t", " ")
+            answers = json.dumps(json_line['answers']).replace("\n", " ").replace("\t", " ")
+            outfile.write(f"{passage} \\n {question}\t{answers}\n")
+
+convert_reading_comprehension()

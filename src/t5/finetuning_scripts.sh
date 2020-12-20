@@ -1,6 +1,6 @@
 export PROJECT=ai2-tpu
 export ZONE=europe-west4-a
-export TPU_NAME=danielk-tpu-europe-west4-a-v3-8-1-new
+export TPU_NAME=danielk-tpu-europe-west4-a-v3-8-2-new
 export BUCKET=gs://danielk-files/mt5-models
 
 
@@ -867,42 +867,24 @@ for SIZE in "${sizes[@]}"; do
   MODEL_DIR="${BUCKET}/${TASK}/${SIZE}"
 
   # Run fine-tuning
-    python -m t5.models.mesh_transformer_main \
-      --module_import="parsiglue_tasks" \
-      --tpu="${TPU_NAME}" \
-      --gcp_project="${PROJECT}" \
-      --tpu_zone="${ZONE}" \
-      --model_dir="${MODEL_DIR}" \
-      --gin_file="dataset.gin" \
-      --gin_file="${PRETRAINED_DIR}/operative_config.gin" \
-      --gin_param="utils.run.save_checkpoints_steps=1000" \
-      --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
-      --gin_param="MIXTURE_NAME = '${TASK}'" \
-      --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
-      --gin_param="utils.run.train_steps=$((PRETRAINED_STEPS + FINETUNE_STEPS))" \
-      --gin_param="utils.run.init_checkpoint='${PRETRAINED_DIR}/model.ckpt-${PRETRAINED_STEPS}'" \
-      --t5_tfds_data_dir="${BUCKET}/t5-tfds" \
-      --gin_location_prefix="multilingual_t5/gin/"
+#    python -m t5.models.mesh_transformer_main \
+#      --module_import="parsiglue_tasks" \
+#      --tpu="${TPU_NAME}" \
+#      --gcp_project="${PROJECT}" \
+#      --tpu_zone="${ZONE}" \
+#      --model_dir="${MODEL_DIR}" \
+#      --gin_file="dataset.gin" \
+#      --gin_file="${PRETRAINED_DIR}/operative_config.gin" \
+#      --gin_param="utils.run.save_checkpoints_steps=1000" \
+#      --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+#      --gin_param="MIXTURE_NAME = '${TASK}'" \
+#      --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+#      --gin_param="utils.run.train_steps=$((PRETRAINED_STEPS + FINETUNE_STEPS))" \
+#      --gin_param="utils.run.init_checkpoint='${PRETRAINED_DIR}/model.ckpt-${PRETRAINED_STEPS}'" \
+#      --t5_tfds_data_dir="${BUCKET}/t5-tfds" \
+#      --gin_location_prefix="multilingual_t5/gin/"
 
   # Run eval
-  python -m t5.models.mesh_transformer_main \
-    --module_import="parsiglue_tasks" \
-    --tpu="${TPU_NAME}" \
-    --gcp_project="${PROJECT}" \
-    --tpu_zone="${ZONE}" \
-    --model_dir="${MODEL_DIR}" \
-    --gin_file="dataset.gin" \
-    --gin_file="${MODEL_DIR}/operative_config.gin" \
-    --gin_file="eval.gin" \
-    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
-    --gin_param="MIXTURE_NAME = '${TASK}'" \
-    --gin_param="utils.run.dataset_split = 'dev'" \
-    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
-    --gin_param="utils.run.eval_checkpoint_step='all'" \
-    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
-
-  # evaluate on ParsiGLUE
-#  TASK=parsiglue_entailment
 #  python -m t5.models.mesh_transformer_main \
 #    --module_import="parsiglue_tasks" \
 #    --tpu="${TPU_NAME}" \
@@ -914,10 +896,28 @@ for SIZE in "${sizes[@]}"; do
 #    --gin_file="eval.gin" \
 #    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
 #    --gin_param="MIXTURE_NAME = '${TASK}'" \
-#    --gin_param="utils.run.dataset_split = 'test_farstail'" \
+#    --gin_param="utils.run.dataset_split = 'dev'" \
 #    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
 #    --gin_param="utils.run.eval_checkpoint_step='all'" \
 #    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
+
+  # evaluate on ParsiGLUE
+  TASK=parsiglue_readingcomprehension
+  python -m t5.models.mesh_transformer_main \
+    --module_import="parsiglue_tasks" \
+    --tpu="${TPU_NAME}" \
+    --gcp_project="${PROJECT}" \
+    --tpu_zone="${ZONE}" \
+    --model_dir="${MODEL_DIR}" \
+    --gin_file="dataset.gin" \
+    --gin_file="${MODEL_DIR}/operative_config.gin" \
+    --gin_file="eval.gin" \
+    --gin_param="utils.tpu_mesh_shape.tpu_topology = 'v3-8'" \
+    --gin_param="MIXTURE_NAME = '${TASK}'" \
+    --gin_param="utils.run.dataset_split = 'eval'" \
+    --gin_param="utils.run.batch_size=('tokens_per_batch', 24576)" \
+    --gin_param="utils.run.eval_checkpoint_step='all'" \
+    --t5_tfds_data_dir="${BUCKET}/t5-tfds"
 
 done
 

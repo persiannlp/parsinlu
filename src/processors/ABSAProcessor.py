@@ -205,7 +205,7 @@ def eval_aspect_polarity_accuracy(y_true, y_pred, num_aspects):
 
     return aspect_strict_Acc
 
-def absa_evaluation(data_dir, output_ids, preds):
+def absa_evaluation(data_dir, preds):
 
     label_map = {'-3': 0, '-2': 1, '-1': 2, '0': 3, '1': 4, '2': 5, '3': 6}
 
