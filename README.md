@@ -1,5 +1,5 @@
-# ParsiGLUE
-ParsiGLUE is a comprehensive suit of high-level NLP tasks for Persian language. 
+# ParsiNLU
+ParsiNLU is a comprehensive suit of high-level NLP tasks for Persian language. 
 This suit contains 6 different key NLP tasks --- *Reading Comprehension*, *Multiple-Choice Question-Answering*, 
 *Textual Entailment*, *Sentiment Analysis*, *Query Paraphrasing* and *Machine Translation*. 
 
@@ -141,7 +141,7 @@ To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselin
 
  
  ### Sentiment Analysis
- Our aspect-based sentiment analysis task includes three sub-tasks including: 1) detecting the overall sentiment of a review/document, 2) extracting aspects toward which an opinion is expressed, and 3) detecting the sentiment polarity of extracted aspects. Our annotation scheme is mainly inspired by the [`Sem-Eval 2014 Task 4`](https://www.aclweb.org/anthology/S14-2004/), ABSA scheme, with minor adjustments. Sentiment scores are chosen from `(very negative, negative, neutral, positive, very positive, mixed/borderline)`. 
+ Our aspect-based sentiment analysis task includes three sub-tasks: 1) detecting the overall sentiment of a review/document, 2) extracting aspects toward which a sentiment is expressed, and 3) detecting the sentiment polarity of extracted aspects. Our annotation scheme is mainly inspired by the [`Sem-Eval 2014 Task 4`](https://www.aclweb.org/anthology/S14-2004/), ABSA scheme, with minor adjustments. Sentiment scores are chosen from `(very negative, negative, neutral, positive, very positive, mixed/borderline)`. 
  
  So far, we have annotated documents from `food & beverages` ([`Digikala`](https://www.digikala.com/main/food-beverage/)) and `movie review` ([`Tiwall`](https://www.tiwall.com/)) domains. We have predefined list of aspects for each domain. In the following, we have listed some examples from our dataset:
 
@@ -175,8 +175,8 @@ TODO
 If you find this work useful please cite the following work: 
 ```bibtex 
 @article{2020parsiglue,
-    title={{ParsiGLUE:} A Suite of Language Understanding Challenges for Persian},
-    author={},
+    title={{ParsiNLU:} A Suite of Language Understanding Challenges for Persian},
+    author={Daniel Khashabi, Arman Cohan, Siamak Shakeri, Pedram Hosseini, Pouya Pezeshkpour, Malihe Alikhani, Moin Aminnaseri, Marzieh Bitaab, Faeze Brahman, Sarik Ghazarian, Mozhdeh Gheini, Arman Kabiri, Rabeeh Karimi Mahabadi, Omid Memarrast, Ahmadreza Mosallanezhad, Erfan Noury, Shahab Raji, Mohammad Sadegh Rasooli, Sepideh Sadeghi, Erfan Sadeqi Azer, Niloofar Safi Samghabadi, Mahsa Shafaei, Saber Sheybani, Ali Tazarv, Yadollah Yaghoobzadeh},
     journal={arXiv},
     year={2020}
 }
