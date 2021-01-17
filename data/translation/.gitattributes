@@ -7,3 +7,4 @@ mizan filter=lfs diff=lfs merge=lfs -text
 quran filter=lfs diff=lfs merge=lfs -text
 tep filter=lfs diff=lfs merge=lfs -text
 translation_combined_fa_en filter=lfs diff=lfs merge=lfs -text
+*.tsv filter=lfs diff=lfs merge=lfs -text
