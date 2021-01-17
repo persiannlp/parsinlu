@@ -1,0 +1,9 @@
+arabic_english_opus100 filter=lfs diff=lfs merge=lfs -text
+global_voices filter=lfs diff=lfs merge=lfs -text
+queries filter=lfs diff=lfs merge=lfs -text
+translation_combined_en_fa filter=lfs diff=lfs merge=lfs -text
+bible filter=lfs diff=lfs merge=lfs -text
+mizan filter=lfs diff=lfs merge=lfs -text
+quran filter=lfs diff=lfs merge=lfs -text
+tep filter=lfs diff=lfs merge=lfs -text
+translation_combined_fa_en filter=lfs diff=lfs merge=lfs -text
