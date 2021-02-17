@@ -1,1 +1,4 @@
-.idea/
+\.idea/
+.DS_Store
+data/sentiment-analysis/cached*
+src/processors/__pycache__/*

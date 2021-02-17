@@ -10,6 +10,9 @@ from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, Tenso
 from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm, trange
 
+import sys
+sys.path.append('../')
+
 from transformers import (
     WEIGHTS_NAME,
     AdamW,
@@ -241,6 +244,7 @@ def evaluate(args, model, tokenizer, prefix=""):
         nb_eval_steps = 0
         preds = None
         out_label_ids = None
+        sample_ids = None
         for batch in tqdm(eval_dataloader, desc="Evaluating"):
             model.eval()
             batch = tuple(t.to(args.device) for t in batch)
@@ -259,9 +263,11 @@ def evaluate(args, model, tokenizer, prefix=""):
             if preds is None:
                 preds = logits.detach().cpu().numpy()
                 out_label_ids = inputs["labels"].detach().cpu().numpy()
+                sample_ids = inputs["input_ids"].detach().cpu().numpy()
             else:
                 preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
                 out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
+                sample_ids = np.append(sample_ids, inputs["input_ids"].detach().cpu().numpy(), axis=0)
 
         eval_loss = eval_loss / nb_eval_steps
         if args.output_mode == "classification":
@@ -272,6 +278,8 @@ def evaluate(args, model, tokenizer, prefix=""):
             result = compute_metrics(eval_task, preds, out_label_ids)
         elif args.task_name == "entailment":
             result = compute_metrics(eval_task, preds, out_label_ids)
+        elif args.task_name == "sentiment":
+            result = compute_metrics(eval_task, preds, out_label_ids, sample_ids, args.data_dir, args.eval_on_test)
         else:
             raise Exception("Unrecognized task . . . ")
 
@@ -296,8 +304,8 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     # Load data features from cache or dataset file
     cached_features_file = os.path.join(
         args.data_dir,
-        "cached_{}_{}_{}_{}".format(
-            "test" if evaluate else "train",
+        "cached_{}_{}_{}_{}entailment".format(
+            "dev" if evaluate else "train",
             list(filter(None, args.model_name_or_path.split("/"))).pop(),
             str(args.max_seq_length),
             str(task),
@@ -309,9 +317,19 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     else:
         logger.info("Creating features from dataset file at %s", args.data_dir)
         label_list = processor.get_labels()
-        examples = (
-            processor.get_test_examples(args.data_dir) if evaluate else processor.get_train_examples(args.data_dir)
-        )
+        if evaluate and args.eval_on_test:
+            examples = (
+                processor.get_test_examples(args.data_dir)
+            )
+        elif evaluate:
+            examples = (
+                processor.get_dev_examples(args.data_dir)
+            )
+        else:
+            examples = (
+                processor.get_train_examples(args.data_dir)
+            )
+
         features = convert_examples_to_features(
             examples,
             tokenizer,
@@ -348,7 +366,7 @@ def main():
         default=None,
         type=str,
         required=True,
-        help="Name of the task; one of the followings: `qqp` or `entailment`. ",
+        help="Name of the task; one of the followings: `qqp`, `entailment`, etc. ",
     )
 
     parser.add_argument(
@@ -397,7 +415,9 @@ def main():
              "than this will be truncated, sequences shorter will be padded.",
     )
     parser.add_argument("--do_train", action="store_true", help="Whether to run training.")
-    parser.add_argument("--do_eval", action="store_true", help="Whether to run eval on the test set.")
+    parser.add_argument("--do_eval", action="store_true", help="Whether to run evaluation or not.")
+    parser.add_argument("--eval_on_test", action="store_true", help="Whether to run eval on the test set; if not, "
+                                                                    "it would evaluate on the dev set.")
     parser.add_argument(
         "--evaluate_during_training", action="store_true", help="Rul evaluation during training at each logging step."
     )

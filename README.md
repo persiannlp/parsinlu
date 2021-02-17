@@ -1,5 +1,5 @@
-# ParsiGLUE
-ParsiGLUE is a comprehensive suit of high-level NLP tasks for Persian language. 
+# ParsiNLU
+ParsiNLU is a comprehensive suit of high-level NLP tasks for Persian language. 
 This suit contains 6 different key NLP tasks --- *Reading Comprehension*, *Multiple-Choice Question-Answering*, 
 *Textual Entailment*, *Sentiment Analysis*, *Query Paraphrasing* and *Machine Translation*. 
 
@@ -9,10 +9,12 @@ If you'd like to see additional details on the dataset and how we collected, ple
 ## Getting the data 
 You can find the data under the [`data/`](data) directory.  
 
+<!---
 ## Leaderboard
 On our [leaderboard page](https://parsiglue.com) we host the state-of-art scores for each challenge task.  
+ -->
  
-## Baselines  
+## Examples and Baselines  
 First, make sure you have the data your `data/` directory.
 
 Set up your environment. You can use `conda` or `virtualenv` to create a Python environment. 
@@ -28,12 +30,12 @@ export CUDA_VISIBLE_DEVICES=YOUR_GPU_ID # for example, YOUR_GPU_ID can be 0 for 
 ```    
   
 See the relevant section on how to train models for each task:   
-    * [Textual entailment](#textual-entailment) 
-    * [Query Paraphrasing](#query-paraphrasing) 
-    * [Reading Comprehension](#reading-comprehension)
-    * [Multiple-choice QA](#multiple-choice-qa)
-    * [Machine Translation](#machine-translation) 
-    * [Sentiment Analaysis](#sentiment-analysis) 
+* [Textual entailment](#textual-entailment) 
+* [Query Paraphrasing](#query-paraphrasing) 
+* [Reading Comprehension](#reading-comprehension)
+* [Multiple-choice QA](#multiple-choice-qa)
+* [Machine Translation](#machine-translation) 
+* [Sentiment Analaysis](#sentiment-analysis) 
    
 ### Textual Entailment 
 Textual Entailment is the task of deciding whether a  whether two given questions are paraphrases of each other or not. 
@@ -82,15 +84,6 @@ Here are several examples:
 |  چرا فیلم رستاخیز اکران نشد؟ | فیلم رستاخیز در روز ۲۴ تیر ۱۳۹۴ با مجوز قانونی وزارت فرهنگ و ارشاد اسلامی به اکران عمومی درآمد اما ساعاتی پس از آن در پی مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی از پرده سینماها به پایین کشیده شد. | مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی |
 |  چه چیزهایی در آزمایش خون مشخص می شود؟ | البته آزمایش خون هم می‌توان نشان دهد که شخص پیش از این به کرونا مبتلا بوده است یا نه. خوبی تست خون این است که مشخص می‌کند فرد در برابر این بیماری مصونیت پیدا کرده است یا نه. | شخص پیش از این به کرونا مبتلا بوده است یا نه |
 
-To train a model, here is a sample script:
-```bash
-???
-```
-
-Training with the previously defined hyper-parameters yields the following results on the test set:
-```
-????
-```
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_reading_comprehension_baselines.sh`](scripts/train_and_evaluate_reading_comprehension_baselines.sh) script.
 
@@ -123,14 +116,57 @@ Specifically, here is our collection of evaluation sets:
  - **TE sentences:** the translation instances extracted from our [entailment task](#textual-entailment).    
 
 Here are several examples: 
-??
+
+|  Split | en | fa |
+| :---: | :---: | :---: |
+|  Quran | Praise be to Allah, the Cherisher and Sustainer of the worlds; |<p dir='rtl' align='right'> ستایش خدای را که پروردگار جهانیان است. </p>|
+|  Quran | This is the Book; in it is guidance sure, without doubt, to those who fear Allah; |<p dir='rtl' align='right'> این کتاب که هیچ شک در آن نیست، راهنمای پرهیزگاران است. </p>|
+|  Quran | When they meet those who believe, they say: "We believe;" but when they are alone with their evil ones, they say: "We are really with you: We (were) only jesting." |  <p dir='rtl' align='right'>و چون به اهل ایمان برسند گویند: ما ایمان آوردیم؛ و وقتی با شیاطین خود خلوت کنند گویند: ما با شماییم، جز این نیست که (مؤمنان را) مسخره می‌کنیم.</p>|
+|  Quran | Who believe in the Unseen, are steadfast in prayer, and spend out of what We have provided for them; |  <p dir='rtl' align='right'>آن کسانی که به جهان غیب ایمان آرند و نماز به پا دارند و از هر چه روزیشان کردیم به فقیران انفاق کنند.</p>|
+|  Bible | And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good. |<p dir='rtl' align='right'>  و خدا خشکی را زمین نامید و اجتماع آبها رادریا نامید. و خدا دید که نیکوست. </p>|
+|  Bible | And God said, Let the earth bring forth grass, the herb yielding seed, and the fruit tree yielding fruit after his kind, whose seed is in itself, upon the earth: and it was so. | <p dir='rtl' align='right'> و خداگفت: «زمین نباتات برویاند، علفی که تخم بیاوردو درخت میوه‌ای که موافق جنس خود میوه آوردکه تخمش در آن باشد، بر روی زمین.» و چنین شد. </p>|
+|  Bible | And the earth brought forth grass, and herb yielding seed after his kind, and the tree yielding fruit, whose seed was in itself, after his kind: and God saw that it was good. | <p dir='rtl' align='right'> و زمین نباتات را رویانید، علفی که موافق جنس خود تخم آورد و درخت میوه داری که تخمش در آن، موافق جنس خود باشد. و خدادید که نیکوست.</p>|
+|  Mizan | But Proportion has a sister, less smiling, more formidable, a Goddess even now engaged | <p dir='rtl' align='right'>اما تناسب امور خواهری دارد، نه این چنین متبسم، رعب آور‌تر، ایزد بانویی که حتی در این لحظه مشغول است. </p>|
+|  Mizan | At Hyde Park Corner on a tub she stands preaching; |<p dir='rtl' align='right'> در هاید پارک کرنر بر گلدانی ایستاده موعظه می‌کند؛ </p>|
+|  Mizan | shrouds herself in white and walks penitentially disguised as brotherly love through factories and parliaments; offers help, but desires power; | <p dir='rtl' align='right'> پیچیده در دایی سفید به نشان توبه با لباس مبدل عشق برادرانه در کارخانه‌ها و مجالس قانونگذاری راه می‌رود؛ پیشنهاد کمک می‌کند، اما طالب قدرت است.</p>|
+|  QQP | What turns people off about Quora? | <p dir='rtl' align='right'> چه چیزی مردم را از Quora دور می کند؟</p>|
+|  QQP | Is there a way to turn off the "Invite People to Join Quora' option on Quora? |  <p dir='rtl' align='right'>آیا راهی برای خاموش کردن گزینه "دعوت از مردم برای پیوستن به Quora" در Quora وجود دارد؟</p>|
+|  QQP | What were the books studied by aiims topper 2016? |  <p dir='rtl' align='right'>کتابهایی که توسط aiims topper ۲۰۱۶ مورد مطالعه قرار گرفته چه بود؟</p>|
+|  QQP | What books should I study for my PG entrance in AIIMS? |  <p dir='rtl' align='right'>برای ورود PG من در AIIMS چه کتابهایی باید مطالعه کنم؟</p>|
+|  QQP | Which website is good for downloading Android (.apk) files? |<p dir='rtl' align='right'>  کدام وب سایت برای دانلود پرونده های Android (.apk) مناسب است؟ </p>|
+|  QQP | Android Application Development: Which software is used to develop APK files? |  <p dir='rtl' align='right'>توسعه برنامه Android: از کدام نرم افزار برای توسعه فایل های APK استفاده می شود؟</p>|
 
 
 To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselines.sh`](scripts/train_and_evaluate_machine_translation_baselines.sh) script.
 
  
- ### Sentiment Analysis 
+ ### Sentiment Analysis
+ Our aspect-based sentiment analysis task includes three sub-tasks: 1) detecting the overall sentiment of a review/document, 2) extracting aspects toward which a sentiment is expressed, and 3) detecting the sentiment polarity of extracted aspects. Our annotation scheme is mainly inspired by the [`Sem-Eval 2014 Task 4`](https://www.aclweb.org/anthology/S14-2004/), ABSA scheme, with minor adjustments. Sentiment scores are chosen from `(very negative, negative, neutral, positive, very positive, mixed/borderline)`. 
+ 
+ So far, we have annotated documents from `food & beverages` ([`Digikala`](https://www.digikala.com/main/food-beverage/)) and `movie review` ([`Tiwall`](https://www.tiwall.com/)) domains. We have predefined list of aspects for each domain. In the following, we have listed some examples from our dataset:
+
+| Domain  | Review | Sentiment  | (Aspect, Sentiment) |
+| :---: | ------------- | :---: | :---: |
+| Food & beverages  | <p dir='rtl' align='right'>خیلی خیلی کادوی جذابیه هم بسته بندی شیک هم شکلات خوشمزه و قلبی شکل خصوصا که پاکت هم داره</p> | Very positive <img width=400/> | (بسته بندی، خیلی مثبت) <br>(طعم، مثبت) <img width=500/>|
+| Food & beverages  | <p dir='rtl' align='right'>در شگفت انگیز به قیمت خیلی پایین خریدم ولی به نظرم ارزش نداره و طعم خاصی جز شکر نداره</p> | Negative | (ارزش خرید، منفی)<br> (طعم، منفی) |
+| Movie review  |<p dir='rtl' align='right'>در جشنواره متاسفانه نتونستم ببینم ولی دیشب در اکران فیلم های جشنواره فجر در پردیس چارسو موفق به دیدن فیلم شدم. چه فیلم خوبی از فضای بصری زیبا و چشم نواز، تا بازی فوق العاده حامد بهداد.....</p> | Positive | (صحنه، مثبت)<br> (بازی، خیلی مثبت) |
+| Movie review  |<p dir='rtl' align='right'>فیلمی بسیار ضعیف، علی الخصوص در زمینه ی تدوین و فیلم نامه پر از شعار زدگی، کلیشه و اغراق آمیز!!! واقعا خانم درخشنده توی این فیلم تنزل فاحشی پیدا کردن. بعد اصلا معلوم نیست اون زن دوم اون وسط چی میگه، از بس که شخصیت پردازی ضعیفه!</p> | Very negative | (بازی، خیلی منفی) <br>(داستان، خیلی منفی) <br>(کارگردانی، خیلی منفی) |
+| Movie review | <p dir='rtl' align='right'>فیلم از فضای نقد اجتماعی و سیاسی تهی است...یه قصه غیر قابل باور که هیجان خاصی نداشت...ریتم فیلم قابل قبول بود...الناز شاکردوست هم خیلی فراتر از انتظار بود...نمره 5 از 10</p> | Mixed/borderline | (داستان، منفی)<br> (بازی، خیلی مثبت) |
+
+
+To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
+
+<!---
+## Using the finetuned models
+
+Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
+You can our list of models in [this page](https://huggingface.co/persiannlp).  
+
+This is an example of how you can call these models: 
+```python 
 TODO 
+```
+-->
 
 ## FAQ 
 **I have GPU on my machine by `n_gpu` is shown as `0`. Where is the problem?** Check out [this thread](https://github.com/pytorch/pytorch/issues/15612).  
@@ -139,8 +175,8 @@ TODO
 If you find this work useful please cite the following work: 
 ```bibtex 
 @article{2020parsiglue,
-    title={},
-    author={},
+    title={{ParsiNLU:} A Suite of Language Understanding Challenges for Persian},
+    author={Daniel Khashabi, Arman Cohan, Siamak Shakeri, Pedram Hosseini, Pouya Pezeshkpour, Malihe Alikhani, Moin Aminnaseri, Marzieh Bitaab, Faeze Brahman, Sarik Ghazarian, Mozhdeh Gheini, Arman Kabiri, Rabeeh Karimi Mahabadi, Omid Memarrast, Ahmadreza Mosallanezhad, Erfan Noury, Shahab Raji, Mohammad Sadegh Rasooli, Sepideh Sadeghi, Erfan Sadeqi Azer, Niloofar Safi Samghabadi, Mahsa Shafaei, Saber Sheybani, Ali Tazarv, Yadollah Yaghoobzadeh},
     journal={arXiv},
     year={2020}
 }
