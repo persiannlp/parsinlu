@@ -137,7 +137,9 @@ Here are several examples:
 |  QQP | Android Application Development: Which software is used to develop APK files? |  <p dir='rtl' align='right'>توسعه برنامه Android: از کدام نرم افزار برای توسعه فایل های APK استفاده می شود؟</p>|
 
 
-To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselines.sh`](scripts/train_and_evaluate_machine_translation_baselines.sh) script.
+To downloading the data, take a look at the [this](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_en_fa) and [that](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_fa_en) directories. 
+
+All the baselines here use T5. Take a look at [this section](Reproducing-mT5-baselines) for more description on that. 
 
  
  ### Sentiment Analysis
@@ -167,6 +169,10 @@ This is an example of how you can call these models:
 TODO 
 ```
 -->
+
+## Reproducing mT5 baselines 
+TODO 
+
 
 ## FAQ 
 **I have GPU on my machine by `n_gpu` is shown as `0`. Where is the problem?** Check out [this thread](https://github.com/pytorch/pytorch/issues/15612).  
