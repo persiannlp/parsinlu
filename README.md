@@ -139,7 +139,7 @@ Here are several examples:
 
 To downloading the data, take a look at the [this](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_en_fa) and [that](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_fa_en) directories. 
 
-All the baselines here use T5. Take a look at [this section](Reproducing-mT5-baselines) for more description on that. 
+All the baselines here use T5. Take a look at [this section](#reproducing-mt5-baselines) for more description on that. 
 
  
  ### Sentiment Analysis
