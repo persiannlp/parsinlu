@@ -46,19 +46,19 @@ def convert_multiple_choice_questions(file):
             candidates = [c for c in candidates if len(c.strip()) > 0]
             print(answer)
             print(candidates)
-            answer_str = candidates[answer-1].replace("\n", "\\n").replace("\r", " ")
+            answer_str = candidates[answer-1].replace("\n", "\\n").replace("\r", " ").replace("\"", "").replace("\t", "").replace("'", "").replace("n\\", "").replace("\\", "")
             candidates = [f"<sep> {c}" for (i, c) in enumerate(candidates)]
             candidates = " ".join(candidates)
-            candidates = candidates.replace("\n", "\\n").replace("\r", " ")
-            question = question.replace("\n", "\\n").replace("\r", " ")
+            candidates = candidates.replace("\n", " ").replace("\r", " ").replace("\"", "").replace("\t", "").replace("'", "").replace("n\\", "").replace("\\", "")
+            question = question.replace("\n", " ").replace("\r", " ").replace("\"", "").replace("\t", "").replace("'", "").replace("n\\", "").replace("\\", "")
             outf.write(f"{question} {candidates}\t{answer_str}\n")
 
 
-# convert_multiple_choice_questions("../../data/multiple-choice/train.jsonl")
-# convert_multiple_choice_questions("../../data/multiple-choice/test_ck.jsonl")
-# convert_multiple_choice_questions("../../data/multiple-choice/test_lit.jsonl")
-# convert_multiple_choice_questions("../../data/multiple-choice/test_ml.jsonl")
-# convert_multiple_choice_questions("../../data/multiple-choice/valid.jsonl")
+convert_multiple_choice_questions("../../data/multiple-choice/train.jsonl")
+convert_multiple_choice_questions("../../data/multiple-choice/test_ck.jsonl")
+convert_multiple_choice_questions("../../data/multiple-choice/test_lit.jsonl")
+convert_multiple_choice_questions("../../data/multiple-choice/test_ml.jsonl")
+convert_multiple_choice_questions("../../data/multiple-choice/valid.jsonl")
 
 separators = ['(A)', '(B)', '(C)', '(D)', '(E)']
 
@@ -485,4 +485,4 @@ def convert_reading_comprehension():
             answers = json.dumps(json_line['answers']).replace("\n", " ").replace("\t", " ")
             outfile.write(f"{passage} \\n {question}\t{answers}\n")
 
-convert_reading_comprehension()
+# convert_reading_comprehension()
