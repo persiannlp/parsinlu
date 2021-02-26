@@ -158,17 +158,12 @@ All the baselines here use T5. Take a look at [this section](#reproducing-mt5-ba
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
 
-<!---
-## Using the finetuned models
+
+## Using the finetuned models using the HuggingFace🤗 library 
 
 Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
 You can our list of models in [this page](https://huggingface.co/persiannlp).  
-
-This is an example of how you can call these models: 
-```python 
-TODO 
-```
--->
+Each model readme contains descriptions on how to use it. 
 
 ## Reproducing mT5 baselines 
 To use mT5 baselines you need the followings: 
