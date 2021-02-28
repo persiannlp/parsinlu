@@ -137,7 +137,9 @@ Here are several examples:
 |  QQP | Android Application Development: Which software is used to develop APK files? |  <p dir='rtl' align='right'>توسعه برنامه Android: از کدام نرم افزار برای توسعه فایل های APK استفاده می شود؟</p>|
 
 
-To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselines.sh`](scripts/train_and_evaluate_machine_translation_baselines.sh) script.
+To downloading the data, take a look at the [this](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_en_fa) and [that](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_fa_en) directories. 
+
+All the baselines here use T5. Take a look at [this section](#reproducing-mt5-baselines) for more description on that. 
 
  
  ### Sentiment Analysis
@@ -156,17 +158,24 @@ To reproduce our baselines, try [`train_and_evaluate_machine_translation_baselin
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
 
-<!---
-## Using the finetuned models
+
+## Using the finetuned models using the HuggingFace🤗 library 
 
 Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
 You can our list of models in [this page](https://huggingface.co/persiannlp).  
+Each model readme contains descriptions on how to use it. 
 
-This is an example of how you can call these models: 
-```python 
-TODO 
-```
--->
+## Reproducing mT5 baselines 
+To use mT5 baselines you need the followings: 
+ - Convert all the data into train/test/dev splits organized in TSV format (first column: input, 2nd column: output). For example, see [the translation data](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_fa_en). We have a [script](https://github.com/persiannlp/parsinlu/blob/master/src/t5/create_t5_data.py) for this conversion. 
+ - A Cloud storage: best to use [Google cloud buckets](https://cloud.google.com/storage/docs/json_api/v1/buckets) to store your train/eval/dev data. 
+ - A TPU: for the experiments in this work we used v3-8 TPUs, provided for free by [TFRC program](https://www.tensorflow.org/tfrc) (thanks, Google!!).  
+ - A [virtual machine](https://cloud.google.com/compute) to run the experiments: create one CPU machine, in the same zone/region as your TPU.  
+ - [Install T5](https://github.com/google-research/text-to-text-transfer-transformer/#installation) and run the [file-tuning scripts](https://github.com/persiannlp/parsinlu/blob/master/src/t5/finetuning_scripts.sh) on your virtual machine. 
+ - After your obtain the predictions, use our evaluation scripts in [this directory](https://github.com/persiannlp/parsinlu/tree/master/src/t5). 
+
+ **Note**: If you don't have access to TPUs, you should be able to use the HuggingFace library to train mT5 on your GPU machine. We don't have the scripts for that, but you should be ale to follow [the examples here](https://github.com/huggingface/transformers/tree/master/examples/seq2seq). 
+
 
 ## FAQ 
 **I have GPU on my machine by `n_gpu` is shown as `0`. Where is the problem?** Check out [this thread](https://github.com/pytorch/pytorch/issues/15612).  
