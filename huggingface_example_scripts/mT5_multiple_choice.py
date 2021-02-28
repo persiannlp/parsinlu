@@ -1,9 +1,10 @@
-from transformers import T5ForConditionalGeneration, AutoTokenizer
+from transformers import MT5ForConditionalGeneration, MT5Tokenizer
 
-model_size = "small"
-model_name = "persiannlp/mT5_persian_multiple_choice_" + model_size
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = T5ForConditionalGeneration.from_pretrained(model_name)
+model_size = "large"
+model_name = f"persiannlp/mt5-{model_size}-parsinlu-multiple-choice"
+tokenizer = MT5Tokenizer.from_pretrained(model_name)
+model = MT5ForConditionalGeneration.from_pretrained(model_name)
+
 
 def run_model(input_string, **generator_args):
     input_ids = tokenizer.encode(input_string, return_tensors="pt")
@@ -15,5 +16,5 @@ def run_model(input_string, **generator_args):
 
 run_model("وسیع ترین کشور جهان کدام است؟ <sep> آمریکا <sep> کانادا <sep> روسیه <sep> چین")
 run_model("طامع یعنی ؟ <sep> آزمند <sep> خوش شانس <sep> محتاج <sep> مطمئن")
-run_model("زمینی به ۳۱ قطعه متساوی مفروض شده است و هر روز مساحت آماده شده برای احداث، دو برابر مساحت روز قبل است.اگر پس از (۵ روز) تمام زمین آماده شده باشد، در چه روزی یک قطعه زمین آماده شده <sep> روز اول <sep> روز دوم <sep> روز سوم <sep> هیچکدام")
-
+run_model(
+    "زمینی به ۳۱ قطعه متساوی مفروض شده است و هر روز مساحت آماده شده برای احداث، دو برابر مساحت روز قبل است.اگر پس از (۵ روز) تمام زمین آماده شده باشد، در چه روزی یک قطعه زمین آماده شده <sep> روز اول <sep> روز دوم <sep> روز سوم <sep> هیچکدام")
