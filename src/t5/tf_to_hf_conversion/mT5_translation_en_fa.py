@@ -2,15 +2,16 @@ from transformers import T5Config, MT5ForConditionalGeneration, MT5Tokenizer
 from transformers.models.t5.modeling_t5 import load_tf_weights_in_t5
 
 if True:
-    model_name = "google/mt5-xl"
+    size = "large"
+    model_name = f"google/mt5-{size}"
     tokenizer = MT5Tokenizer.from_pretrained(model_name)
     model = MT5ForConditionalGeneration(T5Config.from_pretrained(model_name))
 
-    load_tf_weights_in_t5(model, None, "/Users/danielk/ideaProjects/parsiglue-baselines/huggingface_example_scripts/mt5/xl")
+    load_tf_weights_in_t5(model, None, f"/Users/danielk/ideaProjects/parsiglue-baselines/src/t5/tf_to_hf_conversion/{size}")
     model.eval()
 
-    model.save_pretrained(f"/Users/danielk/ideaProjects/parsiglue-baselines/huggingface_example_scripts/mT5_persian_multiple_choice_xl")
-    tokenizer.save_pretrained(f"/Users/danielk/ideaProjects/parsiglue-baselines/huggingface_example_scripts/mT5_persian_multiple_choice_xl")
+    model.save_pretrained(f"/Users/danielk/ideaProjects/parsiglue-baselines/src/t5/tf_to_hf_conversion/mt5-{size}-parsinlu-translation_en_fa")
+    tokenizer.save_pretrained(f"/Users/danielk/ideaProjects/parsiglue-baselines/src/t5/tf_to_hf_conversion/mt5-{size}-parsinlu-translation_en_fa")
 else:
     model_name = "/Users/danielk/ideaProjects/parsiglue-baselines/huggingface_example_scripts/mT5_persian_multiple_choice_small"
     tokenizer = MT5Tokenizer.from_pretrained(model_name)
@@ -24,7 +25,9 @@ def run_model(input_string, **generator_args):
     return output
 
 
-run_model("وسیع ترین کشور جهان کدام است؟ <sep> آمریکا <sep> کانادا <sep> روسیه <sep> چین")
-run_model("طامع یعنی ؟ <sep> آزمند <sep> خوش شانس <sep> محتاج <sep> مطمئن")
-run_model("زمینی به ۳۱ قطعه متساوی مفروض شده است و هر روز مساحت آماده شده برای احداث، دو برابر مساحت روز قبل است.اگر پس از (۵ روز) تمام زمین آماده شده باشد، در چه روزی یک قطعه زمین آماده شده <sep> روز اول <sep> روز دوم <sep> روز سوم <sep> هیچکدام")
+run_model("Praise be to Allah, the Cherisher and Sustainer of the worlds;")
+run_model("shrouds herself in white and walks penitentially disguised as brotherly love through factories and parliaments; offers help, but desires power;")
+run_model("He thanked all fellow bloggers and organizations that showed support.")
+run_model("Races are held between April and December at the Veliefendi Hippodrome near Bakerky, 15 km (9 miles) west of Istanbul.")
+run_model("I want to pursue PhD in Computer Science about social network,what is the open problem in social networks?")
 

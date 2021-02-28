@@ -54,11 +54,11 @@ def convert_multiple_choice_questions(file):
             outf.write(f"{question} {candidates}\t{answer_str}\n")
 
 
-convert_multiple_choice_questions("../../data/multiple-choice/train.jsonl")
-convert_multiple_choice_questions("../../data/multiple-choice/test_ck.jsonl")
-convert_multiple_choice_questions("../../data/multiple-choice/test_lit.jsonl")
-convert_multiple_choice_questions("../../data/multiple-choice/test_ml.jsonl")
-convert_multiple_choice_questions("../../data/multiple-choice/valid.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/train.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/test_ck.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/test_lit.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/test_ml.jsonl")
+# convert_multiple_choice_questions("../../data/multiple-choice/valid.jsonl")
 
 separators = ['(A)', '(B)', '(C)', '(D)', '(E)']
 
@@ -144,10 +144,10 @@ def convert_quaran_data():
 
     for (en1, fa1, en_all, fa_all) in zip(en_lines_per_file[en_ref], fa_lines_per_file[fa_ref],
                                           en_lines_per_file['combined'], fa_lines_per_file['combined']):
-        fa1 = fa1.replace('\n', '')
-        en1 = en1.replace('\n', '')
-        fa_all = fa_all.replace('\n', '')
-        en_all = en_all.replace('\n', '')
+        fa1 = fa1.replace('\n', '').replace('\t', '')
+        en1 = en1.replace('\n', '').replace('\t', '')
+        fa_all = fa_all.replace('\n', '').replace('\t', ' ')
+        en_all = en_all.replace('\n', '').replace('\t', ' ')
         outf_enfa.write(f"{en1}\t{fa_all}\n")
         outf_faen.write(f"{fa1}\t{en_all}\n")
 
@@ -162,8 +162,8 @@ def convert_tep_data():
     outf_enfa = open("../../data/translation/tep/tep_en_fa.tsv", "+w")
     outf_faen = open("../../data/translation/tep/tep_fa_en.tsv", "+w")
     for (en, fa) in zip(lines_en, lines_fa):
-        fa = fa.replace('\n', '')
-        en = en.replace('\n', '')
+        fa = fa.replace('\n', '').replace('\t', ' ')
+        en = en.replace('\n', '').replace('\t', ' ')
         outf_enfa.write(f"{en}\t{fa}\n")
         outf_faen.write(f"{fa}\t{en}\n")
 
@@ -186,8 +186,8 @@ def convert_bible_data():
     outf_faen = open("../../data/translation/bible/bible_fa_en.tsv", "+w")
 
     for (en, fa) in zip(lines_en, lines_fa):
-        fa = fa.replace('\n', '')
-        en = en.replace('\n', '')
+        fa = fa.replace('\n', '').replace('\t', ' ')
+        en = en.replace('\n', '').replace('\t', ' ')
         outf_enfa.write(f"{en}\t{fa}\n")
         outf_faen.write(f"{fa}\t{en}\n")
 
@@ -204,8 +204,8 @@ def convert_mizan_data():
         outf_faen = open(f"../../data/translation/mizan/mizan_{split}_fa_en.tsv", "+w")
 
         for (en, fa) in zip(lines_en, lines_fa):
-            fa = fa.replace('\n', '')
-            en = en.replace('\n', '')
+            fa = fa.replace('\n', '').replace('\t', ' ')
+            en = en.replace('\n', '').replace('\t', ' ')
             outf_enfa.write(f"{en}\t{fa}\n")
             outf_faen.write(f"{fa}\t{en}\n")
 
@@ -225,8 +225,8 @@ def convert_global_voices():
     outf_faen = open(f"../../data/translation/global_voices/global_voices_fa_en.tsv", "+w")
 
     for (en, fa) in zip(lines_en, lines_fa):
-        fa = fa.replace('\n', '')
-        en = en.replace('\n', '')
+        fa = fa.replace('\n', '').replace('\t', ' ')
+        en = en.replace('\n', '').replace('\t', ' ')
         outf_enfa.write(f"{en}\t{fa}\n")
         outf_faen.write(f"{fa}\t{en}\n")
 
@@ -243,27 +243,39 @@ def convert_queries_data():
     with open("../../data/qqp/QQP-all-final.tsv") as f:
         for line in f.readlines():
             line_split = line.split("\t")
-            q1_en = line_split[3]
-            q2_en = line_split[4]
-            q1_fa = line_split[8]
-            q2_fa = line_split[9]
+            q1_en = line_split[3].replace('\t', ' ')
+            q2_en = line_split[4].replace('\t', ' ')
+            q1_fa = line_split[8].replace('\t', ' ')
+            q2_fa = line_split[9].replace('\t', ' ')
             split = line_split[11]
             if len(q1_en) > 5 and len(q1_fa) > 5:
                 if split == "train":
                     outfile_fa_en_train.write(f"{q1_fa}\t{q1_en}\n")
+                    outfile_fa_en_train.write(f"{q2_fa}\t{q2_en}\n")
                 elif split == "test":
                     outfile_fa_en_test.write(f"{q1_fa}\t{q1_en}\n")
+                    outfile_fa_en_test.write(f"{q2_fa}\t{q2_en}\n")
                 else:
                     outfile_fa_en_dev.write(f"{q1_fa}\t{q1_en}\n")
+                    outfile_fa_en_dev.write(f"{q2_fa}\t{q2_en}\n")
 
                 if split == "train":
                     outfile_en_fa_train.write(f"{q1_en}\t{q1_fa}\n")
+                    outfile_en_fa_train.write(f"{q2_en}\t{q2_fa}\n")
                 elif split == "test":
                     outfile_en_fa_test.write(f"{q1_en}\t{q1_fa}\n")
+                    outfile_en_fa_test.write(f"{q2_en}\t{q2_fa}\n")
                 else:
                     outfile_en_fa_dev.write(f"{q1_en}\t{q1_fa}\n")
+                    outfile_en_fa_dev.write(f"{q2_en}\t{q2_fa}\n")
 
 # convert_queries_data()
+# convert_tep_data()
+# convert_bible_data()
+# convert_mizan_data()
+# convert_global_voices()
+# convert_quaran_data()
+
 
 def combine_tsv_files(outfile_name, files):
     combined_file = open(outfile_name, "w")
@@ -321,7 +333,7 @@ def combine_translation_datasets():
     ]
     combine_tsv_files("../../data/translation/translation_combined_en_fa/train.tsv", train_sets)
 
-# combine_translation_datasets()
+combine_translation_datasets()
 
 def convert_opus_data():
     def combine_file_pair(arabic_file, english_file):
@@ -351,11 +363,6 @@ def convert_opus_data():
     )
 
 # convert_opus_data()
-# convert_tep_data()
-# convert_bible_data()
-# convert_mizan_data()
-# convert_global_voices()
-# convert_quaran_data()
 
 # textual entailment
 import csv
