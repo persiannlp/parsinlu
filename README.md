@@ -169,7 +169,7 @@ Each model readme contains descriptions on how to use it.
 To use mT5 baselines you need the followings: 
  - Convert all the data into train/test/dev splits organized in TSV format (first column: input, 2nd column: output). For example, see [the translation data](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_fa_en). We have a [script](https://github.com/persiannlp/parsinlu/blob/master/src/t5/create_t5_data.py) for this conversion. 
  - A Cloud storage: best to use [Google cloud buckets](https://cloud.google.com/storage/docs/json_api/v1/buckets) to store your train/eval/dev data. 
- - A TPU: for the experiments in this work we used v3-8 TPUs, provided for free by [TFRC program](https://www.tensorflow.org/tfrc) (thanks, Google!!).  
+ - A TPU: for the experiments in this work we used v3-8 TPUs. You can get such TPUs for free from [the TFRC program](https://www.tensorflow.org/tfrc) (thanks, Google!!).  
  - A [virtual machine](https://cloud.google.com/compute) to run the experiments: create one CPU machine, in the same zone/region as your TPU.  
  - [Install T5](https://github.com/google-research/text-to-text-transfer-transformer/#installation) and run the [file-tuning scripts](https://github.com/persiannlp/parsinlu/blob/master/src/t5/finetuning_scripts.sh) on your virtual machine. 
  - After your obtain the predictions, use our evaluation scripts in [this directory](https://github.com/persiannlp/parsinlu/tree/master/src/t5). 
