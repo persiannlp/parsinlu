@@ -1,4 +1,3 @@
-import random
 import t5
 import os
 import functools
@@ -99,7 +98,6 @@ t5.data.TaskRegistry.add(
     metric_fns=[metrics.squad],
 )
 
-
 t5.data.TaskRegistry.add(
     f"english_multiple_choice_arc_comqa_obqa",
     # Supply a function which returns a tf.data.Dataset.
@@ -112,7 +110,6 @@ t5.data.TaskRegistry.add(
     output_features=DEFAULT_OUTPUT_FEATURES,
     metric_fns=[metrics.squad],
 )
-
 
 t5.data.TaskRegistry.add(
     f"translation_combined_fa_en",
@@ -153,7 +150,6 @@ t5.data.TaskRegistry.add(
     metric_fns=[metrics.squad],
 )
 
-
 t5.data.TaskRegistry.add(
     f"parsiglue_entailment",
     # Supply a function which returns a tf.data.Dataset.
@@ -179,7 +175,6 @@ t5.data.TaskRegistry.add(
     output_features=DEFAULT_OUTPUT_FEATURES,
     metric_fns=[metrics.squad],
 )
-
 
 t5.data.TaskRegistry.add(
     f"squad1_1",
@@ -219,3 +214,11 @@ t5.data.TaskRegistry.add(
     output_features=DEFAULT_OUTPUT_FEATURES,
     metric_fns=[metrics.squad],
 )
+
+
+t5.data.MixtureRegistry.add(f"reading_com_mixture", ["parsiglue_readingcomprehension", "squad1_1"], default_rate=1.0)
+t5.data.MixtureRegistry.add(f"sentiment_mixture", ["parsiglue_sentiment", "?"], default_rate=1.0)
+t5.data.MixtureRegistry.add(f"entailment_mixture", ["parsiglue_entailment", "snli_entailment"], default_rate=1.0)
+t5.data.MixtureRegistry.add(f"translation_x_en_mixture", ["translation_combined_fa_en", "arabic_english_opus100"], default_rate=1.0)
+t5.data.MixtureRegistry.add(f"multiple_choice_mixture", ["multiple_choice_str", "english_multiple_choice_arc_comqa_obqa"], default_rate=1.0)
+t5.data.MixtureRegistry.add(f"qqp_mixture", ["qqp", "qqp_english"], default_rate=1.0)

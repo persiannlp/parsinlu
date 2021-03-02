@@ -1,7 +1,9 @@
-from transformers import AutoConfig, AutoModelForSequenceClassification, AutoTokenizer
+import torch
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+import numpy as np
 
 labels = ["entails", "contradicts", "neutral"]
-model_name_or_path = "bert-base-multilingual-cased_batch_size=8_learning_rate=3e-5_learning_rate=3e-5_num_train_epoch=3"
+model_name_or_path = "persiannlp/mbert-base-parsinlu-entailment"
 model = AutoModelForSequenceClassification.from_pretrained(model_name_or_path)
 tokenizer = AutoTokenizer.from_pretrained(model_name_or_path,)
 
@@ -10,7 +12,9 @@ def model_predict(text_a, text_b):
     features = tokenizer( [(text_a, text_b)], padding="max_length", truncation=True, return_tensors='pt')
     output = model(**features)
     logits = output[0]
-    print(logits)
+    probs = torch.nn.functional.softmax(logits, dim=1).tolist()
+    idx = np.argmax(np.array(probs))
+    print(labels[idx], probs)
 
 
 model_predict(
@@ -27,7 +31,3 @@ model_predict(
     "ما به سفرهایی رفته ایم که در نهرهایی شنا کرده ایم",
     "علاوه بر استحمام در نهرها ، ما به اسپا ها و سونا ها نیز رفته ایم."
 )
-
-# model.to(args.device)
-# model.save_pretrained("path/to/repo/clone/your-model-name")
-# tokenizer.save_pretrained("path/to/repo/clone/your-model-name")
