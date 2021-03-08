@@ -190,3 +190,13 @@ If you find this work useful please cite the following work:
     year={2020}
 }
 ```
+
+If you use the translatin task, please cite the following work as well: 
+```
+@article{kashefi2018mizan,
+  title={MIZAN: a large persian-english parallel corpus},
+  author={Kashefi, Omid},
+  journal={arXiv preprint arXiv:1801.02107},
+  year={2018}
+}
+``` 

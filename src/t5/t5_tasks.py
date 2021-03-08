@@ -206,7 +206,7 @@ t5.data.TaskRegistry.add(
     f"parsiglue_readingcomprehension",
     # Supply a function which returns a tf.data.Dataset.
     dataset_fn=functools.partial(dataset_fn, dataset="parsiglue_readingcomprehension"),
-    splits=["eval"],
+    splits=["train", "dev", "eval"],
     # Supply a function which preprocesses text from the tf.data.Dataset.
     text_preprocessor=preprocess,
     # Lowercase targets before computing metrics.
@@ -216,9 +216,9 @@ t5.data.TaskRegistry.add(
 )
 
 
-t5.data.MixtureRegistry.add(f"reading_com_mixture", ["parsiglue_readingcomprehension", "squad1_1"], default_rate=1.0)
-t5.data.MixtureRegistry.add(f"sentiment_mixture", ["parsiglue_sentiment", "?"], default_rate=1.0)
 t5.data.MixtureRegistry.add(f"entailment_mixture", ["parsiglue_entailment", "snli_entailment"], default_rate=1.0)
 t5.data.MixtureRegistry.add(f"translation_x_en_mixture", ["translation_combined_fa_en", "arabic_english_opus100"], default_rate=1.0)
 t5.data.MixtureRegistry.add(f"multiple_choice_mixture", ["multiple_choice_str", "english_multiple_choice_arc_comqa_obqa"], default_rate=1.0)
 t5.data.MixtureRegistry.add(f"qqp_mixture", ["qqp", "qqp_english"], default_rate=1.0)
+t5.data.MixtureRegistry.add(f"reading_com_mixture", ["parsiglue_readingcomprehension", "squad1_1"], default_rate=1.0)
+# t5.data.MixtureRegistry.add(f"sentiment_mixture", ["parsiglue_sentiment", "?"], default_rate=1.0)
