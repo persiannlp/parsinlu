@@ -57,6 +57,7 @@ Here are several examples:
 
 To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines)), try [`train_and_evaluate_entailment_baselines.sh`](scripts/train_and_evaluate_entailment_baselines.sh) script.
 
+ You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-snli-entailment?text=%D8%A2%DB%8C%D8%A7+%DA%A9%D9%88%D8%AF%DA%A9%D8%A7%D9%86%DB%8C+%D9%88%D8%AC%D9%88%D8%AF+%D8%AF%D8%A7%D8%B1%D9%86%D8%AF+%DA%A9%D9%87+%D9%86%DB%8C%D8%A7%D8%B2+%D8%A8%D9%87+%D8%B3%D8%B1%DA%AF%D8%B1%D9%85%DB%8C+%D8%AF%D8%A7%D8%B1%D9%86%D8%AF%D8%9F+%3Csep%3E+%D9%87%DB%8C%DA%86+%DA%A9%D9%88%D8%AF%DA%A9%DB%8C+%D9%87%D8%B1%DA%AF%D8%B2+%D9%86%D9%85%DB%8C+%D8%AE%D9%88%D8%A7%D9%87%D8%AF+%D8%B3%D8%B1%DA%AF%D8%B1%D9%85+%D8%B4%D9%88%D8%AF.&fullscreen=true) to see an example. 
  
  ### Query Paraphrasing 
  QQP is the task of detecting whether two given questions are paraphrases of each other or not.
@@ -72,6 +73,7 @@ To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-basel
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_qqp_baselines.sh`](scripts/train_and_evaluate_qqp_baselines.sh) script. 
 
+You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-qqp-query-paraphrasing?text=%D8%A2%DB%8C%D8%A7+%D9%84%DB%8C%D8%B2%D8%B1+%D9%85%D9%88%D9%87%D8%A7%DB%8C+%D8%B2%D8%A7%D8%A6%D8%AF+%D8%AF%D8%A7%D8%A6%D9%85%DB%8C+%D8%A7%D8%B3%D8%AA%D8%9F+%3Csep%3E+%D8%A2%DB%8C%D8%A7+%D9%84%DB%8C%D8%B2%D8%B1+%D9%85%D9%88%D9%87%D8%A7%DB%8C+%D8%B2%D8%A7%D8%A6%D8%AF+%D8%A8%D8%A7%D8%B9%D8%AB+%D9%81%D8%B1%D8%A7%D8%B1+%D8%AF%D8%A7%D8%A6%D9%85%DB%8C+%D8%A7%D8%B2+%D9%85%D9%88%D9%87%D8%A7%DB%8C+%D9%86%D8%A7%D8%AE%D9%88%D8%A7%D8%B3%D8%AA%D9%87+%D9%85%DB%8C+%D8%B4%D9%88%D8%AF%D8%9F) to see an example. 
  
 ### Reading Comprehension 
 In this task, the goal is to generate a response to question and its accompanying context paragraph. 
@@ -85,13 +87,10 @@ Here are several examples:
 |  چه کسانی فدک را به پیامبر اعطا کردند؟ | یهودیان که از مسلمانان در جنگ‌های مختلفی شکست خورده بودند در جریان فتح فدک ناچار به صلح با محمد (پیامبر اسلام) شدند.<br/><br/>فدک در نزدیکی خیبر قرار داشت و با توجه به موقعیت استراتژیک خود نقطه اتکاء یهودیان حجاز به‌شمار می‌رفت. پس از آنکه سپاه اسلام، یهودیان را در «خیبر» و «وادی‌القری» و «تیما» شکست داد، برای پایان دادن به قدرت قوم یهود، سفیری به نام «محیط» به نزد سران فدک فرستادند. سران فدک صلح و تسلیم را بر جنگ ترجیح دادند و تعهد کردند که هر سال نیمی از محصولات فدک را در اختیار پیامبر قرار داده و از این به بعد زیر سلطه اسلام زندگی کنند. | یهودیان |
 |  کدام دانشگاه ها رشته مترجمی زبان دارند؟ | رشته مترجمی زبان انگلیسی یکی از رشته‌ها در دانشگاه‌های ایران است که در آن کار ترجمه از زبان فارسی به انگلیسی و بالعکس به دانشجویان آموخته می‌شود. این رشته در سطح کاردانی کارشناسی کارشناسی ارشد و دکترا در بیشتر دانشگاه‌ها و موسسات آموزش عالی ایران وجود دارد. یک رشته نظری و عمومی با عنوان مطالعات ترجمه (که به یک زبان خاص مربوط نمی‌شود) در مقاطع بالاتر هم وجود دارد. | بیشتر دانشگاه‌ها و موسسات آموزش عالی ایران |
 |  پنجاب مربوط کدام ولایت است؟ | پنجاب مرکز منطقۀ دایزنگی قدیم است، اما براساس تقسیمات اداری سال ۱۳۴۳ جزئی از ولایت بامیان شد. مرکز این ولسوالی هم پنجاب نام دارد. | بامیان |
-|  چرا زمان پخش عزیزه تغییر کرد؟ | این سریال که پخش آن از 19 آبان ماه سه شنبه شب ها آغاز شده بود به دلیل جایگاه بدی که در رتبه بندی ها به دست آورده بود به روز شنبه منتقل شد شاید تاثیری در بهتر شدن رتبه بندی ها داشته باشد، نویسنده سریال نیز به همین دلیل تغییر کرده است. | جایگاه بد در رتبه بندی ها |
-|  بیماری وبا از چه طریقی وارد بدن میشود؟ | وَبا، مرگامرگی یا کالِرا (به انگلیسی: Cholera) یک عفونت در روده باریک است که از طریق آب توسط باکتری ویبریو کلرا ایجاد می‌شود. این باکتری با نوشیدن آب آلوده یا خوردن ماهی نپخته یا خوردن صدف‌ها وارد بدن می‌شود. | نوشیدن آب آلوده یا خوردن ماهی نپخته یا خوردن صدف‌ها |
-|  چرا فیلم رستاخیز اکران نشد؟ | فیلم رستاخیز در روز ۲۴ تیر ۱۳۹۴ با مجوز قانونی وزارت فرهنگ و ارشاد اسلامی به اکران عمومی درآمد اما ساعاتی پس از آن در پی مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی از پرده سینماها به پایین کشیده شد. | مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی |
-|  چه چیزهایی در آزمایش خون مشخص می شود؟ | البته آزمایش خون هم می‌توان نشان دهد که شخص پیش از این به کرونا مبتلا بوده است یا نه. خوبی تست خون این است که مشخص می‌کند فرد در برابر این بیماری مصونیت پیدا کرده است یا نه. | شخص پیش از این به کرونا مبتلا بوده است یا نه |
-
 
 To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines), try [`train_and_evaluate_reading_comprehension_baselines.sh`](scripts/train_and_evaluate_reading_comprehension_baselines.sh) script.
+
+You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-squad-reading-comprehension?text=%D9%82%D8%A7%D8%B1%D9%87+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%AF%D8%B1+%DA%86%D9%87+%D8%B3%D8%A7%D9%84%DB%8C+%DA%A9%D8%B4%D9%81+%D8%B4%D8%AF%D8%9F+%5Cn+%DB%8C%D8%B4+%D8%A7%D8%B2+%D8%AF%D9%87+%D9%87%D8%B2%D8%A7%D8%B1+%D8%B3%D8%A7%D9%84+%D8%A7%D8%B3%D8%AA+%DA%A9%D9%87+%D8%A7%D9%86%D8%B3%D8%A7%D9%86%E2%80%8C%D9%87%D8%A7+%D8%AF%D8%B1+%D9%82%D8%A7%D8%B1%D9%87%D9%94+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%B2%D9%86%D8%AF%DA%AF%DB%8C+%D9%85%DB%8C%E2%80%8C%DA%A9%D9%86%D9%86%D8%AF.+%D9%82%D8%A7%D8%B1%D9%87+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%AA%D9%88%D8%B3%D8%B7+%DA%A9%D8%B1%DB%8C%D8%B3%D8%AA%D9%81+%DA%A9%D9%84%D9%85%D8%A8+%D9%88+%D8%AF%D8%B1+%D8%B3%D8%A7%D9%84+%DB%B1%DB%B4%DB%B9%DB%B2+%DA%A9%D8%B4%D9%81+%D8%B4%D8%AF+%D8%A7%D9%85%D8%A7+%D8%A7%D9%88+%D8%A8%D9%87+%D8%A7%D8%B4%D8%AA%D8%A8%D8%A7%D9%87+%D9%81%DA%A9%D8%B1+%DA%A9%D8%B1%D8%AF+%DA%A9%D9%87+%D8%A2%D9%86%D8%AC%D8%A7+%D9%87%D9%86%D8%AF%D9%88%D8%B3%D8%AA%D8%A7%D9%86+%D8%A7%D8%B3%D8%AA+%D8%A7%D9%85%D8%A7+%D9%85%D8%AF%D8%AA%E2%80%8C%D9%87%D8%A7+%D8%A8%D8%B9%D8%AF+%D8%A2%D9%85%D8%B1%DB%8C%DA%AF%D9%88+%D9%88%D8%B3%D9%BE%D9%88%DA%86%DB%8C+%D8%A7%D8%B9%D9%84%D8%A7%D9%85+%DA%A9%D8%B1%D8%AF+%DA%A9%D9%87+%D8%A7%DB%8C%D9%86+%D9%82%D8%A7%D8%B1%D9%87+%D8%AC%D8%AF%DB%8C%D8%AF%DB%8C+%D8%A7%D8%B3%D8%AA.+%D8%A7%D9%85%D8%A7+%D8%AA%D8%A7%D8%B1%DB%8C%D8%AE+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%A8%D9%87+%D8%B9%D9%86%D9%88%D8%A7%D9%86+%DB%8C%DA%A9+%DA%A9%D8%B4%D9%88%D8%B1+%D9%85%D8%B3%D8%AA%D9%82%D9%84+%D8%A8%D9%87+%D8%B3%D8%A7%D9%84+%DB%B1%DB%B7%DB%B8%DB%B3+%D9%85%DB%8C%D9%84%D8%A7%D8%AF%DB%8C+%D8%A8%D8%A7%D8%B2%D9%85%DB%8C%E2%80%8C%DA%AF%D8%B1%D8%AF%D8%AF+%DA%A9%D9%87+%D8%AF%D8%B1+%D8%A2%D9%86+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%A8%D8%B1+%D8%B7%D8%A8%D9%82+%D9%85%D8%B9%D8%A7%D9%87%D8%AF%D9%87%D9%94+%D9%BE%D8%A7%D8%B1%DB%8C%D8%B3+%D8%A8%D9%87+%D8%B1%D8%B3%D9%85%DB%8C%D8%AA+%D8%B4%D9%86%D8%A7%D8%AE%D8%AA%D9%87+%DA%AF%D8%B1%D8%AF%DB%8C%D8%AF.&fullscreen=true) to see an example. 
 
  
  ### Multiple-Choice QA 
@@ -108,6 +107,10 @@ To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-basel
 
 
 To reproduce our baselines, try [`train_and_evaluate_multiple_choice_baselines.sh`](scripts/train_and_evaluate_multiple_choice_baselines.sh) script.
+ 
+ 
+You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-arc-comqa-obqa-multiple-choice?text=%D9%BE%D8%A7%DB%8C%D8%AA%D8%AE%D8%AA+%DA%A9%D8%B4%D9%88%D8%B1+%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D9%84%DB%8C%D8%A7+%DA%A9%D8%AF%D8%A7%D9%85+%D8%A7%D8%B3%D8%AA%D8%9F+%3Csep%3E+%D9%85%D9%84%D8%A8%D9%88%D8%B1%D9%86+%3Csep%3E+%D8%B3%DB%8C%D8%AF%D9%86%DB%8C+%3Csep%3E+%DA%A9%D9%86%D8%A8%D8%B1%D8%A7+&fullscreen=true) to see an example. 
+
  
  ### Machine Translation 
 Machine Translation of Persian/English is one of the few tasks that has received more work in the past few years. 
@@ -147,6 +150,8 @@ To downloading the data, take a look at the [this](https://github.com/persiannlp
 
 All the baselines here use mT5. Take a look at [this section](#reproducing-mt5-baselines) for more description on that. 
 
+
+
  
  ### Sentiment Analysis
  Our aspect-based sentiment analysis task includes three sub-tasks: 1) detecting the overall sentiment of a review/document, 2) extracting aspects toward which a sentiment is expressed, and 3) detecting the sentiment polarity of extracted aspects. Our annotation scheme is mainly inspired by the [`Sem-Eval 2014 Task 4`](https://www.aclweb.org/anthology/S14-2004/), ABSA scheme, with minor adjustments. Sentiment scores are chosen from `(very negative, negative, neutral, positive, very positive, mixed/borderline)`. 
@@ -163,7 +168,6 @@ All the baselines here use mT5. Take a look at [this section](#reproducing-mt5-b
 
 
 To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines), try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
-
 
 
 ## Reproducing mT5 baselines 
