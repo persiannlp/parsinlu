@@ -14,6 +14,12 @@ You can find the data under the [`data/`](data) directory.
 On our [leaderboard page](https://parsiglue.com) we host the state-of-art scores for each challenge task.  
  -->
  
+## Using the finetuned models using the HuggingFace🤗 library 
+
+Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
+You can our list of models in [this page](https://huggingface.co/persiannlp).  
+Each model readme contains descriptions on how to use it. 
+ 
 ## Examples and Baselines  
 First, make sure you have the data your `data/` directory.
 
@@ -159,11 +165,6 @@ All the baselines here use T5. Take a look at [this section](#reproducing-mt5-ba
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
 
 
-## Using the finetuned models using the HuggingFace🤗 library 
-
-Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
-You can our list of models in [this page](https://huggingface.co/persiannlp).  
-Each model readme contains descriptions on how to use it. 
 
 ## Reproducing mT5 baselines 
 To use mT5 baselines you need the followings: 
