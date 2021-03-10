@@ -122,7 +122,9 @@ Specifically, here is our collection of evaluation sets:
  - **Mizan:** Parallel corpora constructed from human translations of literary masterpieces. 
  - **Global Voices:** 
  - **Quora queries:** the translation instance extracted from our [query paraphrasing task](#query-paraphrasing).  
+<!---
  - **TE sentences:** the translation instances extracted from our [entailment task](#textual-entailment).    
+-->
 
 Here are several examples: 
 
