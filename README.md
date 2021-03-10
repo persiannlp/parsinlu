@@ -55,7 +55,7 @@ Here are several examples:
 |  neutral | <p dir='rtl' align='right'> ما به سفرهایی رفته ایم که در نهرهایی شنا کرده ایم </p> | <p dir='rtl' align='right'> علاوه بر استحمام در نهرها ، ما به اسپا ها و سونا ها نیز رفته ایم. </p> |
 
 
-To reproduce our numbers with all our baselines, try [`train_and_evaluate_entailment_baselines.sh`](scripts/train_and_evaluate_entailment_baselines.sh) script.
+To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines)), try [`train_and_evaluate_entailment_baselines.sh`](scripts/train_and_evaluate_entailment_baselines.sh) script.
 
  
  ### Query Paraphrasing 
@@ -91,7 +91,7 @@ Here are several examples:
 |  چه چیزهایی در آزمایش خون مشخص می شود؟ | البته آزمایش خون هم می‌توان نشان دهد که شخص پیش از این به کرونا مبتلا بوده است یا نه. خوبی تست خون این است که مشخص می‌کند فرد در برابر این بیماری مصونیت پیدا کرده است یا نه. | شخص پیش از این به کرونا مبتلا بوده است یا نه |
 
 
-To reproduce our numbers with all our baselines, try [`train_and_evaluate_reading_comprehension_baselines.sh`](scripts/train_and_evaluate_reading_comprehension_baselines.sh) script.
+To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines), try [`train_and_evaluate_reading_comprehension_baselines.sh`](scripts/train_and_evaluate_reading_comprehension_baselines.sh) script.
 
  
  ### Multiple-Choice QA 
@@ -145,7 +145,7 @@ Here are several examples:
 
 To downloading the data, take a look at the [this](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_en_fa) and [that](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_fa_en) directories. 
 
-All the baselines here use T5. Take a look at [this section](#reproducing-mt5-baselines) for more description on that. 
+All the baselines here use mT5. Take a look at [this section](#reproducing-mt5-baselines) for more description on that. 
 
  
  ### Sentiment Analysis
@@ -162,7 +162,7 @@ All the baselines here use T5. Take a look at [this section](#reproducing-mt5-ba
 | Movie review | <p dir='rtl' align='right'>فیلم از فضای نقد اجتماعی و سیاسی تهی است...یه قصه غیر قابل باور که هیجان خاصی نداشت...ریتم فیلم قابل قبول بود...الناز شاکردوست هم خیلی فراتر از انتظار بود...نمره 5 از 10</p> | Mixed/borderline | (داستان، منفی)<br> (بازی، خیلی مثبت) |
 
 
-To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
+To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines), try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
 
 
 
@@ -193,7 +193,7 @@ If you find this work useful please cite the following work:
 ```
 
 If you use the translatin task, please cite the following work as well: 
-```
+```bibtex 
 @article{kashefi2018mizan,
   title={MIZAN: a large persian-english parallel corpus},
   author={Kashefi, Omid},
