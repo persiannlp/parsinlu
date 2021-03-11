@@ -163,6 +163,8 @@ We have annotated documents from `food & beverages` ([`Digikala`](https://www.di
 
 To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines), try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
 
+You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-sentiment-analysis?text=%DB%8C%DA%A9+%D9%81%DB%8C%D9%84%D9%85+%D8%B6%D8%B9%DB%8C%D9%81+%D8%A8%DB%8C+%D9%85%D8%AD%D8%AA%D9%88%D8%A7+%D8%A8%D8%AF%D9%88%D9%86+%D9%81%DB%8C%D9%84%D9%85%D9%86%D8%A7%D9%85%D9%87+.+%D8%B4%D9%88%D8%AE%DB%8C+%D9%87%D8%A7%DB%8C+%D8%B3%D8%AE%DB%8C%D9%81+.+%3Csep%3E+%D9%86%D8%B8%D8%B1+%D8%B4%D9%85%D8%A7+%D8%AF%D8%B1+%D9%85%D9%88%D8%B1%D8%AF+%D8%AF%D8%A7%D8%B3%D8%AA%D8%A7%D9%86%D8%8C+%D9%81%DB%8C%D9%84%D9%85%D9%86%D8%A7%D9%85%D9%87%D8%8C+%D8%AF%DB%8C%D8%A7%D9%84%D9%88%DA%AF+%D9%87%D8%A7+%D9%88+%D9%85%D9%88%D8%B6%D9%88%D8%B9+%D9%81%DB%8C%D9%84%D9%85++%D9%84%D9%88%D9%86%D9%87+%D8%B2%D9%86%D8%A8%D9%88%D8%B1+%DA%86%DB%8C%D8%B3%D8%AA%D8%9F+) to see an example. 
+
 
 ## Reproducing mT5 baselines 
 To use mT5 baselines you need the followings: 
