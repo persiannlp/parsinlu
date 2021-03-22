@@ -1,11 +1,11 @@
-from transformers import T5Config, MT5ForConditionalGeneration, MT5Tokenizer
+from transformers import MT5Config, MT5ForConditionalGeneration, MT5Tokenizer
 from transformers.models.t5.modeling_t5 import load_tf_weights_in_t5
 
-if True:
+if False:
     size = "large"
     model_name = f"google/mt5-{size}"
     tokenizer = MT5Tokenizer.from_pretrained(model_name)
-    model = MT5ForConditionalGeneration(T5Config.from_pretrained(model_name))
+    model = MT5ForConditionalGeneration(MT5Config.from_pretrained(model_name))
 
     load_tf_weights_in_t5(model, None, f"/Users/danielk/ideaProjects/parsiglue-baselines/src/t5/tf_to_hf_conversion/{size}")
     model.eval()
