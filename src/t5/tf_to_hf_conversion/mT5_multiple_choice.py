@@ -2,15 +2,15 @@ from transformers import T5Config, MT5ForConditionalGeneration, MT5Tokenizer
 from transformers.models.t5.modeling_t5 import load_tf_weights_in_t5
 
 if True:
-    model_name = "google/mt5-xl"
+    model_name = "google/mt5-large"
     tokenizer = MT5Tokenizer.from_pretrained(model_name)
     model = MT5ForConditionalGeneration(T5Config.from_pretrained(model_name))
 
-    load_tf_weights_in_t5(model, None, "/Users/danielk/ideaProjects/parsiglue-baselines/huggingface_example_scripts/mt5/xl")
+    load_tf_weights_in_t5(model, None, "/Users/danielk/ideaProjects/parsiglue-baselines/src/t5/tf_to_hf_conversion/large")
     model.eval()
 
-    model.save_pretrained(f"/Users/danielk/ideaProjects/parsiglue-baselines/huggingface_example_scripts/mT5_persian_multiple_choice_xl")
-    tokenizer.save_pretrained(f"/Users/danielk/ideaProjects/parsiglue-baselines/huggingface_example_scripts/mT5_persian_multiple_choice_xl")
+    model.save_pretrained(f"/Users/danielk/ideaProjects/mt5-large-parsinlu-arc-comqa-obqa-multiple-choice")
+    tokenizer.save_pretrained(f"/Users/danielk/ideaProjects/mt5-large-parsinlu-arc-comqa-obqa-multiple-choice")
 else:
     model_name = "/Users/danielk/ideaProjects/parsiglue-baselines/huggingface_example_scripts/mT5_persian_multiple_choice_small"
     tokenizer = MT5Tokenizer.from_pretrained(model_name)
@@ -27,4 +27,4 @@ def run_model(input_string, **generator_args):
 run_model("وسیع ترین کشور جهان کدام است؟ <sep> آمریکا <sep> کانادا <sep> روسیه <sep> چین")
 run_model("طامع یعنی ؟ <sep> آزمند <sep> خوش شانس <sep> محتاج <sep> مطمئن")
 run_model("زمینی به ۳۱ قطعه متساوی مفروض شده است و هر روز مساحت آماده شده برای احداث، دو برابر مساحت روز قبل است.اگر پس از (۵ روز) تمام زمین آماده شده باشد، در چه روزی یک قطعه زمین آماده شده <sep> روز اول <sep> روز دوم <sep> روز سوم <sep> هیچکدام")
-
+run_model("what causes apples to fall on the ground? <sep> gravity <sep> speed <sep> electricity <sep> agriculture")

@@ -3,7 +3,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import numpy as np
 
 labels = ["entails", "contradicts", "neutral"]
-model_name_or_path = "persiannlp/mbert-base-parsinlu-entailment"
+model_name_or_path = "persiannlp/mbert-small-parsinlu-snli-entailment"
 model = AutoModelForSequenceClassification.from_pretrained(model_name_or_path)
 tokenizer = AutoTokenizer.from_pretrained(model_name_or_path,)
 

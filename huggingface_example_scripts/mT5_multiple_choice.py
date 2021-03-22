@@ -1,7 +1,7 @@
 from transformers import MT5ForConditionalGeneration, MT5Tokenizer
 
-model_size = "large"
-model_name = f"persiannlp/mt5-{model_size}-parsinlu-multiple-choice"
+model_size = "small"
+model_name = f"persiannlp/mt5-{model_size}-parsinlu-arc-comqa-obqa-multiple-choice"
 tokenizer = MT5Tokenizer.from_pretrained(model_name)
 model = MT5ForConditionalGeneration.from_pretrained(model_name)
 
