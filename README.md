@@ -192,7 +192,7 @@ If you find this work useful please cite the following work:
 ```
 
 If you use the translatin task, please cite the following work as well: 
-```
+```bibtex
 @article{kashefi2018mizan,
   title={MIZAN: a large persian-english parallel corpus},
   author={Kashefi, Omid},

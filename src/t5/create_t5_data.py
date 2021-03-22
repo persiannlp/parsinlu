@@ -32,6 +32,7 @@ def convert_qqp_english_file():
             label = instance['label']
             outf.write(f"{q1} <sep> {q2}\t{label}\n")
 
+
 # convert_qqp_english_file()
 
 # multiple-choice
@@ -46,11 +47,16 @@ def convert_multiple_choice_questions(file):
             candidates = [c for c in candidates if len(c.strip()) > 0]
             print(answer)
             print(candidates)
-            answer_str = candidates[answer-1].replace("\n", "\\n").replace("\r", " ").replace("\"", "").replace("\t", "").replace("'", "").replace("n\\", "").replace("\\", "")
+            answer_str = candidates[answer - 1].replace("\n", "\\n").replace("\r", " ").replace("\"", "").replace("\t",
+                                                                                                                  "").replace(
+                "'", "").replace("n\\", "").replace("\\", "")
             candidates = [f"<sep> {c}" for (i, c) in enumerate(candidates)]
             candidates = " ".join(candidates)
-            candidates = candidates.replace("\n", " ").replace("\r", " ").replace("\"", "").replace("\t", "").replace("'", "").replace("n\\", "").replace("\\", "")
-            question = question.replace("\n", " ").replace("\r", " ").replace("\"", "").replace("\t", "").replace("'", "").replace("n\\", "").replace("\\", "")
+            candidates = candidates.replace("\n", " ").replace("\r", " ").replace("\"", "").replace("\t", "").replace(
+                "'", "").replace("n\\", "").replace("\\", "")
+            question = question.replace("\n", " ").replace("\r", " ").replace("\"", "").replace("\t", "").replace("'",
+                                                                                                                  "").replace(
+                "n\\", "").replace("\\", "")
             outf.write(f"{question} {candidates}\t{answer_str}\n")
 
 
@@ -62,11 +68,11 @@ def convert_multiple_choice_questions(file):
 
 separators = ['(A)', '(B)', '(C)', '(D)', '(E)']
 
-def create_multiple_chice_english_data(dir):
 
+def create_multiple_chice_english_data(dir):
     def read_file(file):
         outfile = open("../../data/multiple-choice/english/english_multiple_choice_arc_comqa_obqa/" + file, "a")
-        with open(dir  + file) as f:
+        with open(dir + file) as f:
             for line in f:
                 line = line.replace("\n", "")
                 line_split = line.split("\t")
@@ -81,6 +87,7 @@ def create_multiple_chice_english_data(dir):
     read_file("dev.tsv")
     if dir != "commonsenseqa":
         read_file("test.tsv")
+
 
 # create_multiple_chice_english_data("../../data/multiple-choice/english/arc_easy/")
 # create_multiple_chice_english_data("../../data/multiple-choice/english/arc_hard/")
@@ -269,6 +276,7 @@ def convert_queries_data():
                     outfile_en_fa_dev.write(f"{q1_en}\t{q1_fa}\n")
                     outfile_en_fa_dev.write(f"{q2_en}\t{q2_fa}\n")
 
+
 # convert_queries_data()
 # convert_tep_data()
 # convert_bible_data()
@@ -333,7 +341,8 @@ def combine_translation_datasets():
     ]
     combine_tsv_files("../../data/translation/translation_combined_en_fa/train.tsv", train_sets)
 
-combine_translation_datasets()
+
+# combine_translation_datasets()
 
 def convert_opus_data():
     def combine_file_pair(arabic_file, english_file):
@@ -347,7 +356,8 @@ def convert_opus_data():
         assert len(english_lines) == len(arabic_lines)
 
         for aline, eline in zip(arabic_lines, english_lines):
-            outfile.write(aline.replace("\n", "").replace("\t", "") + "\t" + eline.replace("\n", "").replace("\t", "") + "\n")
+            outfile.write(
+                aline.replace("\n", "").replace("\t", "") + "\t" + eline.replace("\n", "").replace("\t", "") + "\n")
 
     combine_file_pair(
         "../../data/translation/arabic_english_opus100/opus.ar-en-dev.ar",
@@ -361,6 +371,7 @@ def convert_opus_data():
         "../../data/translation/arabic_english_opus100/opus.ar-en-train.ar",
         "../../data/translation/arabic_english_opus100/opus.ar-en-train.en",
     )
+
 
 # convert_opus_data()
 
@@ -429,6 +440,7 @@ def convert_entailment_data():
         '../../data/entailment/farstail/test.csv',
         '../../data/entailment/merged_with_farstail/test_farstail.tsv')
 
+
 # convert_entailment_data()
 
 def convert_snli_file(file):
@@ -450,11 +462,12 @@ def convert_snli_file(file):
                 print(f'WARNING: invalid label: {label}')
             outfile.write(f'{sent1}<sep>{sent2}\t{label}\n')
 
+
 # convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_dev.jsonl')
 # convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_train.jsonl')
 # convert_snli_file('../../data/entailment/snli/snli_1.0/snli_1.0_test.jsonl')
 
-sentiment_labels= {
+sentiment_labels = {
     '-3': 'no sentiment expressed',
     '-2': 'very negative',
     '-1': 'negative',
@@ -463,6 +476,8 @@ sentiment_labels= {
     '2': 'very positive',
     '3': 'mixed',
 }
+
+
 def convert_sentiment_data(file):
     io_outfile = open(file.replace(".jsonl", ".tsv"), "+w")
     with open(file) as f:
@@ -474,22 +489,32 @@ def convert_sentiment_data(file):
             label = sentiment_labels[label]
             io_outfile.write(f"{review} <sep> {question}\t{label}\n")
 
+
 # convert_sentiment_data('../../data/sentiment-analysis/ABSA_Dataset_train.jsonl')
 # convert_sentiment_data('../../data/sentiment-analysis/food_test.jsonl')
 # convert_sentiment_data('../../data/sentiment-analysis/movie_test.jsonl')
 # convert_sentiment_data('../../data/sentiment-analysis/merged_dev.jsonl')
 
+def create_English_sentiment_data(file):
+    pass
+
 
 def convert_reading_comprehension():
-    infile = "../../data/reading_comprehension/eval.jsonl"
-    outfile = open(infile.replace(".jsonl", ".tsv"), "+w")
-    with open(infile) as f:
-        for line in f.readlines():
-            json_line = json.loads(line)
-            question = json_line['question'].replace("\n", " ").replace("\t", " ")
-            url = json_line['url']
-            passage = json_line['passage'].replace("\n", " ").replace("\t", " ")
-            answers = json.dumps(json_line['answers']).replace("\n", " ").replace("\t", " ")
-            outfile.write(f"{passage} \\n {question}\t{answers}\n")
+    def convert_file(infile, is_train):
+        outfile = open(infile.replace(".jsonl", ".tsv"), "+w")
+        with open(infile) as f:
+            for line in f.readlines():
+                json_line = json.loads(line)
+                question = json_line['question'].replace("\n", " ").replace("\t", " ")
+                # url = json_line['url']
+                passage = json_line['passage'].replace("\n", " ").replace("\t", " ")
+                answers = json.dumps(json_line['answers']).replace("\n", " ").replace("\t", " ")
+                if is_train:
+                    answers = json_line['answers'][0][1].replace("\n", " ").replace("\t", " ")
+                outfile.write(f"{question} \\n {passage}\t{answers}\n")
+
+    convert_file("../../data/reading_comprehension/eval.jsonl", False)
+    convert_file("../../data/reading_comprehension/dev.jsonl", False)
+    convert_file("../../data/reading_comprehension/train.jsonl", True)
 
 # convert_reading_comprehension()
