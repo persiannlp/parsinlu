@@ -14,6 +14,12 @@ You can find the data under the [`data/`](data) directory.
 On our [leaderboard page](https://parsiglue.com) we host the state-of-art scores for each challenge task.  
  -->
  
+## Using the finetuned models using the HuggingFace🤗 library 
+
+Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
+You can our list of models in [this page](https://huggingface.co/persiannlp).  
+Each model readme contains descriptions on how to use it. 
+ 
 ## Examples and Baselines  
 First, make sure you have the data your `data/` directory.
 
@@ -49,8 +55,9 @@ Here are several examples:
 |  neutral | <p dir='rtl' align='right'> ما به سفرهایی رفته ایم که در نهرهایی شنا کرده ایم </p> | <p dir='rtl' align='right'> علاوه بر استحمام در نهرها ، ما به اسپا ها و سونا ها نیز رفته ایم. </p> |
 
 
-To reproduce our numbers with all our baselines, try [`train_and_evaluate_entailment_baselines.sh`](scripts/train_and_evaluate_entailment_baselines.sh) script.
+To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines)), try [`train_and_evaluate_entailment_baselines.sh`](scripts/train_and_evaluate_entailment_baselines.sh) script.
 
+ You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-snli-entailment?text=%D8%A2%DB%8C%D8%A7+%DA%A9%D9%88%D8%AF%DA%A9%D8%A7%D9%86%DB%8C+%D9%88%D8%AC%D9%88%D8%AF+%D8%AF%D8%A7%D8%B1%D9%86%D8%AF+%DA%A9%D9%87+%D9%86%DB%8C%D8%A7%D8%B2+%D8%A8%D9%87+%D8%B3%D8%B1%DA%AF%D8%B1%D9%85%DB%8C+%D8%AF%D8%A7%D8%B1%D9%86%D8%AF%D8%9F+%3Csep%3E+%D9%87%DB%8C%DA%86+%DA%A9%D9%88%D8%AF%DA%A9%DB%8C+%D9%87%D8%B1%DA%AF%D8%B2+%D9%86%D9%85%DB%8C+%D8%AE%D9%88%D8%A7%D9%87%D8%AF+%D8%B3%D8%B1%DA%AF%D8%B1%D9%85+%D8%B4%D9%88%D8%AF.&fullscreen=true) to see an example. 
  
  ### Query Paraphrasing 
  QQP is the task of detecting whether two given questions are paraphrases of each other or not.
@@ -66,6 +73,7 @@ To reproduce our numbers with all our baselines, try [`train_and_evaluate_entail
 
 To reproduce our numbers with all our baselines, try [`train_and_evaluate_qqp_baselines.sh`](scripts/train_and_evaluate_qqp_baselines.sh) script. 
 
+You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-qqp-query-paraphrasing?text=%D8%A2%DB%8C%D8%A7+%D9%84%DB%8C%D8%B2%D8%B1+%D9%85%D9%88%D9%87%D8%A7%DB%8C+%D8%B2%D8%A7%D8%A6%D8%AF+%D8%AF%D8%A7%D8%A6%D9%85%DB%8C+%D8%A7%D8%B3%D8%AA%D8%9F+%3Csep%3E+%D8%A2%DB%8C%D8%A7+%D9%84%DB%8C%D8%B2%D8%B1+%D9%85%D9%88%D9%87%D8%A7%DB%8C+%D8%B2%D8%A7%D8%A6%D8%AF+%D8%A8%D8%A7%D8%B9%D8%AB+%D9%81%D8%B1%D8%A7%D8%B1+%D8%AF%D8%A7%D8%A6%D9%85%DB%8C+%D8%A7%D8%B2+%D9%85%D9%88%D9%87%D8%A7%DB%8C+%D9%86%D8%A7%D8%AE%D9%88%D8%A7%D8%B3%D8%AA%D9%87+%D9%85%DB%8C+%D8%B4%D9%88%D8%AF%D8%9F) to see an example. 
  
 ### Reading Comprehension 
 In this task, the goal is to generate a response to question and its accompanying context paragraph. 
@@ -79,13 +87,10 @@ Here are several examples:
 |  چه کسانی فدک را به پیامبر اعطا کردند؟ | یهودیان که از مسلمانان در جنگ‌های مختلفی شکست خورده بودند در جریان فتح فدک ناچار به صلح با محمد (پیامبر اسلام) شدند.<br/><br/>فدک در نزدیکی خیبر قرار داشت و با توجه به موقعیت استراتژیک خود نقطه اتکاء یهودیان حجاز به‌شمار می‌رفت. پس از آنکه سپاه اسلام، یهودیان را در «خیبر» و «وادی‌القری» و «تیما» شکست داد، برای پایان دادن به قدرت قوم یهود، سفیری به نام «محیط» به نزد سران فدک فرستادند. سران فدک صلح و تسلیم را بر جنگ ترجیح دادند و تعهد کردند که هر سال نیمی از محصولات فدک را در اختیار پیامبر قرار داده و از این به بعد زیر سلطه اسلام زندگی کنند. | یهودیان |
 |  کدام دانشگاه ها رشته مترجمی زبان دارند؟ | رشته مترجمی زبان انگلیسی یکی از رشته‌ها در دانشگاه‌های ایران است که در آن کار ترجمه از زبان فارسی به انگلیسی و بالعکس به دانشجویان آموخته می‌شود. این رشته در سطح کاردانی کارشناسی کارشناسی ارشد و دکترا در بیشتر دانشگاه‌ها و موسسات آموزش عالی ایران وجود دارد. یک رشته نظری و عمومی با عنوان مطالعات ترجمه (که به یک زبان خاص مربوط نمی‌شود) در مقاطع بالاتر هم وجود دارد. | بیشتر دانشگاه‌ها و موسسات آموزش عالی ایران |
 |  پنجاب مربوط کدام ولایت است؟ | پنجاب مرکز منطقۀ دایزنگی قدیم است، اما براساس تقسیمات اداری سال ۱۳۴۳ جزئی از ولایت بامیان شد. مرکز این ولسوالی هم پنجاب نام دارد. | بامیان |
-|  چرا زمان پخش عزیزه تغییر کرد؟ | این سریال که پخش آن از 19 آبان ماه سه شنبه شب ها آغاز شده بود به دلیل جایگاه بدی که در رتبه بندی ها به دست آورده بود به روز شنبه منتقل شد شاید تاثیری در بهتر شدن رتبه بندی ها داشته باشد، نویسنده سریال نیز به همین دلیل تغییر کرده است. | جایگاه بد در رتبه بندی ها |
-|  بیماری وبا از چه طریقی وارد بدن میشود؟ | وَبا، مرگامرگی یا کالِرا (به انگلیسی: Cholera) یک عفونت در روده باریک است که از طریق آب توسط باکتری ویبریو کلرا ایجاد می‌شود. این باکتری با نوشیدن آب آلوده یا خوردن ماهی نپخته یا خوردن صدف‌ها وارد بدن می‌شود. | نوشیدن آب آلوده یا خوردن ماهی نپخته یا خوردن صدف‌ها |
-|  چرا فیلم رستاخیز اکران نشد؟ | فیلم رستاخیز در روز ۲۴ تیر ۱۳۹۴ با مجوز قانونی وزارت فرهنگ و ارشاد اسلامی به اکران عمومی درآمد اما ساعاتی پس از آن در پی مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی از پرده سینماها به پایین کشیده شد. | مخالفت علما و مراجع با محتوای آن و به تصویر کشیدن چهره برخی |
-|  چه چیزهایی در آزمایش خون مشخص می شود؟ | البته آزمایش خون هم می‌توان نشان دهد که شخص پیش از این به کرونا مبتلا بوده است یا نه. خوبی تست خون این است که مشخص می‌کند فرد در برابر این بیماری مصونیت پیدا کرده است یا نه. | شخص پیش از این به کرونا مبتلا بوده است یا نه |
 
+To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines), try [`train_and_evaluate_reading_comprehension_baselines.sh`](scripts/train_and_evaluate_reading_comprehension_baselines.sh) script.
 
-To reproduce our numbers with all our baselines, try [`train_and_evaluate_reading_comprehension_baselines.sh`](scripts/train_and_evaluate_reading_comprehension_baselines.sh) script.
+You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-squad-reading-comprehension?text=%D9%82%D8%A7%D8%B1%D9%87+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%AF%D8%B1+%DA%86%D9%87+%D8%B3%D8%A7%D9%84%DB%8C+%DA%A9%D8%B4%D9%81+%D8%B4%D8%AF%D8%9F+%5Cn+%DB%8C%D8%B4+%D8%A7%D8%B2+%D8%AF%D9%87+%D9%87%D8%B2%D8%A7%D8%B1+%D8%B3%D8%A7%D9%84+%D8%A7%D8%B3%D8%AA+%DA%A9%D9%87+%D8%A7%D9%86%D8%B3%D8%A7%D9%86%E2%80%8C%D9%87%D8%A7+%D8%AF%D8%B1+%D9%82%D8%A7%D8%B1%D9%87%D9%94+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%B2%D9%86%D8%AF%DA%AF%DB%8C+%D9%85%DB%8C%E2%80%8C%DA%A9%D9%86%D9%86%D8%AF.+%D9%82%D8%A7%D8%B1%D9%87+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%AA%D9%88%D8%B3%D8%B7+%DA%A9%D8%B1%DB%8C%D8%B3%D8%AA%D9%81+%DA%A9%D9%84%D9%85%D8%A8+%D9%88+%D8%AF%D8%B1+%D8%B3%D8%A7%D9%84+%DB%B1%DB%B4%DB%B9%DB%B2+%DA%A9%D8%B4%D9%81+%D8%B4%D8%AF+%D8%A7%D9%85%D8%A7+%D8%A7%D9%88+%D8%A8%D9%87+%D8%A7%D8%B4%D8%AA%D8%A8%D8%A7%D9%87+%D9%81%DA%A9%D8%B1+%DA%A9%D8%B1%D8%AF+%DA%A9%D9%87+%D8%A2%D9%86%D8%AC%D8%A7+%D9%87%D9%86%D8%AF%D9%88%D8%B3%D8%AA%D8%A7%D9%86+%D8%A7%D8%B3%D8%AA+%D8%A7%D9%85%D8%A7+%D9%85%D8%AF%D8%AA%E2%80%8C%D9%87%D8%A7+%D8%A8%D8%B9%D8%AF+%D8%A2%D9%85%D8%B1%DB%8C%DA%AF%D9%88+%D9%88%D8%B3%D9%BE%D9%88%DA%86%DB%8C+%D8%A7%D8%B9%D9%84%D8%A7%D9%85+%DA%A9%D8%B1%D8%AF+%DA%A9%D9%87+%D8%A7%DB%8C%D9%86+%D9%82%D8%A7%D8%B1%D9%87+%D8%AC%D8%AF%DB%8C%D8%AF%DB%8C+%D8%A7%D8%B3%D8%AA.+%D8%A7%D9%85%D8%A7+%D8%AA%D8%A7%D8%B1%DB%8C%D8%AE+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%A8%D9%87+%D8%B9%D9%86%D9%88%D8%A7%D9%86+%DB%8C%DA%A9+%DA%A9%D8%B4%D9%88%D8%B1+%D9%85%D8%B3%D8%AA%D9%82%D9%84+%D8%A8%D9%87+%D8%B3%D8%A7%D9%84+%DB%B1%DB%B7%DB%B8%DB%B3+%D9%85%DB%8C%D9%84%D8%A7%D8%AF%DB%8C+%D8%A8%D8%A7%D8%B2%D9%85%DB%8C%E2%80%8C%DA%AF%D8%B1%D8%AF%D8%AF+%DA%A9%D9%87+%D8%AF%D8%B1+%D8%A2%D9%86+%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7+%D8%A8%D8%B1+%D8%B7%D8%A8%D9%82+%D9%85%D8%B9%D8%A7%D9%87%D8%AF%D9%87%D9%94+%D9%BE%D8%A7%D8%B1%DB%8C%D8%B3+%D8%A8%D9%87+%D8%B1%D8%B3%D9%85%DB%8C%D8%AA+%D8%B4%D9%86%D8%A7%D8%AE%D8%AA%D9%87+%DA%AF%D8%B1%D8%AF%DB%8C%D8%AF.&fullscreen=true) to see an example. 
 
  
  ### Multiple-Choice QA 
@@ -103,6 +108,10 @@ To reproduce our numbers with all our baselines, try [`train_and_evaluate_readin
 
 To reproduce our baselines, try [`train_and_evaluate_multiple_choice_baselines.sh`](scripts/train_and_evaluate_multiple_choice_baselines.sh) script.
  
+ 
+You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-arc-comqa-obqa-multiple-choice?text=%D9%BE%D8%A7%DB%8C%D8%AA%D8%AE%D8%AA+%DA%A9%D8%B4%D9%88%D8%B1+%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D9%84%DB%8C%D8%A7+%DA%A9%D8%AF%D8%A7%D9%85+%D8%A7%D8%B3%D8%AA%D8%9F+%3Csep%3E+%D9%85%D9%84%D8%A8%D9%88%D8%B1%D9%86+%3Csep%3E+%D8%B3%DB%8C%D8%AF%D9%86%DB%8C+%3Csep%3E+%DA%A9%D9%86%D8%A8%D8%B1%D8%A7+&fullscreen=true) to see an example. 
+
+ 
  ### Machine Translation 
 Machine Translation of Persian/English is one of the few tasks that has received more work in the past few years. 
 Unfortunately, most of the evaluation done for this task is often limited to few domains/datasets.    
@@ -113,39 +122,35 @@ Specifically, here is our collection of evaluation sets:
  - **Mizan:** Parallel corpora constructed from human translations of literary masterpieces. 
  - **Global Voices:** 
  - **Quora queries:** the translation instance extracted from our [query paraphrasing task](#query-paraphrasing).  
+<!---
  - **TE sentences:** the translation instances extracted from our [entailment task](#textual-entailment).    
+-->
 
 Here are several examples: 
 
 |  Split | en | fa |
 | :---: | :---: | :---: |
-|  Quran | Praise be to Allah, the Cherisher and Sustainer of the worlds; |<p dir='rtl' align='right'> ستایش خدای را که پروردگار جهانیان است. </p>|
 |  Quran | This is the Book; in it is guidance sure, without doubt, to those who fear Allah; |<p dir='rtl' align='right'> این کتاب که هیچ شک در آن نیست، راهنمای پرهیزگاران است. </p>|
-|  Quran | When they meet those who believe, they say: "We believe;" but when they are alone with their evil ones, they say: "We are really with you: We (were) only jesting." |  <p dir='rtl' align='right'>و چون به اهل ایمان برسند گویند: ما ایمان آوردیم؛ و وقتی با شیاطین خود خلوت کنند گویند: ما با شماییم، جز این نیست که (مؤمنان را) مسخره می‌کنیم.</p>|
 |  Quran | Who believe in the Unseen, are steadfast in prayer, and spend out of what We have provided for them; |  <p dir='rtl' align='right'>آن کسانی که به جهان غیب ایمان آرند و نماز به پا دارند و از هر چه روزیشان کردیم به فقیران انفاق کنند.</p>|
-|  Bible | And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good. |<p dir='rtl' align='right'>  و خدا خشکی را زمین نامید و اجتماع آبها رادریا نامید. و خدا دید که نیکوست. </p>|
 |  Bible | And God said, Let the earth bring forth grass, the herb yielding seed, and the fruit tree yielding fruit after his kind, whose seed is in itself, upon the earth: and it was so. | <p dir='rtl' align='right'> و خداگفت: «زمین نباتات برویاند، علفی که تخم بیاوردو درخت میوه‌ای که موافق جنس خود میوه آوردکه تخمش در آن باشد، بر روی زمین.» و چنین شد. </p>|
 |  Bible | And the earth brought forth grass, and herb yielding seed after his kind, and the tree yielding fruit, whose seed was in itself, after his kind: and God saw that it was good. | <p dir='rtl' align='right'> و زمین نباتات را رویانید، علفی که موافق جنس خود تخم آورد و درخت میوه داری که تخمش در آن، موافق جنس خود باشد. و خدادید که نیکوست.</p>|
 |  Mizan | But Proportion has a sister, less smiling, more formidable, a Goddess even now engaged | <p dir='rtl' align='right'>اما تناسب امور خواهری دارد، نه این چنین متبسم، رعب آور‌تر، ایزد بانویی که حتی در این لحظه مشغول است. </p>|
-|  Mizan | At Hyde Park Corner on a tub she stands preaching; |<p dir='rtl' align='right'> در هاید پارک کرنر بر گلدانی ایستاده موعظه می‌کند؛ </p>|
 |  Mizan | shrouds herself in white and walks penitentially disguised as brotherly love through factories and parliaments; offers help, but desires power; | <p dir='rtl' align='right'> پیچیده در دایی سفید به نشان توبه با لباس مبدل عشق برادرانه در کارخانه‌ها و مجالس قانونگذاری راه می‌رود؛ پیشنهاد کمک می‌کند، اما طالب قدرت است.</p>|
-|  QQP | What turns people off about Quora? | <p dir='rtl' align='right'> چه چیزی مردم را از Quora دور می کند؟</p>|
-|  QQP | Is there a way to turn off the "Invite People to Join Quora' option on Quora? |  <p dir='rtl' align='right'>آیا راهی برای خاموش کردن گزینه "دعوت از مردم برای پیوستن به Quora" در Quora وجود دارد؟</p>|
 |  QQP | What were the books studied by aiims topper 2016? |  <p dir='rtl' align='right'>کتابهایی که توسط aiims topper ۲۰۱۶ مورد مطالعه قرار گرفته چه بود؟</p>|
-|  QQP | What books should I study for my PG entrance in AIIMS? |  <p dir='rtl' align='right'>برای ورود PG من در AIIMS چه کتابهایی باید مطالعه کنم؟</p>|
 |  QQP | Which website is good for downloading Android (.apk) files? |<p dir='rtl' align='right'>  کدام وب سایت برای دانلود پرونده های Android (.apk) مناسب است؟ </p>|
-|  QQP | Android Application Development: Which software is used to develop APK files? |  <p dir='rtl' align='right'>توسعه برنامه Android: از کدام نرم افزار برای توسعه فایل های APK استفاده می شود؟</p>|
 
 
 To downloading the data, take a look at the [this](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_en_fa) and [that](https://github.com/persiannlp/parsinlu/tree/master/data/translation/translation_combined_fa_en) directories. 
 
-All the baselines here use T5. Take a look at [this section](#reproducing-mt5-baselines) for more description on that. 
+All the baselines here use mT5. Take a look at [this section](#reproducing-mt5-baselines) for more description on that. 
+
+
 
  
  ### Sentiment Analysis
  Our aspect-based sentiment analysis task includes three sub-tasks: 1) detecting the overall sentiment of a review/document, 2) extracting aspects toward which a sentiment is expressed, and 3) detecting the sentiment polarity of extracted aspects. Our annotation scheme is mainly inspired by the [`Sem-Eval 2014 Task 4`](https://www.aclweb.org/anthology/S14-2004/), ABSA scheme, with minor adjustments. Sentiment scores are chosen from `(very negative, negative, neutral, positive, very positive, mixed/borderline)`. 
  
- So far, we have annotated documents from `food & beverages` ([`Digikala`](https://www.digikala.com/main/food-beverage/)) and `movie review` ([`Tiwall`](https://www.tiwall.com/)) domains. We have predefined list of aspects for each domain. In the following, we have listed some examples from our dataset:
+We have annotated documents from `food & beverages` ([`Digikala`](https://www.digikala.com/main/food-beverage/)) and `movie review` ([`Tiwall`](https://www.tiwall.com/)) domains. We have predefined list of aspects for each domain. In the following, we have listed some examples from our dataset:
 
 | Domain  | Review | Sentiment  | (Aspect, Sentiment) |
 | :---: | ------------- | :---: | :---: |
@@ -156,14 +161,10 @@ All the baselines here use T5. Take a look at [this section](#reproducing-mt5-ba
 | Movie review | <p dir='rtl' align='right'>فیلم از فضای نقد اجتماعی و سیاسی تهی است...یه قصه غیر قابل باور که هیجان خاصی نداشت...ریتم فیلم قابل قبول بود...الناز شاکردوست هم خیلی فراتر از انتظار بود...نمره 5 از 10</p> | Mixed/borderline | (داستان، منفی)<br> (بازی، خیلی مثبت) |
 
 
-To reproduce our numbers with all our baselines, try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
+To reproduce our baselines (except mT5 models; [see this](#reproducing-mt5-baselines), try [`train_and_evaluate_sentiment_analysis_baselines.sh`](scripts/train_and_evaluate_sentiment_analysis_baselines.sh) script.
 
+You can also try our existing models. Visit [this page](https://huggingface.co/persiannlp/mt5-base-parsinlu-sentiment-analysis?text=%DB%8C%DA%A9+%D9%81%DB%8C%D9%84%D9%85+%D8%B6%D8%B9%DB%8C%D9%81+%D8%A8%DB%8C+%D9%85%D8%AD%D8%AA%D9%88%D8%A7+%D8%A8%D8%AF%D9%88%D9%86+%D9%81%DB%8C%D9%84%D9%85%D9%86%D8%A7%D9%85%D9%87+.+%D8%B4%D9%88%D8%AE%DB%8C+%D9%87%D8%A7%DB%8C+%D8%B3%D8%AE%DB%8C%D9%81+.+%3Csep%3E+%D9%86%D8%B8%D8%B1+%D8%B4%D9%85%D8%A7+%D8%AF%D8%B1+%D9%85%D9%88%D8%B1%D8%AF+%D8%AF%D8%A7%D8%B3%D8%AA%D8%A7%D9%86%D8%8C+%D9%81%DB%8C%D9%84%D9%85%D9%86%D8%A7%D9%85%D9%87%D8%8C+%D8%AF%DB%8C%D8%A7%D9%84%D9%88%DA%AF+%D9%87%D8%A7+%D9%88+%D9%85%D9%88%D8%B6%D9%88%D8%B9+%D9%81%DB%8C%D9%84%D9%85++%D9%84%D9%88%D9%86%D9%87+%D8%B2%D9%86%D8%A8%D9%88%D8%B1+%DA%86%DB%8C%D8%B3%D8%AA%D8%9F+) to see an example. 
 
-## Using the finetuned models using the HuggingFace🤗 library 
-
-Our models are deployed on [HuggingFace's model hub](https://huggingface.co/models).
-You can our list of models in [this page](https://huggingface.co/persiannlp).  
-Each model readme contains descriptions on how to use it. 
 
 ## Reproducing mT5 baselines 
 To use mT5 baselines you need the followings: 
@@ -192,7 +193,7 @@ If you find this work useful please cite the following work:
 ```
 
 If you use the translatin task, please cite the following work as well: 
-```bibtex
+```bibtex 
 @article{kashefi2018mizan,
   title={MIZAN: a large persian-english parallel corpus},
   author={Kashefi, Omid},
