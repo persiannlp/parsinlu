@@ -3,6 +3,9 @@ export ZONE=...
 export TPU_NAME=...
 export BUCKET=...
 
+########################## QQP #################################
+#"small" "base" "large" "xxl"
+declare -a sizes=("xl")
 
 ########################## anlg #################################
 declare -a sizes=("11B" )

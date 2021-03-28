@@ -203,6 +203,19 @@ t5.data.TaskRegistry.add(
 )
 
 t5.data.TaskRegistry.add(
+    f"restuarant_reviews_english_dataset",
+    # Supply a function which returns a tf.data.Dataset.
+    dataset_fn=functools.partial(dataset_fn, dataset="parsiglue_sentiment"),
+    splits=["train", "merged_dev", 'movie_test', 'food_test'],
+    # Supply a function which preprocesses text from the tf.data.Dataset.
+    text_preprocessor=preprocess,
+    # Lowercase targets before computing metrics.
+    postprocess_fn=postprocessor,
+    output_features=DEFAULT_OUTPUT_FEATURES,
+    metric_fns=[metrics.squad],
+)
+
+t5.data.TaskRegistry.add(
     f"parsiglue_readingcomprehension",
     # Supply a function which returns a tf.data.Dataset.
     dataset_fn=functools.partial(dataset_fn, dataset="parsiglue_readingcomprehension"),
@@ -221,4 +234,4 @@ t5.data.MixtureRegistry.add(f"translation_x_en_mixture", ["translation_combined_
 t5.data.MixtureRegistry.add(f"multiple_choice_mixture", ["multiple_choice_str", "english_multiple_choice_arc_comqa_obqa"], default_rate=1.0)
 t5.data.MixtureRegistry.add(f"qqp_mixture", ["qqp", "qqp_english"], default_rate=1.0)
 t5.data.MixtureRegistry.add(f"reading_com_mixture", ["parsiglue_readingcomprehension", "squad1_1"], default_rate=1.0)
-# t5.data.MixtureRegistry.add(f"sentiment_mixture", ["parsiglue_sentiment", "?"], default_rate=1.0)
+t5.data.MixtureRegistry.add(f"sentiment_mixture", ["parsiglue_sentiment", "restuarant_reviews_english_dataset"], default_rate=1.0)
