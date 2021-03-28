@@ -29,7 +29,6 @@ for model in "${models[@]}"; do
           --max_seq_length 64 \
           --per_gpu_train_batch_size "${batch_size[@]}" \
           --per_gpu_eval_batch_size "${batch_size[@]}" \
-          --output_dir "entailment_model/${model}" \
           --output_dir "entailment_model/${model}_batch_size=${batch_size}_learning_rate=${learning_rate}_learning_rate=${learning_rate}_num_train_epoch=${num_train_epoch}" \
           --save_steps -1
       done
