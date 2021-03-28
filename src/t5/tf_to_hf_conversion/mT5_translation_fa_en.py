@@ -25,9 +25,4 @@ def run_model(input_string, **generator_args):
     return output
 
 
-run_model("Praise be to Allah, the Cherisher and Sustainer of the worlds;")
-run_model("shrouds herself in white and walks penitentially disguised as brotherly love through factories and parliaments; offers help, but desires power;")
-run_model("He thanked all fellow bloggers and organizations that showed support.")
-run_model("Races are held between April and December at the Veliefendi Hippodrome near Bakerky, 15 km (9 miles) west of Istanbul.")
-run_model("I want to pursue PhD in Computer Science about social network,what is the open problem in social networks?")
-
+run_model("")

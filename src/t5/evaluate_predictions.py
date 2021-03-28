@@ -261,13 +261,16 @@ def evaluate(targets, predictions, eval_metric, outfile, instance_subset_map):
                 if target[0] == predictions[input]:
                     curr_score = 1.0
             if eval_metric == 'reading_comprehension':
-                if ('["' in target or "['" in target) and ']' in target:
-                    target_json = json.loads(target)
-                else:
-                    target_json = [target]
+                target_json = json.loads(target)
+                if type(target_json[0]) == list:
+                    target_json = [x[1] for x in target_json]
                 assert type(target_json) == list
-                curr_score = metric_max_over_ground_truths(
-                    f1_score_squad, predictions[input], target_json)
+                assert type(target_json[0]) == str
+
+                curr_score = metric_max_over_ground_truths(f1_score_squad, predictions[input], target_json)
+
+                if outfile:
+                    outfile.write(f"{target_json}\t{predictions[input]}\t{curr_score}\n")
 
             if eval_metric == 'sentiment':
                 print("--------")
@@ -316,7 +319,8 @@ def evaluate(targets, predictions, eval_metric, outfile, instance_subset_map):
     if instance_subset_map:
         for k, v in score_per_subset.items():
             avg_val = sum(v) / len(v)
-            print(f" --subset--> {k}: {avg_val} ")
+            print(f" --subset--> {k}: {avg_val} (size: {len(v)}) ")
+
 
     return (avg_score, num_examples, missing_examples)
 
