@@ -11,3 +11,4 @@ rouge_score
 sacrebleu
 datasets
 nltk
+numpy

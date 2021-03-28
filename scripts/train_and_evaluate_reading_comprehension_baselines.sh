@@ -28,3 +28,19 @@ for model in "${models[@]}"; do
     done
   done
 done
+
+exit 0 # stop here; evaluation (following scrpts) requires manual intervention
+
+# for evaluation, use the same command, without --do_train
+# and indicate the path to your selected model with "--model_name_or_path"
+
+export model="reading_comprehension_model/HooshvareLab/bert-base-parsbert-uncased_learning_rate=3e-5_learning_rate=3e-5_num_train_epoch=7"
+python3.6 ../src/run_squad.py \
+    --model_type bert \
+    --model_name_or_path "${model}" \
+    --do_eval \
+    --predict_file $DATA_DIR/eval.json \
+    --max_seq_length 384 \
+    --doc_stride 128 \
+    --output_dir "${model}/eval" \
+    --per_gpu_eval_batch_size=256
