@@ -9,6 +9,18 @@ If you'd like to see additional details on the dataset and how we collected, ple
 ## Getting the data 
 You can find the data under the [`data/`](data) directory.  
 
+Alternatively, you can also access the data through [the HuggingFace🤗 library](https://huggingface.co/persiannlp). 
+Here is an example: 
+
+```python 
+from datasets import load_dataset
+
+dataset = load_dataset("persiannlp/parsinlu_entailment")
+for x in dataset['train']
+  print(x)
+```
+
+
 <!---
 ## Leaderboard
 On our [leaderboard page](https://parsiglue.com) we host the state-of-art scores for each challenge task.  
